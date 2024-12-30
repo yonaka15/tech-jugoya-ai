@@ -3,14 +3,12 @@ import BlockRenderer from '@/components/blog/blocks/BlockRenderer';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 
-interface BlogPostPageProps {
-  params: {
-    slug: string;
-  };
-}
-
-export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-  const post = await getPost(params.slug);
+export async function generateMetadata({
+  params: { slug },
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const post = await getPost(slug);
   
   if (!post) {
     return {
@@ -25,8 +23,12 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   };
 }
 
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const post = await getPost(params.slug);
+interface PageProps {
+  params: { slug: string };
+}
+
+export default async function BlogPostPage({ params: { slug } }: PageProps) {
+  const post = await getPost(slug);
 
   if (!post) {
     notFound();
