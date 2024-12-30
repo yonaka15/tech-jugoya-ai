@@ -18,15 +18,15 @@ const TextBlock: FC<TextBlockProps> = ({ content, align = 'left' }) => {
     >
       <ReactMarkdown
         components={{
-          p: ({ node, children }) => {
-            const content = node?.children[0]?.value;
+          p: ({ children, ...props }) => {
+            const content = props.node?.children[0]?.value;
             return (
               <p className="mb-4 last:mb-0">
                 {content === '' ? '\u00A0' : children}
               </p>
             );
           },
-          a: ({ node, ...props }) => (
+          a: ({ ...props }) => (
             <a
               {...props}
               target="_blank"
