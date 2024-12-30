@@ -28,7 +28,11 @@ export default function RootLayout({
     <html lang="ja">
       <head>
         <link rel="preload" href="https://analytics.ahrefs.com/analytics.js" as="script"/>
-        <script src="https://analytics.ahrefs.com/analytics.js" data-key="b6anr10SUmvcCXeeqSt/yQ" async></script>
+        <script 
+          src="https://analytics.ahrefs.com/analytics.js" 
+          data-key={process.env.NEXT_PUBLIC_AHREFS_ANALYTICS_KEY} 
+          async
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
