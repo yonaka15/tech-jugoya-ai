@@ -19,7 +19,9 @@ Next.js App RouterとTypeScriptで実装された、ブロックベースのブ�
   - ✅ QuoteBlock
   - ✅ CalloutBlock
   - ✅ TableBlock
-- ✅ サイトレイアウト＆ヘッダー
+- ✅ サイトレイアウト
+  - ✅ ヘッダー
+  - ✅ フッター（著作権表示）
 - ✅ トップページ
   - ✅ 最新記事の表示
   - ✅ 人気タグクラウド
