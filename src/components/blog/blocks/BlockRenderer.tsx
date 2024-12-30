@@ -6,6 +6,7 @@ import CodeBlock from './CodeBlock';
 import QuoteBlock from './QuoteBlock';
 import CalloutBlock from './CalloutBlock';
 import TableBlock from './TableBlock';
+import HeadingBlock from './HeadingBlock';
 
 interface BlockRendererProps {
   block: Block;
@@ -13,6 +14,8 @@ interface BlockRendererProps {
 
 const BlockRenderer: FC<BlockRendererProps> = ({ block }) => {
   switch (block.type) {
+    case 'heading':
+      return <HeadingBlock {...block.props} />;
     case 'text':
       return <TextBlock {...block.props} />;
     case 'image':

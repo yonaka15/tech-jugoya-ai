@@ -13,9 +13,16 @@ export type BlogMeta = {
   updatedAt?: string;
   tags: string[];
   isDraft?: boolean;
+  author: string;
 };
 
 // 各ブロックの Props 型
+export type HeadingBlockProps = {
+  content: string;
+  level: 1 | 2 | 3 | 4 | 5 | 6;
+  align?: 'left' | 'center' | 'right';
+};
+
 export type TextBlockProps = {
   content: string;
   align?: 'left' | 'center' | 'right';
@@ -55,6 +62,7 @@ export type TableBlockProps = {
 };
 
 // 具体的なブロック型
+export type HeadingBlock = BaseBlock<'heading', HeadingBlockProps>;
 export type TextBlock = BaseBlock<'text', TextBlockProps>;
 export type ImageBlock = BaseBlock<'image', ImageBlockProps>;
 export type CodeBlock = BaseBlock<'code', CodeBlockProps>;
@@ -64,6 +72,7 @@ export type TableBlock = BaseBlock<'table', TableBlockProps>;
 
 // すべてのブロック型の Union 型
 export type Block = 
+  | HeadingBlock
   | TextBlock 
   | ImageBlock 
   | CodeBlock 
@@ -95,6 +104,9 @@ export const createBlock = <T extends string, P>(
 });
 
 // 各ブロック型のファクトリ関数
+export const createHeadingBlock: BlockCreator<HeadingBlock> = (props, id) =>
+  createBlock('heading', props, id);
+
 export const createTextBlock: BlockCreator<TextBlock> = (props, id) =>
   createBlock('text', props, id);
 

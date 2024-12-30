@@ -12,9 +12,10 @@ Next.js App RouterとTypeScriptで実装された、ブロックベースのブ�
 - ✅ プロジェクトの基本設定
 - ✅ 型定義の実装
 - ✅ ブロックシステムの基本実装
-  - ✅ TextBlock
+  - ✅ HeadingBlock（見出しブロック）
+  - ✅ TextBlock（改行対応）
   - ✅ ImageBlock
-  - ✅ CodeBlock（シンタックスハイライト対応）
+  - ✅ CodeBlock（シンタックスハイライト＆コピー機能対応）
   - ✅ QuoteBlock
   - ✅ CalloutBlock
   - ✅ TableBlock
@@ -75,9 +76,10 @@ type BaseBlock<T extends string, P = unknown> = {
 
 ### 利用可能なブロック
 
+- **HeadingBlock**: 見出しブロック（レベル1-6、配置調整可能）
 - **TextBlock**: テキストブロック（配置調整可能）
 - **ImageBlock**: 画像ブロック（キャプション対応）
-- **CodeBlock**: コードブロック（シンタックスハイライト対応）
+- **CodeBlock**: コードブロック（シンタックスハイライト＆コピー機能対応）
 - **QuoteBlock**: 引用ブロック
 - **CalloutBlock**: 注意書きブロック
 - **TableBlock**: テーブルブロック
