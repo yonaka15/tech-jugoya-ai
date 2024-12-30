@@ -27,7 +27,7 @@ const CodeBlock: FC<CodeBlockProps> = ({ code, language, fileName, highlight = [
           className={cn(
             'text-sm px-3 py-1 rounded-md transition-all duration-200',
             'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50',
-            copied && 'bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 hover:text-emerald-300'
+            copied ? 'bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 hover:text-emerald-300' : ''
           )}
           aria-label={copied ? "Copied to clipboard" : "Copy to clipboard"}
         >

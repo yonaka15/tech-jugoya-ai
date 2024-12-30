@@ -10,17 +10,14 @@ const TextBlock: FC<TextBlockProps> = ({ content, align = 'left' }) => {
         'prose prose-zinc dark:prose-invert max-w-none mb-6',
         'prose-p:my-0 prose-p:leading-7',
         'prose-li:my-0 prose-li:leading-7',
-        'prose-a:text-primary hover:prose-a:text-primary/80', // リンクのスタイル
-        {
-          'text-left': align === 'left',
-          'text-center': align === 'center',
-          'text-right': align === 'right'
-        }
+        'prose-a:text-primary hover:prose-a:text-primary/80',
+        align === 'left' ? 'text-left' : 
+        align === 'center' ? 'text-center' : 
+        align === 'right' ? 'text-right' : 'text-left'
       )}
     >
       <ReactMarkdown
         components={{
-          // 改行を保持したままレンダリング
           p: ({ node, children }) => {
             const content = node?.children[0]?.value;
             return (
@@ -29,7 +26,6 @@ const TextBlock: FC<TextBlockProps> = ({ content, align = 'left' }) => {
               </p>
             );
           },
-          // リンクを新しいタブで開く
           a: ({ node, ...props }) => (
             <a
               {...props}
