@@ -1,4 +1,3 @@
-import { type FC } from 'react';
 import { getPost } from '@/lib/blog';
 import BlockRenderer from '@/components/blog/blocks/BlockRenderer';
 import { notFound } from 'next/navigation';
@@ -26,7 +25,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   };
 }
 
-const BlogPostPage: FC<BlogPostPageProps> = async ({ params }) => {
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const post = await getPost(params.slug);
 
   if (!post) {
@@ -70,6 +69,4 @@ const BlogPostPage: FC<BlogPostPageProps> = async ({ params }) => {
       </article>
     </div>
   );
-};
-
-export default BlogPostPage;
+}
