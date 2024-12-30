@@ -1,0 +1,21 @@
+The tech.jugoya.ai project uses a dual-licensing approach:
+
+1. Source Code - Apache License 2.0
+All source code in this repository, excluding content files, is licensed under the Apache License 2.0.
+
+                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+   [Full Apache 2.0 License text: https://www.apache.org/licenses/LICENSE-2.0]
+
+2. Content - CC BY-NC-ND 4.0
+All content files (including but not limited to articles, images, and other media) located in the src/content directory are licensed under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.
+
+   - Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made.
+   - NonCommercial — You may not use the material for commercial purposes.
+   - NoDerivatives — If you remix, transform, or build upon the material, you may not distribute the modified material.
+
+   [Full CC BY-NC-ND 4.0 License text: https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode]

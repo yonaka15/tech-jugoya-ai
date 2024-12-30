@@ -1,36 +1,168 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# tech.jugoya.ai
 
-## Getting Started
+[![Apache License 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-14.0-black)](https://nextjs.org/)
 
-First, run the development server:
+[tech.jugoya.ai](https://tech.jugoya.ai) のソースコードです。
+Next.js App RouterとTypeScriptで実装された、ブロックベースのブログシステムです。
+
+## 🌟 特徴
+
+- **型安全なブロックシステム**: TypeScriptとジェネリクスを活用した堅牢な記事管理
+- **モジュラー設計**: 新しいブロックタイプを簡単に追加可能
+- **SEOフレンドリー**: App Routerによる最適化とメタデータ管理
+- **高いパフォーマンス**: 最新のNext.js機能を活用した効率的なレンダリング
+
+## 🔧 技術スタック
+
+- [Next.js](https://nextjs.org/) 14 (App Router)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+
+## 🚀 開始方法
 
 ```bash
+# リポジトリのクローン
+git clone https://github.com/yourusername/tech-jugoya-ai.git
+cd tech-jugoya-ai
+
+# パッケージのインストール
+npm install
+
+# 開発サーバーの起動
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+[http://localhost:3000](http://localhost:3000) をブラウザで開いてください。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📝 ブロックシステム
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+記事は複数の型付きブロックで構成されます：
 
-## Learn More
+```typescript
+type BaseBlock<T extends string, P = unknown> = {
+  id: string;
+  type: T;
+  props: P;
+};
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 利用可能なブロック
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **TextBlock**: テキストブロック（配置調整可能）
+- **ImageBlock**: 画像ブロック（キャプション対応）
+- **CodeBlock**: コードブロック（シンタックスハイライト対応）
+- **QuoteBlock**: 引用ブロック
+- **CalloutBlock**: 注意書きブロック
+- **TableBlock**: テーブルブロック
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📂 プロジェクト構造
 
-## Deploy on Vercel
+```
+src/
+├── app/                   # Next.js App Router
+│   ├── blog/             # ブログページ
+│   │   ├── [slug]/      # 記事ページ
+│   │   └── page.tsx     # ブログ一覧
+│   └── ...
+├── components/           # Reactコンポーネント
+│   ├── blog/
+│   │   └── blocks/      # ブロックコンポーネント
+│   └── ...
+├── content/             # コンテンツ
+│   └── posts/          # 記事JSON
+├── types/              # 型定義
+└── lib/               # ユーティリティ
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📝 記事の作成
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. `src/content/posts` に新しいJSONファイルを作成:
+
+```json
+{
+  "meta": {
+    "title": "記事タイトル",
+    "description": "記事の説明",
+    "publishedAt": "2024-01-01T00:00:00.000Z",
+    "tags": ["Next.js", "TypeScript"]
+  },
+  "blocks": [
+    {
+      "id": "intro",
+      "type": "text",
+      "props": {
+        "content": "本文...",
+        "align": "left"
+      }
+    }
+  ]
+}
+```
+
+## 🧩 カスタマイズ
+
+### 新しいブロックタイプの追加
+
+1. `types/blog.ts` に型を追加:
+
+```typescript
+export type NewBlockProps = {
+  // プロパティを定義
+};
+
+export type NewBlock = BaseBlock<'new-block', NewBlockProps>;
+```
+
+2. コンポーネントを作成:
+
+```typescript
+const NewBlock: FC<NewBlockProps> = (props) => {
+  // コンポーネントの実装
+};
+```
+
+3. `BlockRenderer` に追加
+
+## 🤝 コントリビューション
+
+1. このリポジトリをフォーク
+2. 新しいブランチを作成 (`git checkout -b feature/amazing-feature`)
+3. 変更をコミット (`git commit -m 'feat: Add amazing feature'`)
+4. ブランチにプッシュ (`git push origin feature/amazing-feature`)
+5. プルリクエストを作成
+
+## 📜 ライセンス
+
+このプロジェクトはデュアルライセンスで提供されています：
+
+### ソースコード
+
+ソースコード（src/content ディレクトリを除く）は [Apache License 2.0](LICENSE) の下で提供されています。
+
+- ✅ 商用利用可能
+- ✅ 変更可能
+- ✅ 配布可能
+- ℹ️ 変更時の明示が必要
+- ℹ️ 著作権表示の維持が必要
+
+### コンテンツ
+
+src/content ディレクトリ内のすべてのコンテンツ（記事、画像など）は [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/) の下で提供されています。
+
+- ✅ 記事の閲覧・共有可能
+- ✅ 非商用目的での使用可能
+- ❌ 商用利用禁止
+- ❌ 改変禁止
+- ℹ️ 著作権表示が必要
+
+## ✨ 謝辞
+
+- [Next.js](https://nextjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- その他の素晴らしいOSSプロジェクト
+
+---
+
+🌐 [tech.jugoya.ai](https://tech.jugoya.ai) | 📧 [Issues](https://github.com/yourusername/tech-jugoya-ai/issues)
