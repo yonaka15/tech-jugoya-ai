@@ -7,18 +7,43 @@
 [tech.jugoya.ai](https://tech.jugoya.ai) のソースコードです。
 Next.js App RouterとTypeScriptで実装された、ブロックベースのブログシステムです。
 
+## 開発状況
+
+- ✅ プロジェクトの基本設定
+- ✅ 型定義の実装
+- ✅ ブロックシステムの基本実装
+  - ✅ TextBlock
+  - ✅ ImageBlock
+  - ✅ CodeBlock（シンタックスハイライト対応）
+  - ✅ QuoteBlock
+  - ✅ CalloutBlock
+  - ✅ TableBlock
+- ✅ サイトレイアウト＆ヘッダー
+- ✅ トップページ
+  - ✅ 最新記事の表示
+  - ✅ 人気タグクラウド
+- ✅ ブログ一覧ページ
+- ✅ 記事詳細ページ
+- 🚧 タグによるフィルタリング
+- 🚧 記事の検索機能
+- 🚧 ページネーション
+- 🚧 プレビュー機能
+- 🚧 OGP画像の自動生成
+
 ## 🌟 特徴
 
 - **型安全なブロックシステム**: TypeScriptとジェネリクスを活用した堅牢な記事管理
 - **モジュラー設計**: 新しいブロックタイプを簡単に追加可能
 - **SEOフレンドリー**: App Routerによる最適化とメタデータ管理
 - **高いパフォーマンス**: 最新のNext.js機能を活用した効率的なレンダリング
+- **レスポンシブデザイン**: モバイルフレンドリーなレイアウトとUI
 
 ## 🔧 技術スタック
 
 - [Next.js](https://nextjs.org/) 14 (App Router)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
+- [react-syntax-highlighter](https://github.com/react-syntax-highlighter/react-syntax-highlighter)
 
 ## 🚀 開始方法
 
@@ -161,6 +186,7 @@ src/content ディレクトリ内のすべてのコンテンツ（記事、画�
 
 - [Next.js](https://nextjs.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
+- [react-syntax-highlighter](https://github.com/react-syntax-highlighter/react-syntax-highlighter)
 - その他の素晴らしいOSSプロジェクト
 
 ---
