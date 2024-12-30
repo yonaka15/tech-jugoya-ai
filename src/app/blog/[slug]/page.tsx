@@ -3,12 +3,9 @@ import BlockRenderer from '@/components/blog/blocks/BlockRenderer';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 
-export async function generateMetadata({
-  params: { slug },
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
-  const post = await getPost(slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const post = await getPost(resolvedParams.slug);
   
   if (!post) {
     return {
@@ -23,12 +20,13 @@ export async function generateMetadata({
   };
 }
 
-interface PageProps {
-  params: { slug: string };
-}
-
-export default async function BlogPostPage({ params: { slug } }: PageProps) {
-  const post = await getPost(slug);
+export default async function BlogPostPage({ 
+  params 
+}: { 
+  params: Promise<{ slug: string }> 
+}) {
+  const resolvedParams = await params;
+  const post = await getPost(resolvedParams.slug);
 
   if (!post) {
     notFound();
