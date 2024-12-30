@@ -244,7 +244,7 @@
       "id": "references",
       "type": "text",
       "props": {
-        "content": "1. FileFormat.com - M3U8 File Format Documentation (https://docs.fileformat.com/audio/m3u8/)\n2. Apple Developer Documentation - HTTP Live Streaming (https://developer.apple.com/documentation/http-live-streaming/deploying-a-basic-http-live-streaming-hls-stream)\n3. OTTVerse - HLS Packaging using FFmpeg (https://ottverse.com/hls-packaging-using-ffmpeg-live-vod/)\n4. Mux - Converting MP4 to HLS with FFmpeg (https://www.mux.com/articles/how-to-convert-mp4-to-hls-format-with-ffmpeg-a-step-by-step-guide)",
+        "content": "1. [M3U8 File Format Documentation](https://docs.fileformat.com/audio/m3u8/) - FileFormat.com\n\n2. [HTTP Live Streaming](https://developer.apple.com/documentation/http-live-streaming/deploying-a-basic-http-live-streaming-hls-stream) - Apple Developer Documentation\n\n3. [HLS Packaging using FFmpeg](https://ottverse.com/hls-packaging-using-ffmpeg-live-vod/) - OTTVerse\n\n4. [Converting MP4 to HLS with FFmpeg](https://www.mux.com/articles/how-to-convert-mp4-to-hls-format-with-ffmpeg-a-step-by-step-guide) - Mux",
         "align": "left"
       }
     }

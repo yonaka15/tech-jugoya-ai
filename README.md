@@ -13,7 +13,7 @@ Next.js App RouterとTypeScriptで実装された、ブロックベースのブ�
 - ✅ 型定義の実装
 - ✅ ブロックシステムの基本実装
   - ✅ HeadingBlock（見出しブロック）
-  - ✅ TextBlock（改行対応）
+  - ✅ TextBlock（Markdown記法対応）
   - ✅ ImageBlock
   - ✅ CodeBlock（シンタックスハイライト＆コピー機能対応）
   - ✅ QuoteBlock
@@ -45,6 +45,7 @@ Next.js App RouterとTypeScriptで実装された、ブロックベースのブ�
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [react-syntax-highlighter](https://github.com/react-syntax-highlighter/react-syntax-highlighter)
+- [react-markdown](https://github.com/remarkjs/react-markdown)
 
 ## 🚀 開始方法
 
@@ -77,7 +78,7 @@ type BaseBlock<T extends string, P = unknown> = {
 ### 利用可能なブロック
 
 - **HeadingBlock**: 見出しブロック（レベル1-6、配置調整可能）
-- **TextBlock**: テキストブロック（配置調整可能）
+- **TextBlock**: テキストブロック（Markdown記法＆配置調整に対応）
 - **ImageBlock**: 画像ブロック（キャプション対応）
 - **CodeBlock**: コードブロック（シンタックスハイライト＆コピー機能対応）
 - **QuoteBlock**: 引用ブロック
@@ -189,6 +190,7 @@ src/content ディレクトリ内のすべてのコンテンツ（記事、画�
 - [Next.js](https://nextjs.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [react-syntax-highlighter](https://github.com/react-syntax-highlighter/react-syntax-highlighter)
+- [react-markdown](https://github.com/remarkjs/react-markdown)
 - その他の素晴らしいOSSプロジェクト
 
 ---
