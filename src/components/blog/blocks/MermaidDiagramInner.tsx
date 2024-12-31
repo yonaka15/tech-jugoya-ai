@@ -1,44 +1,51 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import mermaid from 'mermaid';
 import type { MermaidBlockProps } from '@/types/blog';
 
 export function MermaidDiagramInner({ content, caption, theme = 'default' }: MermaidBlockProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [svg, setSvg] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const renderDiagram = async () => {
+    let mounted = true;
+
+    // Mermaidの初期化を一度だけ行う
+    mermaid.initialize({
+      startOnLoad: false,
+      theme,
+      securityLevel: 'strict',
+      fontFamily: 'var(--font-geist-sans)',
+    });
+
+    async function renderDiagram() {
       if (!containerRef.current) return;
-      
+
       try {
-        // Clear previous content
-        containerRef.current.innerHTML = '';
+        // ユニークなIDを生成（より短くシンプルに）
+        const id = `mermaid-${Math.random().toString(36).slice(2)}`;
 
-        // Initialize mermaid with current theme
-        mermaid.initialize({
-          startOnLoad: true,
-          theme: theme,
-          securityLevel: 'strict',
-          fontFamily: 'var(--font-geist-sans)',
-        });
-
-        // Generate unique ID based on content
-        const id = `mermaid-${Buffer.from(content).toString('base64').slice(0, 8)}`;
-
-        // Render new diagram
+        // 図の描画
         const { svg } = await mermaid.render(id, content);
-        if (containerRef.current) {
-          containerRef.current.innerHTML = svg;
+        
+        if (mounted) {
+          setSvg(svg);
         }
-      } catch (err) {
-        console.error('Mermaid rendering error:', err);
-        setError(err instanceof Error ? err.message : 'Failed to render diagram');
+      } catch (e) {
+        console.error('Mermaid rendering error:', e);
+        if (mounted) {
+          setError(e instanceof Error ? e.message : 'Failed to render diagram');
+        }
       }
-    };
+    }
 
     renderDiagram();
+
+    return () => {
+      mounted = false;
+    };
   }, [content, theme]);
 
   if (error) {
@@ -59,9 +66,11 @@ export function MermaidDiagramInner({ content, caption, theme = 'default' }: Mer
   return (
     <div className="my-6">
       <div className="w-full max-w-4xl mx-auto bg-white rounded-lg shadow-sm overflow-hidden">
-        <div className="p-4">
-          <div ref={containerRef} className="overflow-x-auto" />
-        </div>
+        <div 
+          ref={containerRef}
+          className="p-4 overflow-x-auto"
+          dangerouslySetInnerHTML={{ __html: svg }}
+        />
         {caption && (
           <div className="px-4 py-2 bg-gray-50 text-sm text-gray-600 text-center border-t">
             {caption}
