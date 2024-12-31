@@ -13,7 +13,7 @@
       "id": "official-docs",
       "type": "text",
       "props": {
-        "content": "公式ドキュメント:\n\nFFmpegの公式ドキュメントは、コマンドラインオプションやフィルター、コーデックに関する包括的な情報を提供しています。特にHLS関連の設定やストリーミングについての詳細な説明が参考になります。\n\nAppleのHLS仕様書は、HLSプロトコルの技術的な詳細と実装要件を説明しています。m3u8ファイルのフォーマットや、アダプティブストリーミングの仕組みについて深く理解するのに役立ちます。\n\nWebVTT仕様書（W3C）は、字幕実装に関する標準的なガイドラインを提供しています。字幕のフォーマットやスタイリングについての詳細な情報が含まれています。",
+        "content": "公式ドキュメント:\n\nFFmpegの[公式ドキュメント](https://ffmpeg.org/ffmpeg-formats.html)は、コマンドラインオプションやフィルター、コーデックに関する包括的な情報を提供しています。特にHLS関連の設定やストリーミングについての詳細な説明が参考になります。\n\nAppleの[HLS仕様書](https://developer.apple.com/documentation/http_live_streaming/http_live_streaming_hls_authoring_specification_for_apple_devices)は、HLSプロトコルの技術的な詳細と実装要件を説明しています。また、[HLSプロトコルのIETF仕様](https://tools.ietf.org/html/draft-pantos-hls-rfc8216bis)では、より技術的な詳細が記載されています。\n\n[WebVTT仕様書（W3C）](https://www.w3.org/TR/webvtt1/)は、字幕実装に関する標準的なガイドラインを提供しています。字幕のフォーマットやスタイリングについての詳細な情報が含まれています。",
         "align": "left"
       }
     },
@@ -21,23 +21,23 @@
       "id": "tools-and-utilities",
       "type": "text",
       "props": {
-        "content": "関連ツールとユーティリティ:\n\nVLCメディアプレーヤーは、HLSストリームのテストと検証に非常に有用です。デバッグ情報の表示機能も備えており、ストリーミングの問題解決に役立ちます。\n\nffprobeは、メディアファイルの解析とメタデータの抽出に使用できます。入力ファイルの詳細な情報を取得し、適切なエンコード設定を決定する際に役立ちます。\n\nMediainfoは、メディアファイルの詳細な技術情報を提供するツールです。コーデック、ビットレート、解像度など、重要なメタデータの確認に使用できます。",
+        "content": "関連ツールとユーティリティ:\n\n[VLCメディアプレーヤー](https://www.videolan.org/vlc/)は、HLSストリームのテストと検証に非常に有用です。デバッグ情報の表示機能も備えており、ストリーミングの問題解決に役立ちます。\n\nffprobeは、メディアファイルの解析とメタデータの抽出に使用できます。[ffprobeのドキュメント](https://ffmpeg.org/ffprobe.html)では、入力ファイルの詳細な情報を取得する方法が説明されています。\n\n[MediaInfo](https://mediaarea.net/en/MediaInfo)は、メディアファイルの詳細な技術情報を提供するツールです。コーデック、ビットレート、解像度など、重要なメタデータの確認に使用できます。",
         "align": "left"
       }
     },
     {
-      "id": "forums-and-communities",
+      "id": "community-resources",
       "type": "text",
       "props": {
-        "content": "コミュニティリソース:\n\nFFmpegのユーザーフォーラムやメーリングリストでは、経験豊富な開発者やユーザーからの助言を得ることができます。特に複雑な問題や最適化に関する議論が参考になります。\n\nStackOverflowのFFmpegタグが付けられた質問には、多くの実践的な解決策やコード例が含まれています。一般的な問題の解決方法を探す際に有用です。\n\nGitHubのFFmpegリポジトリでは、最新の開発状況や既知の問題、バグ修正などの情報を確認できます。また、コミュニティによる貢献やディスカッションも参考になります。",
+        "content": "コミュニティリソース:\n\n[FFmpegのユーザーフォーラム](https://trac.ffmpeg.org/)や[メーリングリスト](https://ffmpeg.org/contact.html)では、経験豊富な開発者やユーザーからの助言を得ることができます。\n\n[StackOverflowのFFmpegタグ](https://stackoverflow.com/questions/tagged/ffmpeg)が付けられた質問には、多くの実践的な解決策やコード例が含まれています。\n\n[GitHubのFFmpegリポジトリ](https://github.com/FFmpeg/FFmpeg)では、最新の開発状況や既知の問題、バグ修正などの情報を確認できます。",
         "align": "left"
       }
     },
     {
-      "id": "tutorials-and-guides",
+      "id": "frameworks-and-players",
       "type": "text",
       "props": {
-        "content": "チュートリアルとガイド:\n\nFFmpegのwikiには、多くの実践的なチュートリアルとガイドが掲載されています。特にストリーミング関連の設定例や最適化のヒントが役立ちます。\n\nOnline Video Platformsによる技術記事では、実際の運用環境でのHLS実装事例や、パフォーマンス最適化のテクニックが紹介されています。\n\nVideo.jsやHLS.jsなどのプレーヤープロジェクトのドキュメントには、クライアントサイドの実装に関する有用な情報が含まれています。",
+        "content": "フレームワークとプレーヤー:\n\n[Video.js](https://videojs.com/guides/hls/)は、HLSストリーミングをサポートする主要なビデオプレーヤーフレームワークの一つです。\n\n[HLS.js](https://github.com/video-dev/hls.js/)は、HLSストリーミングの実装に特化したJavaScriptライブラリで、多くの実装例とドキュメントを提供しています。\n\n[Shaka Player](https://github.com/google/shaka-player)は、Googleが開発したアダプティブストリーミングプレーヤーで、HLSとDASHの両方をサポートしています。",
         "align": "left"
       }
     },
@@ -45,15 +45,23 @@
       "id": "specifications",
       "type": "text",
       "props": {
-        "content": "技術仕様とプロトコル:\n\nMPEG-TSの仕様書は、トランスポートストリームの詳細な技術情報を提供しています。HLSセグメントの内部構造を理解する際に参考になります。\n\nISO/IEC 23009-1（MPEG-DASH）仕様は、アダプティブストリーミングの標準的な実装方法について説明しています。HLSとの比較や相互運用性を検討する際に役立ちます。\n\nID3仕様書は、HLSストリームでのメタデータ管理に関する情報を提供しています。特にライブストリーミングでのタイミング制御に重要です。",
+        "content": "技術仕様とプロトコル:\n\n[MPEG-TS仕様](https://www.iso.org/standard/75929.html)は、トランスポートストリームの詳細な技術情報を提供しています。\n\n[MPEG-DASH仕様](https://standards.iso.org/ittf/PubliclyAvailableStandards/c083314_ISO_IEC_23009-1_2022.zip)は、アダプティブストリーミングの標準的な実装方法について説明しています。\n\n[ID3v2仕様](https://id3.org/Developer%20Information)は、HLSストリームでのメタデータ管理に関する情報を提供しています。",
         "align": "left"
       }
     },
     {
-      "id": "additional-resources",
+      "id": "streaming-libraries",
       "type": "text",
       "props": {
-        "content": "その他の参考資料:\n\nストリーミングメディアプロトコルの比較研究では、HLSと他のストリーミング技術（MPEG-DASH、RTMP、WebRTCなど）の特徴や利点が分析されています。\n\n動画圧縮技術に関する学術論文やホワイトペーパーでは、最新のエンコーディング技術や最適化手法について詳しい情報が提供されています。\n\nネットワーク最適化とCDNの技術文書では、大規模配信における効率的なコンテンツ配信方法が解説されています。",
+        "content": "ストリーミングライブラリ:\n\n[Streamio-FFMPEG](https://github.com/streamio/streamio-ffmpeg)は、RubyでFFmpegを扱うためのライブラリで、HLS変換の実装例を提供しています。\n\n[FFmpeg-python](https://github.com/kkroening/ffmpeg-python)は、PythonからFFmpegを操作するための高レベルインターフェースを提供しています。\n\n[node-fluent-ffmpeg](https://github.com/fluent-ffmpeg/node-fluent-ffmpeg)は、Node.jsでFFmpegを使用するための包括的なAPIを提供しています。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "cdn-and-optimization",
+      "type": "text",
+      "props": {
+        "content": "配信最適化とCDN:\n\n[Akamai Media Services Live](https://developer.akamai.com/media-delivery)は、HLSストリーミングの大規模配信に関する技術情報を提供しています。\n\n[Cloudflareのストリーミングドキュメント](https://developers.cloudflare.com/stream/)では、効率的なHLS配信のためのベストプラクティスが解説されています。\n\n[AWS Elemental MediaStore](https://docs.aws.amazon.com/mediastore/latest/ug/what-is.html)は、ライブストリーミングのオリジンサーバーとしての実装ガイドを提供しています。",
         "align": "left"
       }
     }
