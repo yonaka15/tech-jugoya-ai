@@ -33,7 +33,7 @@ Next.js App RouterとTypeScriptで実装された、ブロックベースのブ�
 ## 開発状況
 
 - ✅ プロジェクトの基本設定
-- ✅ 型定義の実装
+- ✅ [型定義の実装](src/types/README.md)（型安全なブロックシステムの基盤）
 - ✅ ブロックシステムの基本実装
   - ✅ HeadingBlock（見出しブロック）
   - ✅ TextBlock（Markdown記法対応）
@@ -66,6 +66,22 @@ Next.js App RouterとTypeScriptで実装された、ブロックベースのブ�
 - **高いパフォーマンス**: 最新のNext.js機能を活用した効率的なレンダリング
 - **レスポンシブデザイン**: モバイルフレンドリーなレイアウトとUI
 
+## 📝 ブロックシステム
+
+記事は複数の型付きブロックで構成されます。
+
+詳細な実装と使用方法については、[ブロックシステムのドキュメント](src/components/blog/blocks/README.md)を参照してください。
+
+### 利用可能なブロック
+
+- **HeadingBlock**: 見出しブロック（h1-h6、配置調整可能）
+- **TextBlock**: Markdown記法対応のテキストブロック
+- **ImageBlock**: キャプション付き画像ブロック
+- **CodeBlock**: シンタックスハイライト＆コピー機能付きコードブロック
+- **QuoteBlock**: 引用ブロック（引用元情報対応）
+- **CalloutBlock**: 情報・警告・エラーなどの注意書きブロック
+- **TableBlock**: キャプション付きテーブルブロック
+
 ## 🔧 技術スタック
 
 - [Next.js](https://nextjs.org/) 15.1 (App Router)
@@ -91,28 +107,6 @@ npm run dev
 
 [http://localhost:3000](http://localhost:3000) をブラウザで開いてください。
 
-## 📝 ブロックシステム
-
-記事は複数の型付きブロックで構成されます：
-
-```typescript
-type BaseBlock<T extends string, P = unknown> = {
-  id: string;
-  type: T;
-  props: P;
-};
-```
-
-### 利用可能なブロック
-
-- **HeadingBlock**: 見出しブロック（レベル1-6、配置調整可能）
-- **TextBlock**: テキストブロック（Markdown記法＆配置調整に対応）
-- **ImageBlock**: 画像ブロック（キャプション対応）
-- **CodeBlock**: コードブロック（シンタックスハイライト＆コピー機能対応）
-- **QuoteBlock**: 引用ブロック
-- **CalloutBlock**: 注意書きブロック
-- **TableBlock**: テーブルブロック
-
 ## 📂 プロジェクト構造
 
 ```
@@ -124,17 +118,19 @@ src/
 │   └── ...
 ├── components/           # Reactコンポーネント
 │   ├── blog/
-│   │   └── blocks/      # ブロックコンポーネント
+│   │   └── blocks/      # ブロックコンポーネント ([詳細](src/components/blog/blocks/README.md))
 │   └── ...
-├── content/             # コンテンツ
+├── content/             # コンテンツ ([詳細](src/content/README.md))
 │   └── posts/          # 記事JSON
-├── types/              # 型定義
-└── lib/               # ユーティリティ
+├── types/              # 型定義 ([詳細](src/types/README.md))
+└── lib/               # ユーティリティ ([詳細](src/lib/README.md))
 ```
 
 ## 📝 記事の作成
 
-1. `src/content/posts` に新しいJSONファイルを作成:
+記事の作成方法や規則について、詳しくは[コンテンツ管理のドキュメント](src/content/README.md)を参照してください。
+
+基本的な記事の構造は以下の通りです：
 
 ```json
 {
@@ -157,29 +153,13 @@ src/
 }
 ```
 
+各ブロックタイプの使用方法については、[ブロックシステムのドキュメント](src/components/blog/blocks/README.md)を参照してください。
+
 ## 🧩 カスタマイズ
 
 ### 新しいブロックタイプの追加
 
-1. `types/blog.ts` に型を追加:
-
-```typescript
-export type NewBlockProps = {
-  // プロパティを定義
-};
-
-export type NewBlock = BaseBlock<'new-block', NewBlockProps>;
-```
-
-2. コンポーネントを作成:
-
-```typescript
-const NewBlock: FC<NewBlockProps> = (props) => {
-  // コンポーネントの実装
-};
-```
-
-3. `BlockRenderer` に追加
+新しいブロックタイプの追加方法については、[ブロックシステムのドキュメント](src/components/blog/blocks/README.md#新しいブロックタイプの追加方法)を参照してください。
 
 ## 🤝 コントリビューション
 
@@ -207,11 +187,7 @@ const NewBlock: FC<NewBlockProps> = (props) => {
 
 src/content ディレクトリ内のすべてのコンテンツ（記事、画像など）は [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/) の下で提供されています。
 
-- ✅ 記事の閲覧・共有可能
-- ✅ 非商用目的での使用可能
-- ❌ 商用利用禁止
-- ❌ 改変禁止
-- ℹ️ 著作権表示が必要
+コンテンツのライセンスについての詳細は[コンテンツ管理のドキュメント](src/content/README.md#ライセンス)を参照してください。
 
 ## ✨ 謝辞
 
