@@ -14,6 +14,12 @@ export type BlogMeta = {
   tags: string[];
   isDraft?: boolean;
   author: string;
+  blocks?: Block[];  // メタ情報にもブロックを追加可能に
+};
+
+// コンテンツファイルの型
+export type ContentFile = {
+  blocks: Block[];
 };
 
 // 各ブロックの Props 型

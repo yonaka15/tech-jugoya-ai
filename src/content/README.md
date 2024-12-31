@@ -6,22 +6,31 @@
 
 ```
 content/
-├── blog/          # ブログ関連のその他のデータ
-├── posts/         # 記事データ（JSON形式）
-└── LICENSE        # CC BY-NC-ND 4.0ライセンス
+├── blog/                   # ブログ関連のその他のデータ
+├── posts/                  # 記事データ（JSON形式）
+│   ├── single-post.json   # 単一ファイル記事
+│   └── multi-part-post/   # 分割された記事
+│       ├── index.json     # メタ情報とブロックの順序
+│       ├── intro.json     # 導入部のブロック
+│       └── main.json      # 本文のブロック
+└── LICENSE                # CC BY-NC-ND 4.0ライセンス
 ```
 
 ## 記事データの構造
 
-各記事は`posts`ディレクトリ内のJSONファイルとして管理されています。
+記事は単一のJSONファイルとして作成するか、複数のファイルに分割して管理できます。
 
 ### ファイル命名規則
 
-- ファイル名はURLスラッグとして使用されます
+- ファイル/ディレクトリ名はURLスラッグとして使用されます
 - 小文字の英数字とハイフンのみを使用してください
-- 例: `getting-started-with-nextjs.json`
+- 例: 
+  - 単一ファイル: `getting-started-with-nextjs.json`
+  - 分割ファイル: `getting-started-with-nextjs/index.json`
 
-### 記事データの形式
+### 単一ファイル形式
+
+1つのJSONファイルに記事全体を含める形式です：
 
 ```json
 {
@@ -41,6 +50,48 @@ content/
       "type": "text",
       "props": {
         "content": "本文...",
+        "align": "left"
+      }
+    }
+  ]
+}
+```
+
+### 分割ファイル形式
+
+長い記事は複数のファイルに分割して管理できます。この場合、`index.json`にメタ情報とブロックの順序を定義し、各パートの内容は別ファイルに記述します：
+
+```json
+// index.json - メタ情報とブロックの順序
+{
+  "meta": {
+    "title": "長い記事のタイトル",
+    "description": "記事の説明",
+    "publishedAt": "2024-01-01T00:00:00.000Z",
+    "tags": ["Next.js", "TypeScript"]
+  },
+  "blocks": [
+    {
+      "id": "introduction",
+      "type": "introduction",
+      "props": {}
+    },
+    {
+      "id": "main-content",
+      "type": "main-content",
+      "props": {}
+    }
+  ]
+}
+
+// introduction.json - 各パートのブロック
+{
+  "blocks": [
+    {
+      "id": "intro-text",
+      "type": "text",
+      "props": {
+        "content": "導入部の本文...",
         "align": "left"
       }
     }
@@ -78,14 +129,28 @@ content/
 
 ## 記事の作成フロー
 
+### 単一ファイル記事の場合
+
 1. 新しいJSONファイルを作成
 2. メタデータを設定
 3. ブロックを追加
-   - 各ブロックには一意のIDを設定
-   - 利用可能なブロックタイプは[ブロックシステムのドキュメント](../components/blog/blocks/README.md)を参照
-4. 画像がある場合は適切なディレクトリに配置
-5. プレビューで表示を確認
+4. 画像を配置（必要な場合）
+5. プレビューで確認
 6. 公開
+
+### 分割ファイル記事の場合
+
+1. 記事用のディレクトリを作成
+2. index.jsonでメタデータとブロックの順序を定義
+3. 各パートのJSONファイルを作成
+4. 画像を配置（必要な場合）
+5. プレビューで確認
+6. 公開
+
+### ブロックの追加
+
+- 各ブロックには一意のIDを設定
+- 利用可能なブロックタイプは[ブロックシステムのドキュメント](../components/blog/blocks/README.md)を参照
 
 ## スタイルガイド
 
