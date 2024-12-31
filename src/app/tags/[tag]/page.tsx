@@ -17,16 +17,7 @@ export async function generateMetadata({ params }: Props) {
 
 export async function generateStaticParams() {
   const tags = await getAllTags();
-  const validTags = [];
-  
-  for (const tag of tags) {
-    const posts = await getPostsByTag(tag);
-    if (posts.length > 0) {
-      validTags.push({ tag: encodeURIComponent(tag) });
-    }
-  }
-  
-  return validTags;
+  return tags.map(tag => ({ tag: encodeURIComponent(tag) }));
 }
 
 export default async function TagPage({ params }: Props) {
@@ -34,7 +25,6 @@ export default async function TagPage({ params }: Props) {
   const decodedTag = decodeURIComponent(tag);
   const posts = await getPostsByTag(decodedTag);
 
-  // 記事が0件の場合は404を返す
   if (posts.length === 0) {
     notFound();
   }
