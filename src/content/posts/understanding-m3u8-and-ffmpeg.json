@@ -1,10 +1,10 @@
 {
   "meta": {
-    "title": "m3u8ファイルとは？仕組み・特徴からFFmpegを使った活用方法まで徹底解説",
+    "title": "m3u8ファイルとは？仕組み・特徴からFFmpegを使った活用方法まで解説",
     "description": "m3u8ファイルの基本から実践的なFFmpegの活用方法まで、包括的に解説します。ストリーミング配信に不可欠なm3u8の特徴とFFmpegを使った具体的な操作方法を学びましょう。",
     "publishedAt": "2024-01-01T00:00:00.000Z",
     "tags": ["m3u8", "ffmpeg", "video", "streaming"],
-    "author": "yo-naka"
+    "author": "yonaka"
   },
   "blocks": [
     {
@@ -38,7 +38,7 @@
       "props": {
         "type": "info",
         "title": "m3u8ファイルが注目される理由",
-        "content": "1. HLS対応：HLSの基礎を担うm3u8はライブストリーミングやオンデマンド配信に幅広く使われています。\n\n2. 汎用性の高さ：iTunes、VLC、Windows Media Playerなど、多くのプレーヤーで再生可能な形式です。\n\n3. マルチビットレート配信に対応：ネットワーク状況や端末性能に応じてビットレートを自動切り替えできる、アダプティブストリーミングを実現します。\n\n4. UTF-8対応：m3u8はUTF-8で記述されるため、文字化けなどのリスクが低く、日本語などのマルチバイト文字も扱いやすい特徴があります。"
+        "content": "1. **HLS対応**: HLSの基礎を担うm3u8はライブストリーミングやオンデマンド配信に幅広く使われています。\n\n2. **汎用性の高さ**: iTunes、VLC、Windows Media Playerなど、多くのプレーヤーで再生可能な形式です。\n\n3. **マルチビットレート配信に対応**: ネットワーク状況や端末性能に応じてビットレートを自動切り替えできる、アダプティブストリーミングを実現します。\n\n4. **UTF-8対応**: m3u8はUTF-8で記述されるため、文字化けなどのリスクが低く、日本語などのマルチバイト文字も扱いやすい特徴があります。"
       }
     },
     {
@@ -97,7 +97,7 @@
       "id": "security",
       "type": "text",
       "props": {
-        "content": "・DRMとの統合: 各種DRM（FairPlay、Widevine、PlayReadyなど）対応が進み、著作権保護も強化\n・トークン認証: 無許可の視聴を防ぐためのアクセス制御機能が一般化\n・AES-128暗号化: HLS配信の暗号化方式として一般的に採用",
+        "content": "- **DRMとの統合**: 各種DRM（FairPlay、Widevine、PlayReadyなど）対応が進み、著作権保護も強化\n- **トークン認証**: 無許可の視聴を防ぐためのアクセス制御機能が一般化\n- **AES-128暗号化**: HLS配信の暗号化方式として一般的に採用",
         "align": "left"
       }
     },
@@ -131,7 +131,7 @@
       "id": "m3u8-explanation",
       "type": "text",
       "props": {
-        "content": "・#EXTM3U: m3u8ファイルであることを示す宣言\n・#EXT-X-TARGETDURATION: セグメントの最大再生時間（秒）\n・#EXT-X-MEDIA-SEQUENCE: 再生すべきセグメント番号の開始点\n・#EXTINF: 次のセグメントの再生時間（秒）\n・segment1.ts: 動画・音声の実際のデータ（チャンク）",
+        "content": "- `#EXTM3U`: m3u8ファイルであることを示す宣言\n- `#EXT-X-TARGETDURATION`: セグメントの最大再生時間（秒）\n- `#EXT-X-MEDIA-SEQUENCE`: 再生すべきセグメント番号の開始点\n- `#EXTINF`: 次のセグメントの再生時間（秒）\n- `segment1.ts`: 動画・音声の実際のデータ（チャンク）",
         "align": "left"
       }
     },
@@ -141,7 +141,7 @@
       "props": {
         "title": "m3u8ファイルを扱う際の注意点",
         "type": "warning",
-        "content": "1. セキュリティリスク：信頼できないURLから取得したm3u8ファイルを安易に再生すると、ウイルス感染や情報漏洩のリスクがあります。\n\n2. 互換性の問題：プレーヤーやデバイスによってはm3u8に対応していないケースがあります。事前に環境をチェックしましょう。\n\n3. ネットワークの影響：m3u8を介したHLSはストリーミング再生が前提。回線速度や安定性が低い環境では再生が途切れる可能性があります。"
+        "content": "1. **セキュリティリスク**：信頼できないURLから取得したm3u8ファイルを安易に再生すると、ウイルス感染や情報漏洩のリスクがあります。\n\n2. **互換性の問題**：プレーヤーやデバイスによってはm3u8に対応していないケースがあります。事前に環境をチェックしましょう。\n\n3. **ネットワークの影響**：m3u8を介したHLSはストリーミング再生が前提。回線速度や安定性が低い環境では再生が途切れる可能性があります。"
       }
     },
     {
@@ -183,7 +183,7 @@
       "id": "basic-download-explanation",
       "type": "text",
       "props": {
-        "content": "基本的なダウンロードコマンドでは：\n・-c copy: 映像・音声を再エンコードせずにコピー\n・-bsf:a aac_adtstoasc: AAC音声をMP4で再生可能な形式に変換",
+        "content": "基本的なダウンロードコマンドでは：\n- `-c copy`: 映像・音声を再エンコードせずにコピー\n- `-bsf:a aac_adtstoasc`: AAC音声をMP4で再生可能な形式に変換",
         "align": "left"
       }
     },
@@ -211,7 +211,7 @@
       "props": {
         "title": "よくあるエラーへの対処法",
         "type": "info",
-        "content": "403 Forbiddenエラーの場合：\n\nffmpeg -headers \"Referer: https://example.com/\\r\\n\" \\\n  -i \"URL\" -c copy output.mp4\n\nSSL/TLSエラーの場合：\n\nffmpeg -protocol_whitelist file,http,https,tcp,tls,crypto \\\n  -i \"URL\" -c copy output.mp4"
+        "content": "### 403 Forbiddenエラーの場合\n\n```bash\nffmpeg -headers \"Referer: https://example.com/\\r\\n\" \\\n  -i \"URL\" -c copy output.mp4\n```\n\n### SSL/TLSエラーの場合\n\n```bash\nffmpeg -protocol_whitelist file,http,https,tcp,tls,crypto \\\n  -i \"URL\" -c copy output.mp4\n```"
       }
     },
     {
@@ -250,3 +250,4 @@
     }
   ]
 }
+
