@@ -42,6 +42,7 @@ Next.js App RouterとTypeScriptで実装された、ブロックベースのブ�
   - ✅ QuoteBlock
   - ✅ CalloutBlock
   - ✅ TableBlock
+  - ✅ MermaidBlock（図表・ダイアグラム対応）
 - ✅ サイトレイアウト
   - ✅ ヘッダー
   - ✅ フッター（著作権表示）
@@ -65,6 +66,7 @@ Next.js App RouterとTypeScriptで実装された、ブロックベースのブ�
 - **SEOフレンドリー**: App Routerによる最適化とメタデータ管理
 - **高いパフォーマンス**: 最新のNext.js機能を活用した効率的なレンダリング
 - **レスポンシブデザイン**: モバイルフレンドリーなレイアウトとUI
+- **リッチなコンテンツ表現**: Mermaid.jsを活用した図表やダイアグラムのサポート
 
 ## 📝 ブロックシステム
 
@@ -81,6 +83,7 @@ Next.js App RouterとTypeScriptで実装された、ブロックベースのブ�
 - **QuoteBlock**: 引用ブロック（引用元情報対応）
 - **CalloutBlock**: 情報・警告・エラーなどの注意書きブロック
 - **TableBlock**: キャプション付きテーブルブロック
+- **MermaidBlock**: フローチャート・シーケンス図などの図表ブロック
 
 ## 🔧 技術スタック
 
@@ -88,6 +91,7 @@ Next.js App RouterとTypeScriptで実装された、ブロックベースのブ�
 - [TypeScript](https://www.typescriptlang.org/) 5.x
 - [React](https://react.dev/) 19
 - [Tailwind CSS](https://tailwindcss.com/) 3.4
+- [Mermaid](https://mermaid.js.org/) 10.9 (図表・ダイアグラム)
 - [react-syntax-highlighter](https://github.com/react-syntax-highlighter/react-syntax-highlighter) 15.5
 - [react-markdown](https://github.com/remarkjs/react-markdown) 9.0
 

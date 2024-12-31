@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,10 +29,14 @@ export default function RootLayout({
     <html lang="ja">
       <head>
         <link rel="preload" href="https://analytics.ahrefs.com/analytics.js" as="script"/>
-        <script 
+        <Script 
           src="https://analytics.ahrefs.com/analytics.js" 
           data-key={process.env.NEXT_PUBLIC_AHREFS_ANALYTICS_KEY} 
-          async
+          strategy="afterInteractive"
+        />
+        <Script
+          src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.0/mermaid.min.js"
+          strategy="lazyOnload"
         />
       </head>
       <body

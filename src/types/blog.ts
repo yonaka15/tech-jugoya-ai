@@ -67,6 +67,13 @@ export type TableBlockProps = {
   caption?: string;
 };
 
+// Mermaidブロックの Props 型を追加
+export type MermaidBlockProps = {
+  content: string;         // Mermaid図の定義
+  caption?: string;        // 図のキャプション（オプション）
+  theme?: 'default' | 'dark' | 'forest' | 'neutral';  // テーマ設定（オプション）
+};
+
 // 具体的なブロック型
 export type HeadingBlock = BaseBlock<'heading', HeadingBlockProps>;
 export type TextBlock = BaseBlock<'text', TextBlockProps>;
@@ -75,6 +82,7 @@ export type CodeBlock = BaseBlock<'code', CodeBlockProps>;
 export type QuoteBlock = BaseBlock<'quote', QuoteBlockProps>;
 export type CalloutBlock = BaseBlock<'callout', CalloutBlockProps>;
 export type TableBlock = BaseBlock<'table', TableBlockProps>;
+export type MermaidBlock = BaseBlock<'mermaid', MermaidBlockProps>;
 
 // すべてのブロック型の Union 型
 export type Block = 
@@ -84,7 +92,8 @@ export type Block =
   | CodeBlock 
   | QuoteBlock 
   | CalloutBlock 
-  | TableBlock;
+  | TableBlock
+  | MermaidBlock;
 
 // 記事全体の型
 export type BlogPost = {
@@ -130,3 +139,6 @@ export const createCalloutBlock: BlockCreator<CalloutBlock> = (props, id) =>
 
 export const createTableBlock: BlockCreator<TableBlock> = (props, id) =>
   createBlock('table', props, id);
+
+export const createMermaidBlock: BlockCreator<MermaidBlock> = (props, id) =>
+  createBlock('mermaid', props, id);
