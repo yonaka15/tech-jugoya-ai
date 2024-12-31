@@ -4,7 +4,7 @@
       "id": "multibitrate-heading",
       "type": "heading",
       "props": {
-        "content": "マルチビットレートストリーミング",
+        "content": "マルチビットレートストリーミングの実装",
         "level": 2,
         "align": "left"
       }
@@ -13,35 +13,101 @@
       "id": "multibitrate-intro",
       "type": "text",
       "props": {
-        "content": "マルチビットレートストリーミングは、視聴者の通信環境に応じて最適な品質の動画を提供するための重要な技術です。FFmpegを使用して、複数の品質のストリームを同時に生成する方法を解説します。",
+        "content": "マルチビットレートストリーミングは、視聴者のネットワーク環境や端末性能に応じて最適な品質を提供するための重要な技術です。FFmpegを使用することで、1つの入力動画から複数の品質のストリームを生成し、アダプティブストリーミングを実現することができます。このセクションでは、具体的な実装方法とベストプラクティスについて解説します。",
         "align": "left"
       }
     },
     {
-      "id": "multibitrate-flow",
-      "type": "mermaid",
+      "id": "quality-variants-heading",
+      "type": "heading",
       "props": {
-        "content": "graph TD\n    A[入力ファイル] -->|FFmpeg| B[マルチストリーム処理]\n    B --> C[1080p/4000k]\n    B --> D[720p/2500k]\n    B --> E[480p/1000k]\n    B --> F[360p/600k]\n    C --> G[master.m3u8]\n    D --> G\n    E --> G\n    F --> G\n    style A fill:#f9f,stroke:#333,stroke-width:2px\n    style G fill:#bfb,stroke:#333,stroke-width:2px",
-        "caption": "マルチビットレートストリーミングの構造",
-        "theme": "default"
+        "content": "品質バリエーションの設計",
+        "level": 3,
+        "align": "left"
       }
     },
     {
-      "id": "multibitrate-example",
+      "id": "quality-variants",
+      "type": "text",
+      "props": {
+        "content": "マルチビットレートストリーミングを設計する際は、異なる品質レベルを適切に設定することが重要です。一般的には、以下のような解像度とビットレートの組み合わせが使用されます。\n\n1080p（フルHD）では4-6Mbps程度、720pでは2-4Mbps、480pでは1-2Mbps、360pでは0.5-1Mbpsといった設定が一般的です。これらの値は、コンテンツの種類（アニメーション、実写、スポーツなど）や要求される品質に応じて調整が必要です。\n\n各品質レベル間のビットレート差は、一般的に1.5〜2倍程度に設定することが推奨されます。これにより、品質レベル切り替え時のスムーズな遷移が可能になります。また、最低品質のストリームは、低速なモバイル回線でも再生可能な範囲に設定する必要があります。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "multibitrate-command",
       "type": "code",
       "props": {
         "language": "bash",
-        "code": "#!/bin/bash\n\n# 入力ファイルとベースとなる出力名を設定\nINPUT=\"input.mp4\"\nOUTPUT_HLS=\"stream\"\n\n# マルチビットレートHLSを生成\nffmpeg -i $INPUT \\\n  -filter_complex \"\n  # 1080p/4000k\n  [0:v]split=4[v1][v2][v3][v4];\n  [v1]scale=1920:1080[v1out];\n  # 720p/2500k\n  [v2]scale=1280:720[v2out];\n  # 480p/1000k\n  [v3]scale=842:480[v3out];\n  # 360p/600k\n  [v4]scale=640:360[v4out]\n  \" \\\n  -map '[v1out]' -c:v:0 libx264 -b:v:0 4000k \\\n  -map '[v2out]' -c:v:1 libx264 -b:v:1 2500k \\\n  -map '[v3out]' -c:v:2 libx264 -b:v:2 1000k \\\n  -map '[v4out]' -c:v:3 libx264 -b:v:3 600k \\\n  -map a:0 -c:a aac -b:a:0 128k -ac 2 \\\n  -map a:0 -c:a aac -b:a:1 96k -ac 2 \\\n  -map a:0 -c:a aac -b:a:2 48k -ac 2 \\\n  -map a:0 -c:a aac -b:a:3 32k -ac 2 \\\n  -f hls \\\n  -var_stream_map \"v:0,a:0 v:1,a:1 v:2,a:2 v:3,a:3\" \\\n  -master_pl_name ${OUTPUT_HLS}_master.m3u8 \\\n  -hls_segment_filename ${OUTPUT_HLS}_%v/data%03d.ts \\\n  -hls_playlist_type vod \\\n  -hls_time 6 \\\n  -hls_list_size 0 \\\n  ${OUTPUT_HLS}_%v.m3u8",
-        "fileName": "create_multibitrate_hls.sh"
+        "code": "ffmpeg -i input.mp4 \\\n  -filter_complex \\\n  \"[0:v]split=3[v1][v2][v3]; \\\n   [v1]scale=w=1920:h=1080[v1out]; \\\n   [v2]scale=w=1280:h=720[v2out]; \\\n   [v3]scale=w=842:h=480[v3out]\" \\\n  -map \"[v1out]\" -c:v:0 libx264 -b:v:0 5000k \\\n  -map \"[v2out]\" -c:v:1 libx264 -b:v:1 3000k \\\n  -map \"[v3out]\" -c:v:2 libx264 -b:v:2 1000k \\\n  -map a:0 -c:a aac -b:a 192k -ac 2 \\\n  -var_stream_map \"v:0,a:0,name:1080p v:1,a:0,name:720p v:2,a:0,name:480p\" \\\n  -master_pl_name master.m3u8 \\\n  -f hls -hls_time 6 -hls_list_size 0 \\\n  -hls_segment_filename \"stream_%v/data%03d.ts\" \\\n  stream_%v.m3u8",
+        "fileName": "multibitrate-hls.sh"
       }
     },
     {
-      "id": "multibitrate-explanation",
-      "type": "callout",
+      "id": "command-explanation-1",
+      "type": "text",
       "props": {
-        "type": "info",
-        "title": "マルチビットレート設定の解説",
-        "content": "- **ストリームの品質設定**:\n  - 1080p: 4000kbps（高品質）\n  - 720p: 2500kbps（標準品質）\n  - 480p: 1000kbps（低品質）\n  - 360p: 600kbps（モバイル向け）\n\n- **音声品質設定**:\n  - 128kbps（高品質音声）\n  - 96kbps（標準品質）\n  - 48kbps（低品質）\n  - 32kbps（モバイル向け）\n\n- **セグメント設定**:\n  - 6秒のセグメント長\n  - VODタイプのプレイリスト\n  - 可変ストリームマッピング"
+        "content": "このコマンドの主要な部分について詳しく解説します。\n\nfilter_complexセクションでは、入力映像を3つのストリームに分割し、それぞれ異なる解像度にスケーリングしています。split=3で3つのストリームを作成し、scale filterで各ストリームの解像度を設定します。\n\n各ストリームに対して、-mapオプションを使用して映像と音声の割り当てを行います。-c:v:0 libx264は各ストリームのビデオコーデックをH.264に指定し、-b:v:0でビットレートを設定します。\n\n音声設定では、-c:a aacでAACコーデックを指定し、-b:a 192kでビットレートを設定しています。-ac 2はステレオ音声を指定します。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "command-explanation-2",
+      "type": "text",
+      "props": {
+        "content": "-var_stream_mapは、各ストリームの構成を定義します。v:0,a:0,name:1080pは、最初の映像ストリーム（v:0）と音声ストリーム（a:0）を組み合わせ、'1080p'という名前を付けることを示します。\n\n-master_pl_nameでマスタープレイリストのファイル名を指定します。このファイルには、各品質レベルのストリームへの参照が含まれます。\n\n-hls_segment_filenameで、セグメントファイルの保存パスとファイル名のパターンを指定します。%vは品質バリエーションの識別子に、%03dはセグメント番号に置き換えられます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "output-structure-heading",
+      "type": "heading",
+      "props": {
+        "content": "出力ファイルの構造と配置",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "multibitrate-output-structure",
+      "type": "text",
+      "props": {
+        "content": "コマンド実行後、以下のようなファイル構造が生成されます：\n\n```\n./master.m3u8              # マスタープレイリスト\n./stream_0.m3u8            # 1080p用プレイリスト\n./stream_1.m3u8            # 720p用プレイリスト\n./stream_2.m3u8            # 480p用プレイリスト\n./stream_0/data000.ts      # 1080p用セグメント\n./stream_0/data001.ts\n./stream_1/data000.ts      # 720p用セグメント\n./stream_1/data001.ts\n./stream_2/data000.ts      # 480p用セグメント\n./stream_2/data001.ts\n```\n\nこの構造により、クライアントは必要に応じて適切な品質のストリームを選択し、シームレスな再生を実現できます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "optimization-heading",
+      "type": "heading",
+      "props": {
+        "content": "パフォーマンス最適化とエンコード設定",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "optimization",
+      "type": "text",
+      "props": {
+        "content": "マルチビットレートストリーミングのパフォーマンスを最適化するためには、以下の点に注意が必要です。\n\nキーフレーム間隔（GOP）の設定は重要です。HLSでは、各セグメントが独立して再生可能である必要があるため、セグメント長と同じかそれ以下のGOPサイズを設定します。一般的には、セグメント長が6秒の場合、GOPサイズも6秒（fps×6）に設定します。\n\nエンコード設定では、各解像度に適したプロファイルとレベルを選択します。低解像度ストリームではbaselineプロファイルを使用し、高解像度ではmainまたはhighプロファイルを使用することで、より効率的な圧縮が可能になります。\n\nまた、セグメント長の選択も重要です。短すぎるセグメントはサーバー負荷を増加させ、長すぎるセグメントは品質切り替えの遅延を招きます。6秒程度のセグメント長が一般的ですが、コンテンツの特性に応じて調整が必要です。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "advanced-options-heading",
+      "type": "heading",
+      "props": {
+        "content": "高度なオプションと追加設定",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "advanced-options",
+      "type": "text",
+      "props": {
+        "content": "より高度な制御が必要な場合、以下のようなオプションも利用可能です。\n\nクローズドGOPの設定（-flags +cgop）により、各セグメントの独立性を高めることができます。これは特にライブストリーミングで重要です。\n\nシーン検出（-force_key_frames）を使用することで、シーンチェンジに合わせて適切にキーフレームを配置できます。これにより、視覚的な品質が向上し、効率的な圧縮が可能になります。\n\nまた、x264のプリセット設定（-preset）を調整することで、エンコード速度と品質のバランスを最適化できます。ライブストリーミングでは'veryfast'や'superfast'を使用し、VODコンテンツでは'slower'や'veryslow'を使用するなど、用途に応じた選択が可能です。",
+        "align": "left"
       }
     }
   ]

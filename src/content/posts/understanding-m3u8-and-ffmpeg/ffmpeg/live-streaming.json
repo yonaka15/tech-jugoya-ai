@@ -4,44 +4,111 @@
       "id": "live-streaming-heading",
       "type": "heading",
       "props": {
-        "content": "ライブストリーミング処理",
+        "content": "FFmpegによるライブストリーミングの実装",
         "level": 2,
         "align": "left"
       }
     },
     {
-      "id": "live-intro",
+      "id": "live-streaming-intro",
       "type": "text",
       "props": {
-        "content": "ライブストリーミングでは、リアルタイムな処理と低遅延が重要です。FFmpegを使用して、様々なライブストリーミングのシナリオに対応する方法を見ていきましょう。",
+        "content": "FFmpegは、ライブストリーミングにも対応しており、リアルタイムでのHLSストリーム生成が可能です。ライブストリーミングでは、VOD（ビデオオンデマンド）とは異なる考慮点があり、特別な設定が必要になります。このセクションでは、FFmpegを使用したライブストリーミングの実装方法について、詳しく解説します。",
         "align": "left"
       }
     },
     {
-      "id": "live-flow",
-      "type": "mermaid",
+      "id": "live-streaming-basics-heading",
+      "type": "heading",
       "props": {
-        "content": "sequenceDiagram\n    participant S as Source\n    participant F as FFmpeg\n    participant P as Playlist\n    participant C as Client\n    loop Live Processing\n        S->>F: Stream Input\n        F->>F: Process Frame\n        F->>P: Create Segment\n        F->>P: Update Playlist\n        C->>P: Request Latest\n        P->>C: Send Segment\n    end",
-        "caption": "ライブストリーミング処理のフロー",
-        "theme": "default"
+        "content": "ライブストリーミングの基本設定",
+        "level": 3,
+        "align": "left"
       }
     },
     {
-      "id": "live-streaming-examples",
+      "id": "live-basic-command",
       "type": "code",
       "props": {
         "language": "bash",
-        "code": "# 24時間ライブストリームの録画\nffmpeg -i \"http://example.com/live.m3u8\" \\\n  -c copy \\\n  -f segment \\\n  -segment_time 3600 \\\n  -segment_format mp4 \\\n  -strftime 1 \\\n  \"recording_%Y%m%d_%H%M%S.mp4\"\n\n# ライブストリームの再生成（低遅延モード）\nffmpeg -i \"input.mp4\" \\\n  -c copy \\\n  -f hls \\\n  -hls_time 2 \\\n  -hls_list_size 3 \\\n  -hls_flags delete_segments+append_list \\\n  -hls_segment_filename \"stream%d.ts\" \\\n  playlist.m3u8\n\n# RTMPからHLSへのライブ変換\nffmpeg -i \"rtmp://source.example.com/live/stream\" \\\n  -c:v libx264 -c:a aac \\\n  -b:v 2500k -b:a 128k \\\n  -flags +cgop \\\n  -g 30 -keyint_min 30 \\\n  -hls_time 2 \\\n  -hls_list_size 3 \\\n  -hls_flags delete_segments+append_list \\\n  -f hls output.m3u8",
-        "fileName": "live_streaming.sh"
+        "code": "ffmpeg -f alsa -i hw:0 \\\n  -f v4l2 -i /dev/video0 \\\n  -c:v libx264 -preset veryfast -tune zerolatency \\\n  -b:v 2500k -maxrate 2500k -bufsize 5000k \\\n  -c:a aac -b:a 128k \\\n  -hls_time 4 \\\n  -hls_list_size 3 \\\n  -hls_flags delete_segments \\\n  -hls_segment_filename 'live/segment%03d.ts' \\\n  live/stream.m3u8",
+        "fileName": "basic-live-streaming.sh"
       }
     },
     {
-      "id": "live-options",
-      "type": "callout",
+      "id": "live-command-explanation",
+      "type": "text",
       "props": {
-        "type": "info",
-        "title": "ライブストリーミングのオプション解説",
-        "content": "- **録画設定**:\n  - `segment_time`: 各セグメントの長さ（秒）\n  - `strftime`: タイムスタンプによるファイル名生成\n\n- **低遅延設定**:\n  - `hls_time`: 2秒の短いセグメント\n  - `hls_list_size`: 3セグメントのみ保持\n  - `delete_segments+append_list`: 古いセグメントの自動削除\n\n- **RTMP変換設定**:\n  - `flags +cgop`: クローズドGOPで信頼性向上\n  - `g 30`: 30フレームごとにキーフレーム\n  - `keyint_min 30`: 最小キーフレーム間隔"
+        "content": "このコマンドでは、Webカメラとマイクからの入力をリアルタイムでHLSストリームに変換します。各オプションの重要性について説明します。\n\npresetにveryfastを指定し、tune zerolatencyを使用することで、エンコードの遅延を最小限に抑えています。これはライブストリーミングでは特に重要な設定です。\n\nmaxrateとbufsizeの設定により、ビットレートの変動を制御します。bufsizeは通常、maxrateの2倍に設定します。これにより、画質を維持しながら安定した配信が可能になります。\n\nhls_list_sizeを3に設定することで、プレイリストに含まれるセグメント数を制限します。古いセグメントは自動的にリストから削除されます。\n\nhls_flags delete_segmentsにより、プレイリストから削除された古いセグメントファイルも自動的に削除されます。これにより、ディスク容量の管理が容易になります。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "multibitrate-live-heading",
+      "type": "heading",
+      "props": {
+        "content": "マルチビットレートライブストリーミング",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "multibitrate-live-command",
+      "type": "code",
+      "props": {
+        "language": "bash",
+        "code": "ffmpeg -f v4l2 -i /dev/video0 -f alsa -i hw:0 \\\n  -filter_complex \\\n  \"[0:v]split=3[v1][v2][v3]; \\\n   [v1]scale=1920:1080[v1out]; \\\n   [v2]scale=1280:720[v2out]; \\\n   [v3]scale=854:480[v3out]\" \\\n  -map \"[v1out]\" -c:v:0 libx264 -preset veryfast -b:v:0 4000k \\\n  -map \"[v2out]\" -c:v:1 libx264 -preset veryfast -b:v:1 2500k \\\n  -map \"[v3out]\" -c:v:2 libx264 -preset veryfast -b:v:2 1000k \\\n  -map a:0 -c:a aac -b:a 128k \\\n  -var_stream_map \"v:0,a:0,name:1080p v:1,a:0,name:720p v:2,a:0,name:480p\" \\\n  -f hls \\\n  -hls_time 4 \\\n  -hls_list_size 3 \\\n  -hls_flags delete_segments+independent_segments \\\n  -hls_segment_filename stream_%v/data%03d.ts \\\n  -master_pl_name master.m3u8 \\\n  stream_%v.m3u8",
+        "fileName": "multibitrate-live-streaming.sh"
+      }
+    },
+    {
+      "id": "multibitrate-live-explanation",
+      "type": "text",
+      "props": {
+        "content": "マルチビットレートライブストリーミングでは、1つの入力ソースから複数の品質のストリームをリアルタイムで生成します。\n\nfilter_complexの設定は基本的にVODと同じですが、エンコード設定は低遅延を重視したものになっています。すべてのストリームでpresetをveryfastに設定し、可能な限り低遅延を維持します。\n\nhls_flags independent_segmentsを追加することで、各セグメントが独立して再生可能であることを保証します。これにより、品質切り替え時のスムーズな遷移が可能になります。\n\n各品質レベルのストリームは個別のディレクトリに保存され、master.m3u8で統合されます。クライアントは通信環境に応じて適切な品質を選択できます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "optimization-live-heading",
+      "type": "heading",
+      "props": {
+        "content": "ライブストリーミングの最適化",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "optimization-live",
+      "type": "text",
+      "props": {
+        "content": "ライブストリーミングを安定して運用するためには、以下の点に注意が必要です。\n\nまず、セグメント長の最適化が重要です。短いセグメント（2-4秒）を使用することで、低遅延を実現できますが、サーバーの負荷が増加します。用途に応じて適切なバランスを取る必要があります。\n\nGOPサイズはセグメント長に合わせて設定します。例えば、セグメント長が4秒の場合、-g 120（30fps×4秒）のように設定します。これにより、各セグメントが独立して再生可能になります。\n\nまた、エンコーダのレート制御も重要です。CBR（固定ビットレート）モードを使用するか、VBR（可変ビットレート）を使用する場合も最大ビットレートを厳密に制限することで、安定した配信が可能になります。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "monitoring-heading",
+      "type": "heading",
+      "props": {
+        "content": "ストリーミングの監視と管理",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "monitoring",
+      "type": "text",
+      "props": {
+        "content": "ライブストリーミングの運用では、システムの監視が重要です。FFmpegのログ出力を活用することで、エンコードの状態やパフォーマンスを監視できます。\n\n-stats オプションを使用すると、エンコードの進行状況やフレームレート、ビットレートなどの情報をリアルタイムで確認できます。また、-loglevel warningを設定することで、重要な警告のみをログに出力することができます。\n\nセグメントファイルの生成状況も定期的に確認する必要があります。正常にセグメントが生成され、古いセグメントが適切に削除されているかを監視することで、ディスク容量の問題を未然に防ぐことができます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "error-handling-live",
+      "type": "text",
+      "props": {
+        "content": "ライブストリーミングでは、エラーハンドリングも重要な考慮点です。入力デバイスの切断や、ネットワークの一時的な問題などに対して、適切な回復処理が必要です。\n\n-re-stream_loop オプションを使用することで、エラー発生時に自動的に再接続を試みることができます。また、シェルスクリプトでFFmpegプロセスを監視し、異常終了時に自動的に再起動する仕組みを実装することも推奨されます。\n\nさらに、バックアップソースの準備や、フォールバックメカニズムの実装など、サービスの継続性を確保するための対策も検討する必要があります。",
+        "align": "left"
       }
     }
   ]

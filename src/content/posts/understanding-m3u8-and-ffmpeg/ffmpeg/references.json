@@ -4,77 +4,57 @@
       "id": "references-heading",
       "type": "heading",
       "props": {
-        "content": "参考資料と技術情報",
+        "content": "参考文献とリソース",
         "level": 2,
         "align": "left"
       }
     },
     {
-      "id": "references-intro",
+      "id": "official-docs",
       "type": "text",
       "props": {
-        "content": "FFmpegとHLSストリーミングに関する詳細な技術情報や仕様についての参考資料をまとめています。",
+        "content": "公式ドキュメント:\n\nFFmpegの公式ドキュメントは、コマンドラインオプションやフィルター、コーデックに関する包括的な情報を提供しています。特にHLS関連の設定やストリーミングについての詳細な説明が参考になります。\n\nAppleのHLS仕様書は、HLSプロトコルの技術的な詳細と実装要件を説明しています。m3u8ファイルのフォーマットや、アダプティブストリーミングの仕組みについて深く理解するのに役立ちます。\n\nWebVTT仕様書（W3C）は、字幕実装に関する標準的なガイドラインを提供しています。字幕のフォーマットやスタイリングについての詳細な情報が含まれています。",
         "align": "left"
       }
     },
     {
-      "id": "official-docs-heading",
-      "type": "heading",
-      "props": {
-        "content": "公式ドキュメント",
-        "level": 3,
-        "align": "left"
-      }
-    },
-    {
-      "id": "official-docs-content",
+      "id": "tools-and-utilities",
       "type": "text",
       "props": {
-        "content": "### FFmpeg Documentation\n- [FFmpeg Format Documentation](https://ffmpeg.org/ffmpeg-formats.html)\n- [HLS Format Options](https://ffmpeg.org/ffmpeg-formats.html#hls-2)\n- [FFmpeg Streaming Guide](https://trac.ffmpeg.org/wiki/StreamingGuide)\n\n### HLS仕様\n- [HTTP Live Streaming (HLS) RFC 8216](https://datatracker.ietf.org/doc/html/rfc8216)\n- [Apple HLS Authoring Specification](https://developer.apple.com/documentation/http_live_streaming/about_apple_s_http_live_streaming_tools)\n\n### IETF Standards\n- [Common Media Application Format (CMAF)](https://www.ietf.org/rfc/rfc8216.html)\n- [HTTP Live Streaming (HLS)](https://tools.ietf.org/html/rfc8216)",
+        "content": "関連ツールとユーティリティ:\n\nVLCメディアプレーヤーは、HLSストリームのテストと検証に非常に有用です。デバッグ情報の表示機能も備えており、ストリーミングの問題解決に役立ちます。\n\nffprobeは、メディアファイルの解析とメタデータの抽出に使用できます。入力ファイルの詳細な情報を取得し、適切なエンコード設定を決定する際に役立ちます。\n\nMediainfoは、メディアファイルの詳細な技術情報を提供するツールです。コーデック、ビットレート、解像度など、重要なメタデータの確認に使用できます。",
         "align": "left"
       }
     },
     {
-      "id": "best-practices-heading",
-      "type": "heading",
-      "props": {
-        "content": "ベストプラクティス",
-        "level": 3,
-        "align": "left"
-      }
-    },
-    {
-      "id": "streaming-quality",
+      "id": "forums-and-communities",
       "type": "text",
       "props": {
-        "content": "### ストリーミング品質設定\n- セグメント長: 2-6秒（低遅延の場合は2秒、VODの場合は6秒推奨）\n- キーフレーム間隔: セグメント長と同じかその倍数\n\n推奨ビットレート:\n- 1080p: 4500-6000 kbps\n- 720p: 2500-4000 kbps\n- 480p: 1000-2000 kbps\n- 360p: 600-1000 kbps\n\n### セキュリティ設定\n- AES-128暗号化の使用\n- セッショントークンの実装\n- SSL/TLSの適用\n\n### パフォーマンス最適化\n- CDNの活用によるグローバルな配信\n- マルチビットレートの適切な設定\n- バッファリング戦略の最適化",
+        "content": "コミュニティリソース:\n\nFFmpegのユーザーフォーラムやメーリングリストでは、経験豊富な開発者やユーザーからの助言を得ることができます。特に複雑な問題や最適化に関する議論が参考になります。\n\nStackOverflowのFFmpegタグが付けられた質問には、多くの実践的な解決策やコード例が含まれています。一般的な問題の解決方法を探す際に有用です。\n\nGitHubのFFmpegリポジトリでは、最新の開発状況や既知の問題、バグ修正などの情報を確認できます。また、コミュニティによる貢献やディスカッションも参考になります。",
         "align": "left"
       }
     },
     {
-      "id": "compatibility-heading",
-      "type": "heading",
-      "props": {
-        "content": "互換性とサポート状況",
-        "level": 3,
-        "align": "left"
-      }
-    },
-    {
-      "id": "compatibility-content",
+      "id": "tutorials-and-guides",
       "type": "text",
       "props": {
-        "content": "### ブラウザサポート\n- Safari: ネイティブHLSサポート\n- Chrome/Firefox/Edge: Media Source Extensionsを使用\n- モバイルブラウザ: iOS SafariとAndroid Chrome/Safariでの違い\n\n### プレイヤーの互換性\n- VLC Media Player\n- QuickTime Player\n- JW Player\n- Video.js\n- HLS.js\n\n### プロトコルとコーデック\n- H.264/AAC: 最も広くサポート\n- HEVC/H.265: 一部デバイスで制限\n- VP9: 限定的なサポート",
+        "content": "チュートリアルとガイド:\n\nFFmpegのwikiには、多くの実践的なチュートリアルとガイドが掲載されています。特にストリーミング関連の設定例や最適化のヒントが役立ちます。\n\nOnline Video Platformsによる技術記事では、実際の運用環境でのHLS実装事例や、パフォーマンス最適化のテクニックが紹介されています。\n\nVideo.jsやHLS.jsなどのプレーヤープロジェクトのドキュメントには、クライアントサイドの実装に関する有用な情報が含まれています。",
         "align": "left"
       }
     },
     {
-      "id": "important-note",
-      "type": "callout",
+      "id": "specifications",
+      "type": "text",
       "props": {
-        "type": "warning",
-        "title": "互換性の確認",
-        "content": "実際の運用時は、ターゲットとする視聴環境でのテストが重要です。特にモバイルデバイスでは、OSやブラウザのバージョンによって対応状況が異なる場合があります。"
+        "content": "技術仕様とプロトコル:\n\nMPEG-TSの仕様書は、トランスポートストリームの詳細な技術情報を提供しています。HLSセグメントの内部構造を理解する際に参考になります。\n\nISO/IEC 23009-1（MPEG-DASH）仕様は、アダプティブストリーミングの標準的な実装方法について説明しています。HLSとの比較や相互運用性を検討する際に役立ちます。\n\nID3仕様書は、HLSストリームでのメタデータ管理に関する情報を提供しています。特にライブストリーミングでのタイミング制御に重要です。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "additional-resources",
+      "type": "text",
+      "props": {
+        "content": "その他の参考資料:\n\nストリーミングメディアプロトコルの比較研究では、HLSと他のストリーミング技術（MPEG-DASH、RTMP、WebRTCなど）の特徴や利点が分析されています。\n\n動画圧縮技術に関する学術論文やホワイトペーパーでは、最新のエンコーディング技術や最適化手法について詳しい情報が提供されています。\n\nネットワーク最適化とCDNの技術文書では、大規模配信における効率的なコンテンツ配信方法が解説されています。",
+        "align": "left"
       }
     }
   ]
