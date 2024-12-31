@@ -1,5 +1,6 @@
 import { getAllPosts } from '@/lib/blog';
 import Link from 'next/link';
+import { formatTagForUrl } from '@/lib/tags';
 
 export const metadata = {
   title: 'タグ一覧 - tech.jugoya.ai',
@@ -35,7 +36,7 @@ export default async function TagsPage() {
           {tagsWithCount.map(({ tag, count }) => (
             <Link
               key={tag}
-              href={`/tags/${encodeURIComponent(tag)}`}
+              href={`/tags/${formatTagForUrl(tag)}`}
               className={`
                 inline-flex items-center gap-2
                 px-4 py-2 rounded-full
