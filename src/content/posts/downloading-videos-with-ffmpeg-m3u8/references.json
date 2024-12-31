@@ -1,0 +1,54 @@
+{
+  "blocks": [
+    {
+      "id": "references-heading",
+      "type": "heading",
+      "props": {
+        "content": "参照情報",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "references-intro",
+      "type": "text",
+      "props": {
+        "content": "本記事の内容は、以下の公式ドキュメントやリソースを参考にしています。より詳細な情報については、これらの資料を参照してください。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "official-docs",
+      "type": "text",
+      "props": {
+        "content": "公式ドキュメント：\n\n- [FFmpeg公式ドキュメント](https://ffmpeg.org/ffmpeg.html)\n- [FFmpegビットストリームフィルタ](https://ffmpeg.org/ffmpeg-bitstream-filters.html)\n- [FFmpeg AAC Encoding Guide](https://trac.ffmpeg.org/wiki/Encode/AAC)",
+        "align": "left"
+      }
+    },
+    {
+      "id": "hls-specs",
+      "type": "text",
+      "props": {
+        "content": "HLS仕様に関する情報：\n\n- [HTTP Live Streaming (HLS) 仕様](https://developer.apple.com/streaming/)\n- [RFC 8216 - HTTP Live Streaming](https://tools.ietf.org/html/rfc8216)",
+        "align": "left"
+      }
+    },
+    {
+      "id": "additional-resources",
+      "type": "text",
+      "props": {
+        "content": "その他の参考資料：\n\n- [FFmpeg Wiki](https://trac.ffmpeg.org/wiki)\n- [FFmpeg Bug Tracker](https://trac.ffmpeg.org/)\n- [FFmpeg メーリングリスト](https://ffmpeg.org/contact.html)",
+        "align": "left"
+      }
+    },
+    {
+      "id": "update-note",
+      "type": "callout",
+      "props": {
+        "type": "info",
+        "title": "最新情報の確認",
+        "content": "FFmpegは継続的に更新されており、新しい機能や変更が追加される可能性があります。最新の情報については、常に公式ドキュメントを参照することをお勧めします。"
+      }
+    }
+  ]
+}

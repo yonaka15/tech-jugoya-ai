@@ -1,0 +1,82 @@
+{
+  "blocks": [
+    {
+      "id": "auth-heading",
+      "type": "heading",
+      "props": {
+        "content": "認証が必要なストリームの処理",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "auth-intro",
+      "type": "text",
+      "props": {
+        "content": "多くのストリーミングサービスでは、コンテンツへのアクセスに認証が必要です。これらのストリームをダウンロードする際は、適切な認証情報を FFmpeg に提供する必要があります。主な認証方式として、HTTPヘッダーを使用する方法とクッキーを使用する方法があります。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "header-auth",
+      "type": "text",
+      "props": {
+        "content": "HTTPヘッダーによる認証は、多くのサービスで使用される一般的な方法です。Authorization ヘッダーやカスタムヘッダーを使用して認証情報を送信します。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "header-command",
+      "type": "code",
+      "props": {
+        "language": "bash",
+        "code": "ffmpeg -headers \"Authorization: Bearer your-token-here\\r\\n\" \\\n       -i \"https://example.com/video.m3u8\" \\\n       -c copy output.mp4",
+        "fileName": "auth-header-download.sh",
+        "highlight": [1]
+      }
+    },
+    {
+      "id": "cookie-auth",
+      "type": "text",
+      "props": {
+        "content": "クッキーによる認証の場合、ブラウザから取得したクッキー情報をFFmpegに渡します。これは特に、Webブラウザでログインが必要なサービスで有用です。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "browser-capture",
+      "type": "mermaid",
+      "props": {
+        "content": "sequenceDiagram\n    participant B as Browser\n    participant D as Dev Tools\n    participant F as FFmpeg\n    B->>D: 開発者ツールを開く\n    B->>D: ネットワークタブで.m3u8を検索\n    D->>F: クッキー情報をコピー\n    F->>F: クッキーを使用してダウンロード",
+        "caption": "ブラウザからFFmpegへの認証情報の転送フロー",
+        "theme": "default"
+      }
+    },
+    {
+      "id": "cookie-command",
+      "type": "code",
+      "props": {
+        "language": "bash",
+        "code": "ffmpeg -cookies \"session=abc123; user_id=12345\" \\\n       -i \"https://example.com/video.m3u8\" \\\n       -c copy output.mp4",
+        "fileName": "cookie-auth-download.sh",
+        "highlight": [1]
+      }
+    },
+    {
+      "id": "complex-auth",
+      "type": "text",
+      "props": {
+        "content": "より複雑な認証フローが必要な場合、まずcurlコマンドでテストし、その後FFmpegコマンドに変換することが推奨されます。ブラウザの開発者ツールのネットワークタブから、必要な認証情報を確認できます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "curl-convert",
+      "type": "text",
+      "props": {
+        "content": "多くの場合、ブラウザの開発者ツールでは「cURLとしてコピー」機能が提供されています。これを利用することで、必要なすべてのヘッダーとクッキーを含むcurlコマンドを取得できます。このcurlコマンドをFFmpegコマンドに変換する際は、以下の点に注意してください：\n\n- User-Agentの設定が必要かどうか\n- Refererヘッダーが必要かどうか\n- 特定のカスタムヘッダーが必要かどうか",
+        "align": "left"
+      }
+    }
+  ]
+}

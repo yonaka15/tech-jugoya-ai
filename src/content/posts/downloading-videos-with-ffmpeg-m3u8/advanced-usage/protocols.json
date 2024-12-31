@@ -1,0 +1,82 @@
+{
+  "blocks": [
+    {
+      "id": "protocols-heading",
+      "type": "heading",
+      "props": {
+        "content": "プロトコル設定とセキュリティ",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "protocols-intro",
+      "type": "text",
+      "props": {
+        "content": "FFmpegでm3u8ファイルを処理する際、様々なプロトコルとセキュリティ設定が関係します。特にHTTPS接続やセキュアなストリーミングを扱う場合、適切なプロトコル設定が重要です。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "protocol-list",
+      "type": "text",
+      "props": {
+        "content": "m3u8ファイルの処理に関連する主なプロトコル：\n\n- HTTP/HTTPS: 基本的なWebプロトコル\n- TCP: ストリーミングの基盤となるプロトコル\n- TLS: セキュアな通信のための暗号化プロトコル\n- crypto: 暗号化されたコンテンツの処理\n- file: ローカルファイルシステムへのアクセス",
+        "align": "left"
+      }
+    },
+    {
+      "id": "protocol-whitelist",
+      "type": "code",
+      "props": {
+        "language": "bash",
+        "code": "ffmpeg -protocol_whitelist file,http,https,tcp,tls,crypto \\\n       -i \"https://example.com/video.m3u8\" \\\n       -c copy output.mp4",
+        "fileName": "protocol-settings.sh",
+        "highlight": [1]
+      }
+    },
+    {
+      "id": "https-handling",
+      "type": "text",
+      "props": {
+        "content": "HTTPSを使用する場合の注意点：\n\n- 信頼できる証明書が必要\n- 自己署名証明書の場合は追加の設定が必要\n- TLSバージョンの指定が必要な場合がある",
+        "align": "left"
+      }
+    },
+    {
+      "id": "security-flow",
+      "type": "mermaid",
+      "props": {
+        "content": "graph TD\n    A[リクエスト] -->|HTTPS| B{証明書チェック}\n    B -->|信頼できる| C[接続確立]\n    B -->|自己署名| D[証明書検証スキップ]\n    C -->|データ転送| E[ダウンロード]\n    D -->|データ転送| E",
+        "caption": "HTTPSリクエストの処理フロー",
+        "theme": "default"
+      }
+    },
+    {
+      "id": "ssl-options",
+      "type": "code",
+      "props": {
+        "language": "bash",
+        "code": "# 自己署名証明書を許可\nffmpeg -protocol_whitelist file,http,https,tcp,tls,crypto \\\n       -tls_verify 0 \\\n       -i \"https://example.com/video.m3u8\" \\\n       -c copy output.mp4",
+        "fileName": "ssl-settings.sh",
+        "highlight": [3]
+      }
+    },
+    {
+      "id": "secure-streaming",
+      "type": "text",
+      "props": {
+        "content": "セキュアなストリーミングプロトコルを使用する際の推奨事項：\n\n1. 常に最新のTLSバージョンを使用\n2. 適切な証明書の検証\n3. 必要な場合のみ証明書検証をスキップ\n4. セキュアな通信チャネルの確保\n\nこれらの設定は、特に商用環境や機密性の高いコンテンツを扱う場合に重要です。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "protocol-troubleshooting",
+      "type": "text",
+      "props": {
+        "content": "プロトコル関連の問題が発生した場合のトラブルシューティング手順：\n\n1. エラーメッセージの確認\n2. プロトコルサポートの確認\n3. 証明書の状態確認\n4. ネットワーク接続のテスト\n5. 必要なプロトコルのホワイトリスト追加",
+        "align": "left"
+      }
+    }
+  ]
+}

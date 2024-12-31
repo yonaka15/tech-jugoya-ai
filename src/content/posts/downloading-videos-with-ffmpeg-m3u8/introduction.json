@@ -1,0 +1,55 @@
+{
+  "blocks": [
+    {
+      "id": "intro",
+      "type": "text",
+      "props": {
+        "content": "動画配信の世界では、HTTP Live Streaming（HLS）とそのマニフェストファイルであるm3u8形式が広く使用されています。これらの動画を保存して後で視聴したい場合、FFmpegを使用することで効率的にダウンロードできます。本記事では、FFmpegを使用してm3u8形式の動画をダウンロードする方法を、基本から応用まで詳しく解説します。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "prerequisites-heading",
+      "type": "heading",
+      "props": {
+        "content": "事前準備",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "prerequisites",
+      "type": "text",
+      "props": {
+        "content": "作業を始める前に、FFmpegがシステムにインストールされていることを確認する必要があります。FFmpegは多くのプラットフォームで利用可能な、強力な動画処理ツールです。インストールされていない場合は、各OSの公式パッケージマネージャーやFFmpegの公式サイトからインストールできます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "m3u8-explanation",
+      "type": "text",
+      "props": {
+        "content": "m3u8ファイルは、HLSストリーミングのマニフェストファイルとして機能します。このファイルには、実際の動画データを含む複数の.tsファイル（トランスポートストリーム）へのリンクが含まれています。FFmpegは、このマニフェストファイルを解析し、すべての.tsファイルを適切な順序でダウンロードして結合することで、一つの動画ファイルを作成します。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "workflow-diagram",
+      "type": "mermaid",
+      "props": {
+        "content": "graph TD\n    A[m3u8ファイル] -->|解析| B[セグメントリスト取得]\n    B -->|ダウンロード| C[.tsファイル群]\n    C -->|結合| D[最終動画ファイル]\n    E[FFmpeg] -->|処理| B\n    E -->|処理| C\n    E -->|処理| D",
+        "caption": "FFmpegによるm3u8動画ダウンロードの基本フロー",
+        "theme": "default"
+      }
+    },
+    {
+      "id": "important-note",
+      "type": "callout",
+      "props": {
+        "type": "info",
+        "title": "重要な注意点",
+        "content": "m3u8形式の動画をダウンロードする際は、著作権や利用規約に十分注意してください。また、ダウンロードしたコンテンツの使用は個人的な目的に限定し、再配布や商用利用は避けるようにしましょう。"
+      }
+    }
+  ]
+}

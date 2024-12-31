@@ -1,0 +1,101 @@
+{
+  "blocks": [
+    {
+      "id": "optimization-heading",
+      "type": "heading",
+      "props": {
+        "content": "ダウンロードの最適化とパフォーマンス向上",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "optimization-intro",
+      "type": "text",
+      "props": {
+        "content": "m3u8形式の動画をダウンロードする際、適切な設定とオプションを使用することで、処理速度と信頼性を大幅に向上させることができます。ここでは、パフォーマンスを最適化するための様々なテクニックを紹介します。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "network-optimization",
+      "type": "text",
+      "props": {
+        "content": "ネットワークパフォーマンスの最適化には、以下の設定が有効です：\n\n- 再接続パラメータの調整\n- タイムアウト設定の最適化\n- バッファサイズの調整\n- 同時ダウンロード数の制御",
+        "align": "left"
+      }
+    },
+    {
+      "id": "network-settings",
+      "type": "code",
+      "props": {
+        "language": "bash",
+        "code": "ffmpeg -reconnect 1 \\\n       -reconnect_streamed 1 \\\n       -reconnect_delay_max 5 \\\n       -timeout 5000000 \\\n       -i \"https://example.com/video.m3u8\" \\\n       -c copy output.mp4",
+        "fileName": "network-optimization.sh",
+        "highlight": [1, 2, 3, 4]
+      }
+    },
+    {
+      "id": "performance-diagram",
+      "type": "mermaid",
+      "props": {
+        "content": "graph TD\n    A[入力ストリーム] -->|バッファリング| B[メモリバッファ]\n    B -->|処理| C[出力ファイル]\n    D[ネットワーク設定] -->|最適化| A\n    E[システムリソース] -->|割り当て| B\n    F[ディスクI/O] -->|最適化| C",
+        "caption": "パフォーマンス最適化のフロー",
+        "theme": "default"
+      }
+    },
+    {
+      "id": "cpu-memory",
+      "type": "text",
+      "props": {
+        "content": "CPU・メモリの使用を最適化するためのポイント：\n\n1. copyモードの使用（可能な場合）\n2. 適切なスレッド数の設定\n3. バッファサイズの調整\n4. 不要な変換の回避",
+        "align": "left"
+      }
+    },
+    {
+      "id": "cpu-settings",
+      "type": "code",
+      "props": {
+        "language": "bash",
+        "code": "# CPUとメモリの使用を最適化\nffmpeg -thread_queue_size 4096 \\\n       -i \"https://example.com/video.m3u8\" \\\n       -c copy \\\n       -max_muxing_queue_size 1024 \\\n       output.mp4",
+        "fileName": "cpu-optimization.sh",
+        "highlight": [2, 5]
+      }
+    },
+    {
+      "id": "disk-io",
+      "type": "text",
+      "props": {
+        "content": "ディスクI/Oの最適化も重要です：\n\n- 十分な空き容量の確保\n- 適切なファイルシステムの選択\n- バッファサイズの調整\n- 断片化の防止",
+        "align": "left"
+      }
+    },
+    {
+      "id": "monitoring-heading",
+      "type": "heading",
+      "props": {
+        "content": "パフォーマンスモニタリング",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "monitoring-text",
+      "type": "text",
+      "props": {
+        "content": "処理中のパフォーマンスを監視するには、-statsオプションを使用します。これにより、処理速度やフレームレート、エンコード品質などのリアルタイム情報が表示されます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "monitoring-command",
+      "type": "code",
+      "props": {
+        "language": "bash",
+        "code": "ffmpeg -i \"https://example.com/video.m3u8\" \\\n       -c copy \\\n       -stats \\\n       -progress progress.log \\\n       output.mp4",
+        "fileName": "monitoring.sh",
+        "highlight": [3, 4]
+      }
+    }
+  ]
+}

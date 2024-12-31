@@ -1,0 +1,75 @@
+{
+  "blocks": [
+    {
+      "id": "local-files-heading",
+      "type": "heading",
+      "props": {
+        "content": "ローカルm3u8ファイルの処理",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "local-files-intro",
+      "type": "text",
+      "props": {
+        "content": "ローカルに保存されたm3u8ファイルを処理する場合、相対パスの解決や必要なプロトコルの指定など、いくつかの追加的な考慮が必要になります。特に、m3u8ファイル内のセグメントパスが相対パスで記述されている場合は、適切な処理が必要です。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "protocol-whitelist",
+      "type": "text",
+      "props": {
+        "content": "ローカルファイルを処理する際は、FFmpegのプロトコルホワイトリストを適切に設定する必要があります。これにより、ローカルファイルシステムとHTTPプロトコルの両方を使用できるようになります。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "local-command",
+      "type": "code",
+      "props": {
+        "language": "bash",
+        "code": "ffmpeg -protocol_whitelist file,http,https,tcp,tls,crypto -i playlist.m3u8 -c copy output.mp4",
+        "fileName": "local-download.sh",
+        "highlight": [1]
+      }
+    },
+    {
+      "id": "path-resolution",
+      "type": "text",
+      "props": {
+        "content": "m3u8ファイル内のセグメントパスが相対パスである場合、それらを絶対パスに変換する必要があります。これは手動で行うか、スクリプトを使用して自動化できます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "path-example",
+      "type": "code",
+      "props": {
+        "language": "m3u8",
+        "code": "#EXTM3U\n#EXT-X-VERSION:3\n#EXT-X-TARGETDURATION:10\n#EXTINF:9.009,\nsegments/segment1.ts\n#EXTINF:9.009,\nsegments/segment2.ts\n\n# 上記を以下のように変更\n#EXTM3U\n#EXT-X-VERSION:3\n#EXT-X-TARGETDURATION:10\n#EXTINF:9.009,\nfile:///path/to/segments/segment1.ts\n#EXTINF:9.009,\nfile:///path/to/segments/segment2.ts",
+        "fileName": "playlist-paths.m3u8",
+        "highlight": [5, 6, 13, 14]
+      }
+    },
+    {
+      "id": "path-script",
+      "type": "code",
+      "props": {
+        "language": "python",
+        "code": "import os\n\ndef convert_to_absolute_paths(m3u8_file, base_path):\n    with open(m3u8_file, 'r') as f:\n        content = f.read()\n    \n    lines = content.split('\\n')\n    new_lines = []\n    \n    for line in lines:\n        if line.strip() and not line.startswith('#'):\n            # セグメントファイルの行の場合\n            abs_path = f'file://{os.path.abspath(os.path.join(base_path, line.strip()))}'\n            new_lines.append(abs_path)\n        else:\n            new_lines.append(line)\n    \n    with open('converted_playlist.m3u8', 'w') as f:\n        f.write('\\n'.join(new_lines))",
+        "fileName": "convert_paths.py",
+        "highlight": [12, 13]
+      }
+    },
+    {
+      "id": "best-practices",
+      "type": "text",
+      "props": {
+        "content": "ローカルファイルを処理する際のベストプラクティスとして、以下の点に注意してください：\n\n- m3u8ファイルとセグメントファイルは同じディレクトリ構造を維持する\n- ファイルパスに特殊文字やスペースを含めない\n- 必要に応じてファイルシステムの権限を確認する\n- 大量のセグメントファイルを扱う場合は、整理されたディレクトリ構造を使用する",
+        "align": "left"
+      }
+    }
+  ]
+}
