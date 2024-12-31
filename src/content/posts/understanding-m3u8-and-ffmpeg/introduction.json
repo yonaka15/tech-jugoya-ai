@@ -1,0 +1,98 @@
+{
+  "blocks": [
+    {
+      "id": "intro",
+      "type": "text",
+      "props": {
+        "content": "m3u8ファイルは動画や音声などのマルチメディア配信で使用される重要なファイル形式です。本記事では、m3u8ファイルの基本的な役割や特徴、最新のストリーミング動向、そしてFFmpegを用いた具体的な活用方法について詳しく解説します。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "what-is-m3u8-heading",
+      "type": "heading",
+      "props": {
+        "content": "m3u8ファイルとは？",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "what-is-m3u8",
+      "type": "text",
+      "props": {
+        "content": "m3u8ファイルは、音楽や動画などのプレイリスト情報を管理するテキストファイル形式の一種です。拡張子が「.m3u8」となっており、UTF-8エンコーディングで記述されています。Appleが提唱するHTTP Live Streaming（HLS）のマニフェストファイルとしてよく利用されるほか、多くのメディアプレーヤーでもサポートされています。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "features-callout",
+      "type": "callout",
+      "props": {
+        "type": "info",
+        "title": "m3u8ファイルが注目される理由",
+        "content": "1. **HLS対応**: HLSの基礎を担うm3u8はライブストリーミングやオンデマンド配信に幅広く使われています。\n\n2. **汎用性の高さ**: iTunes、VLC、Windows Media Playerなど、多くのプレーヤーで再生可能な形式です。\n\n3. **マルチビットレート配信に対応**: ネットワーク状況や端末性能に応じてビットレートを自動切り替えできる、アダプティブストリーミングを実現します。\n\n4. **UTF-8対応**: m3u8はUTF-8で記述されるため、文字化けなどのリスクが低く、日本語などのマルチバイト文字も扱いやすい特徴があります。"
+      }
+    },
+    {
+      "id": "trends-heading",
+      "type": "heading",
+      "props": {
+        "content": "最新のストリーミング技術動向",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "ll-hls-heading",
+      "type": "heading",
+      "props": {
+        "content": "1. 低遅延HLS（LL-HLS）",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "ll-hls",
+      "type": "text",
+      "props": {
+        "content": "スポーツやライブイベントなど、リアルタイム性が求められる配信で重要視され、遅延が大幅に削減されています。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "multi-cdn-heading",
+      "type": "heading",
+      "props": {
+        "content": "2. マルチCDN",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "multi-cdn",
+      "type": "text",
+      "props": {
+        "content": "複数のCDNを併用して配信の安定性を高め、世界中のユーザーに途切れないストリーミングを提供します。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "security-heading",
+      "type": "heading",
+      "props": {
+        "content": "3. セキュリティ強化",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "security",
+      "type": "text",
+      "props": {
+        "content": "- **DRMとの統合**: 各種DRM（FairPlay、Widevine、PlayReadyなど）対応が進み、著作権保護も強化\n- **トークン認証**: 無許可の視聴を防ぐためのアクセス制御機能が一般化\n- **AES-128暗号化**: HLS配信の暗号化方式として一般的に採用",
+        "align": "left"
+      }
+    }
+  ]
+}

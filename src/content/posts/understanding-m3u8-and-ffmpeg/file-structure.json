@@ -1,0 +1,47 @@
+{
+  "blocks": [
+    {
+      "id": "structure-heading",
+      "type": "heading",
+      "props": {
+        "content": "m3u8ファイルの基本構造",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "structure",
+      "type": "text",
+      "props": {
+        "content": "以下はシンプルなm3u8ファイルの例です。各行の意味を理解することで、ファイルの構造が把握できます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "m3u8-example",
+      "type": "code",
+      "props": {
+        "language": "m3u8",
+        "code": "#EXTM3U\n#EXT-X-VERSION:3\n#EXT-X-TARGETDURATION:10\n#EXT-X-MEDIA-SEQUENCE:0\n#EXTINF:9.009,\nsegment1.ts\n#EXTINF:9.009,\nsegment2.ts\n#EXTINF:9.009,\nsegment3.ts\n#EXT-X-ENDLIST",
+        "fileName": "playlist.m3u8"
+      }
+    },
+    {
+      "id": "m3u8-explanation",
+      "type": "text",
+      "props": {
+        "content": "- `#EXTM3U`: m3u8ファイルであることを示す宣言\n- `#EXT-X-TARGETDURATION`: セグメントの最大再生時間（秒）\n- `#EXT-X-MEDIA-SEQUENCE`: 再生すべきセグメント番号の開始点\n- `#EXTINF`: 次のセグメントの再生時間（秒）\n- `segment1.ts`: 動画・音声の実際のデータ（チャンク）",
+        "align": "left"
+      }
+    },
+    {
+      "id": "cautions",
+      "type": "callout",
+      "props": {
+        "title": "m3u8ファイルを扱う際の注意点",
+        "type": "warning",
+        "content": "1. **セキュリティリスク**：信頼できないURLから取得したm3u8ファイルを安易に再生すると、ウイルス感染や情報漏洩のリスクがあります。\n\n2. **互換性の問題**：プレーヤーやデバイスによってはm3u8に対応していないケースがあります。事前に環境をチェックしましょう。\n\n3. **ネットワークの影響**：m3u8を介したHLSはストリーミング再生が前提。回線速度や安定性が低い環境では再生が途切れる可能性があります。"
+      }
+    }
+  ]
+}

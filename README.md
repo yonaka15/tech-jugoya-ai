@@ -122,36 +122,20 @@ src/
 │   └── ...
 ├── content/             # コンテンツ ([詳細](src/content/README.md))
 │   └── posts/          # 記事JSON
+│       ├── single-post.json            # 単一ファイル記事
+│       └── multi-part-post/            # 分割された記事
+│           ├── index.json              # メタ情報とブロックの順序
+│           ├── introduction.json       # パート1のブロック
+│           └── conclusion.json         # パート2のブロック
 ├── types/              # 型定義 ([詳細](src/types/README.md))
 └── lib/               # ユーティリティ ([詳細](src/lib/README.md))
 ```
 
 ## 📝 記事の作成
 
+tech.jugoya.aiの記事は、単一のJSONファイルとして作成するか、複数のファイルに分割して管理できます。
+
 記事の作成方法や規則について、詳しくは[コンテンツ管理のドキュメント](src/content/README.md)を参照してください。
-
-基本的な記事の構造は以下の通りです：
-
-```json
-{
-  "meta": {
-    "title": "記事タイトル",
-    "description": "記事の説明",
-    "publishedAt": "2024-01-01T00:00:00.000Z",
-    "tags": ["Next.js", "TypeScript"]
-  },
-  "blocks": [
-    {
-      "id": "intro",
-      "type": "text",
-      "props": {
-        "content": "本文...",
-        "align": "left"
-      }
-    }
-  ]
-}
-```
 
 各ブロックタイプの使用方法については、[ブロックシステムのドキュメント](src/components/blog/blocks/README.md)を参照してください。
 

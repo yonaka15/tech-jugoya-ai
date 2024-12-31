@@ -21,25 +21,32 @@ type PostWithSlug = BlogPost & { slug: string };
 
 #### `getPost`
 
-指定されたスラッグの記事を取得します。
+指定されたスラッグの記事を取得します。単一ファイルの記事と分割された記事の両方に対応しています。
 
 ```typescript
 async function getPost(slug: string): Promise<BlogPost | null>
 ```
 
-- **引数**: `slug` - 記事のスラッグ（ファイル名から.jsonを除いた部分）
+- **引数**: `slug` - 記事のスラッグ（ファイル名または記事ディレクトリ名）
 - **戻り値**: 記事データ、または見つからない場合は`null`
+- **サポートする形式**:
+  1. 単一ファイル: `posts/article-name.json`
+  2. 分割ファイル: `posts/article-name/index.json` + パーツファイル
+- **動作**:
+  - 単一ファイルの場合は直接読み込み
+  - 分割ファイルの場合はindex.jsonのblocksの指定に従ってパーツファイルを読み込み・結合
 - **使用例**:
 ```typescript
-const post = await getPost('getting-started-with-nextjs');
-if (post) {
-  console.log(post.meta.title);
-}
+// 単一ファイル記事の取得
+const post = await getPost('getting-started');
+
+// 分割ファイル記事の取得（内部で自動的にパーツを結合）
+const longPost = await getPost('comprehensive-guide');
 ```
 
 #### `getAllPosts`
 
-すべての記事を取得し、公開日順にソートします。
+すべての記事を取得し、公開日順にソートします。単一ファイルと分割ファイルの両方の記事を含みます。
 
 ```typescript
 async function getAllPosts(): Promise<PostWithSlug[]>
@@ -48,6 +55,7 @@ async function getAllPosts(): Promise<PostWithSlug[]>
 - **戻り値**: スラッグ付きの記事データの配列（公開日の降順）
 - **特徴**:
   - 非公開（ドラフト）記事は除外
+  - 単一ファイル・分割ファイルの両方をサポート
   - エラーが発生した場合は空配列を返却
   - 自動的に公開日でソート
 - **使用例**:
@@ -68,6 +76,7 @@ async function getAllTags(): Promise<string[]>
 - **特徴**:
   - 重複を自動的に除去
   - アルファベット順にソート
+  - 単一ファイル・分割ファイル両方の記事から収集
 - **使用例**:
 ```typescript
 const tags = await getAllTags();

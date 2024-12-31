@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "title": "m3u8ファイルとは？仕組み・特徴からFFmpegを使った活用方法まで解説",
+    "description": "m3u8ファイルの基本から実践的なFFmpegの活用方法まで、包括的に解説します。ストリーミング配信に不可欠なm3u8の特徴とFFmpegを使った具体的な操作方法を学びましょう。",
+    "publishedAt": "2024-01-01T00:00:00.000Z",
+    "tags": ["m3u8", "ffmpeg", "video", "streaming"],
+    "author": "yonaka"
+  },
+  "blocks": [
+    {
+      "id": "introduction",
+      "type": "introduction",
+      "props": {}
+    },
+    {
+      "id": "file-structure",
+      "type": "file-structure",
+      "props": {}
+    },
+    {
+      "id": "ffmpeg-guide",
+      "type": "ffmpeg-guide",
+      "props": {}
+    }
+  ]
+}
