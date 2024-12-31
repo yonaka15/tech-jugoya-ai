@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "title": "FFmpegでm3u8形式の動画をダウンロードする実践ガイド",
+    "description": "FFmpegを使用してm3u8形式の動画をダウンロードする方法を詳しく解説します。基本的なコマンドから認証が必要なケース、エラー対応まで、実践的なテクニックを網羅的に紹介します。",
+    "publishedAt": "2024-01-31T00:00:00.000Z",
+    "tags": ["FFmpeg", "m3u8", "HLS", "動画処理", "ストリーミング"],
+    "author": {
+      "name": "tech.jugoya.ai",
+      "avatar": "/images/avatars/jugoya.png"
+    }
+  },
+  "blocks": [
+    {
+      "id": "introduction",
+      "type": "introduction",
+      "props": {}
+    },
+    {
+      "id": "basic-usage",
+      "type": "basic-usage",
+      "props": {}
+    },
+    {
+      "id": "common-issues/local-files",
+      "type": "common-issues/local-files",
+      "props": {}
+    },
+    {
+      "id": "common-issues/authentication",
+      "type": "common-issues/authentication",
+      "props": {}
+    },
+    {
+      "id": "common-issues/error-handling",
+      "type": "common-issues/error-handling",
+      "props": {}
+    },
+    {
+      "id": "advanced-usage/headers",
+      "type": "advanced-usage/headers",
+      "props": {}
+    },
+    {
+      "id": "advanced-usage/protocols",
+      "type": "advanced-usage/protocols",
+      "props": {}
+    },
+    {
+      "id": "advanced-usage/optimization",
+      "type": "advanced-usage/optimization",
+      "props": {}
+    },
+    {
+      "id": "references",
+      "type": "references",
+      "props": {}
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "blocks": [
+    {
+      "id": "error-heading",
+      "type": "heading",
+      "props": {
+        "content": "一般的なエラーと対処方法",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "error-intro",
+      "type": "text",
+      "props": {
+        "content": "m3u8形式の動画をダウンロードする際に発生する一般的なエラーと、その対処方法について解説します。多くの問題は、適切な設定やオプションの追加で解決できます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "error-types-heading",
+      "type": "heading",
+      "props": {
+        "content": "主なエラーの種類と解決方法",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "protocol-error",
+      "type": "code",
+      "props": {
+        "language": "bash",
+        "code": "# エラーメッセージ\nProtocol 'https' not on whitelist 'file'!\n\n# 解決方法\nffmpeg -protocol_whitelist file,http,https,tcp,tls,crypto -i input.m3u8 -c copy output.mp4",
+        "fileName": "protocol-error.txt",
+        "highlight": [2, 5]
+      }
+    },
+    {
+      "id": "protocol-explanation",
+      "type": "text",
+      "props": {
+        "content": "プロトコルエラーは、主にローカルファイルとHTTPSプロトコルを組み合わせて使用する際に発生します。-protocol_whitelistオプションで必要なプロトコルを明示的に許可することで解決できます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "403-error",
+      "type": "code",
+      "props": {
+        "language": "bash",
+        "code": "# エラーメッセージ\nServer returned 403 Forbidden\n\n# 解決方法\nffmpeg -headers \"User-Agent: Mozilla/5.0...\\r\\nReferer: https://example.com\\r\\n\" \\\n       -i \"https://example.com/video.m3u8\" -c copy output.mp4",
+        "fileName": "403-error.txt",
+        "highlight": [2, 5, 6]
+      }
+    },
+    {
+      "id": "403-explanation",
+      "type": "text",
+      "props": {
+        "content": "403エラーは主にサーバー側の認証やアクセス制限によって発生します。適切なヘッダー情報の追加や認証情報の設定で解決できることが多いです。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "timeout-error",
+      "type": "code",
+      "props": {
+        "language": "bash",
+        "code": "# エラーメッセージ\nConnection timed out\n\n# 解決方法\nffmpeg -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5 \\\n       -timeout 5000000 \\\n       -i \"https://example.com/video.m3u8\" -c copy output.mp4",
+        "fileName": "timeout-error.txt",
+        "highlight": [2, 5, 6, 7]
+      }
+    },
+    {
+      "id": "error-diagnostics",
+      "type": "heading",
+      "props": {
+        "content": "エラー診断とデバッグ",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "debug-explanation",
+      "type": "text",
+      "props": {
+        "content": "エラーの詳細な情報を得るために、FFmpegのデバッグオプションを活用できます。-v debugオプションを使用することで、より詳細なログ出力が得られ、問題の特定が容易になります。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "debug-command",
+      "type": "code",
+      "props": {
+        "language": "bash",
+        "code": "# デバッグ情報を出力\nffmpeg -v debug -i \"https://example.com/video.m3u8\" -c copy output.mp4 2> debug.log",
+        "fileName": "debug-output.sh",
+        "highlight": [2]
+      }
+    },
+    {
+      "id": "error-prevention",
+      "type": "text",
+      "props": {
+        "content": "エラーを事前に防ぐためのベストプラクティスとして以下が挙げられます：\n\n- ダウンロード前にm3u8ファイルの内容を確認\n- 十分な空きディスク容量の確保\n- 安定したネットワーク接続の確保\n- 適切な権限設定の確認\n- 定期的なFFmpegの更新",
+        "align": "left"
+      }
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "blocks": [
+    {
+      "id": "headers-heading",
+      "type": "heading",
+      "props": {
+        "content": "カスタムHTTPヘッダーの設定",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "headers-intro",
+      "type": "text",
+      "props": {
+        "content": "多くのストリーミングサービスでは、特定のHTTPヘッダーが要求されます。これらのヘッダーは認証、アクセス制御、クライアント識別などの目的で使用されます。FFmpegでは、-headersオプションを使用して必要なヘッダーを設定できます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "common-headers",
+      "type": "text",
+      "props": {
+        "content": "一般的に使用されるヘッダーには以下のようなものがあります：\n\n- User-Agent: クライアントの識別\n- Referer: リクエスト元のページ\n- Authorization: 認証情報\n- Origin: クロスオリジンリクエストの制御\n- X-Requested-With: XMLHttpRequestの識別",
+        "align": "left"
+      }
+    },
+    {
+      "id": "headers-example",
+      "type": "code",
+      "props": {
+        "language": "bash",
+        "code": "ffmpeg -headers \"User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)\\r\\n\"\\\n       -headers \"Referer: https://example.com\\r\\n\"\\\n       -headers \"Origin: https://example.com\\r\\n\"\\\n       -i \"https://example.com/video.m3u8\" \\\n       -c copy output.mp4",
+        "fileName": "custom-headers.sh",
+        "highlight": [1, 2, 3]
+      }
+    },
+    {
+      "id": "browser-dev-tools",
+      "type": "text",
+      "props": {
+        "content": "必要なヘッダー情報は、ブラウザの開発者ツールを使用して確認できます。ネットワークタブでm3u8ファイルのリクエストを見つけ、送信されているヘッダーを確認します。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "headers-flow",
+      "type": "mermaid",
+      "props": {
+        "content": "sequenceDiagram\n    participant B as Browser\n    participant D as Dev Tools\n    participant F as FFmpeg\n    B->>D: 開発者ツールを開く\n    B->>D: m3u8リクエストを探す\n    D->>D: ヘッダーを確認\n    D->>F: ヘッダー情報を転記\n    F->>F: ヘッダーを設定してダウンロード",
+        "caption": "ブラウザからFFmpegへのヘッダー情報の転送フロー",
+        "theme": "default"
+      }
+    },
+    {
+      "id": "headers-formatting",
+      "type": "text",
+      "props": {
+        "content": "FFmpegでヘッダーを設定する際の重要なポイント：\n\n- 各ヘッダーは\\r\\nで終わる必要がある\n- 複数のヘッダーは別々の-headersオプションで指定\n- ヘッダー値に空白が含まれる場合はクォートで囲む\n- ヘッダー名と値はコロン(:)とスペースで区切る",
+        "align": "left"
+      }
+    },
+    {
+      "id": "dynamic-headers",
+      "type": "text",
+      "props": {
+        "content": "動的に生成されるヘッダー（例：タイムスタンプベースのトークン）を扱う場合は、シェルスクリプトを使用して自動的にヘッダーを更新することができます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "dynamic-example",
+      "type": "code",
+      "props": {
+        "language": "bash",
+        "code": "#!/bin/bash\n\n# タイムスタンプベースのトークンを生成\nTIMESTAMP=$(date +%s)\nTOKEN=$(echo -n \"secret_key:$TIMESTAMP\" | md5sum | cut -d' ' -f1)\n\n# FFmpegコマンドを実行\nffmpeg -headers \"X-Auth-Time: $TIMESTAMP\\r\\n\" \\\n       -headers \"X-Auth-Token: $TOKEN\\r\\n\" \\\n       -i \"https://example.com/video.m3u8\" \\\n       -c copy output.mp4",
+        "fileName": "dynamic-headers.sh",
+        "highlight": [4, 5, 8, 9]
+      }
+    }
+  ]
+}

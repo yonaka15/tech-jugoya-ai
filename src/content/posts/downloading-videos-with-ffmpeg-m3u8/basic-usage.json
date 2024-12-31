@@ -1,0 +1,82 @@
+{
+  "blocks": [
+    {
+      "id": "basic-heading",
+      "type": "heading",
+      "props": {
+        "content": "基本的なダウンロード方法",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "basic-explanation",
+      "type": "text",
+      "props": {
+        "content": "FFmpegを使用してm3u8形式の動画をダウンロードする最も基本的な方法を見ていきましょう。m3u8ファイルのURLを入力として指定し、MP4形式で保存するための基本的なコマンドは以下の通りです。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "basic-command",
+      "type": "code",
+      "props": {
+        "language": "bash",
+        "code": "ffmpeg -i \"https://example.com/video.m3u8\" -c copy -bsf:a aac_adtstoasc output.mp4",
+        "fileName": "basic-download.sh",
+        "highlight": [1]
+      }
+    },
+    {
+      "id": "basic-params",
+      "type": "text",
+      "props": {
+        "content": "このコマンドで使用されているパラメータの意味を詳しく見ていきましょう：\n\n`-i`: 入力ファイルを指定します。この場合はm3u8ファイルのURLです。\n\n`-c copy`: コーデックをコピーモードに設定します。これにより、動画を再エンコードせずに直接コピーするため、処理が高速で、品質の劣化もありません。\n\n`-bsf:a aac_adtstoasc`: これは重要なオプションで、AACオーディオのフォーマットを変換します。HLSストリーミング（m3u8）で使用されるADTS形式から、MP4コンテナで必要とされるMPEG-4 Audio Specific Configuration形式に変換します。このオプションがないと、出力されたMP4ファイルのオーディオが正しく再生されない可能性があります。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "format-options",
+      "type": "text",
+      "props": {
+        "content": "出力形式は、ファイルの拡張子によって自動的に決定されます。一般的には以下の形式が使用されます：\n\n- `.mp4`: 最も一般的な形式で、ほとんどのデバイスやプレーヤーで再生可能\n- `.mkv`: より柔軟なコンテナ形式で、より多くのコーデックをサポート\n- `.ts`: 元のトランスポートストリーム形式をそのまま保持",
+        "align": "left"
+      }
+    },
+    {
+      "id": "progress-monitoring",
+      "type": "text",
+      "props": {
+        "content": "ダウンロードの進行状況を監視したい場合は、以下のように`-stats`または`-progress`オプションを追加できます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "progress-command",
+      "type": "code",
+      "props": {
+        "language": "bash",
+        "code": "ffmpeg -i \"https://example.com/video.m3u8\" -c copy -bsf:a aac_adtstoasc -stats output.mp4",
+        "fileName": "download-with-progress.sh",
+        "highlight": [1]
+      }
+    },
+    {
+      "id": "audio-note",
+      "type": "callout",
+      "props": {
+        "type": "info",
+        "title": "AACオーディオの処理について",
+        "content": "HLSストリーミングでは、AACオーディオはADTS（Audio Data Transport Stream）形式で提供されます。MP4ファイルに保存する際は、-bsf:a aac_adtstoascオプションを使用してAudio Specific Configuration形式に変換する必要があります。このオプションは、正しいオーディオ再生を確保するために重要です。"
+      }
+    },
+    {
+      "id": "completion-check",
+      "type": "text",
+      "props": {
+        "content": "ダウンロードが完了したら、出力ファイルが正しく生成されていることを確認してください。FFmpegは処理中にエラーが発生した場合、エラーメッセージを表示し、不完全なファイルが生成される可能性があります。正常に完了した場合は、出力ファイルが問題なく再生できるはずです。",
+        "align": "left"
+      }
+    }
+  ]
+}
