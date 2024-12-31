@@ -3,22 +3,15 @@
 import dynamic from 'next/dynamic';
 import { type MermaidBlockProps } from '@/types/blog';
 
-// Loadingコンポーネントを別で定義
 const LoadingDiagram = () => (
-  <div className="my-6">
-    <div className="w-full max-w-4xl mx-auto bg-gray-50 rounded-lg shadow-sm overflow-hidden">
-      <div className="p-4">
-        <div className="animate-pulse bg-gray-200 h-32 rounded" />
-      </div>
-    </div>
-  </div>
+  <div className="my-6 animate-pulse bg-gray-100 h-32 rounded" />
 );
 
-// Dynamic importの設定
 const DynamicMermaidDiagram = dynamic(
-  () => import('./MermaidDiagramInner'),
+  () => import('./MermaidDiagramInner').then(mod => mod.MermaidDiagramInner),
   {
     loading: LoadingDiagram,
+    ssr: false, // SSRを無効化
   }
 );
 
