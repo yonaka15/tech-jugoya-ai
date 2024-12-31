@@ -1,9 +1,9 @@
 {
   "meta": {
-    "title": "m3u8ファイルとは？仕組み・特徴からFFmpegを使った活用方法まで解説",
-    "description": "m3u8ファイルの基本から実践的なFFmpegの活用方法まで、包括的に解説します。ストリーミング配信に不可欠なm3u8の特徴とFFmpegを使った具体的な操作方法を学びましょう。",
+    "title": "【入門者向け】m3u8ファイルとは？HLSストリーミングの仕組みとFFmpegによる実践的な操作方法",
+    "description": "m3u8ファイルはHTTP Live Streaming（HLS）で使用される重要なプレイリストファイルです。本記事では、m3u8の基本概念から、アダプティブストリーミングでの役割、さらにFFmpegを使った変換・ダウンロード・作成まで、実践的な活用方法を具体的なコマンド例とともに解説します。",
     "publishedAt": "2024-01-01T00:00:00.000Z",
-    "tags": ["m3u8", "ffmpeg", "video", "streaming"],
+    "tags": ["m3u8", "ffmpeg", "video", "streaming", "HLS"],
     "author": "yonaka"
   },
   "blocks": [
@@ -18,8 +18,33 @@
       "props": {}
     },
     {
-      "id": "ffmpeg-guide",
-      "type": "ffmpeg-guide",
+      "id": "ffmpeg-basic",
+      "type": "ffmpeg/basic",
+      "props": {}
+    },
+    {
+      "id": "ffmpeg-multibitrate",
+      "type": "ffmpeg/multibitrate",
+      "props": {}
+    },
+    {
+      "id": "ffmpeg-live-streaming",
+      "type": "ffmpeg/live-streaming",
+      "props": {}
+    },
+    {
+      "id": "ffmpeg-subtitle",
+      "type": "ffmpeg/subtitle",
+      "props": {}
+    },
+    {
+      "id": "ffmpeg-error-handling",
+      "type": "ffmpeg/error-handling",
+      "props": {}
+    },
+    {
+      "id": "ffmpeg-references",
+      "type": "ffmpeg/references",
       "props": {}
     }
   ]

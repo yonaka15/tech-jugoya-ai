@@ -1,0 +1,137 @@
+{
+  "blocks": [
+    {
+      "id": "ffmpeg-heading",
+      "type": "heading",
+      "props": {
+        "content": "FFmpegによるm3u8の基本操作",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "ffmpeg-intro",
+      "type": "text",
+      "props": {
+        "content": "FFmpegは強力なマルチメディア処理ツールで、m3u8ファイルの操作に広く使用されています。ここでは基本的な操作方法から、よくあるエラーの対処法までを解説します。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "ffmpeg-workflow",
+      "type": "mermaid",
+      "props": {
+        "content": "graph LR\n    A[入力] -->|FFmpeg| B{処理タイプ}\n    B -->|ダウンロード| C[MP4ファイル]\n    B -->|変換| D[HLSストリーム]\n    B -->|結合| E[単一ファイル]\n    C --> F[完了]\n    D --> F\n    E --> F\n    style A fill:#f9f,stroke:#333,stroke-width:2px\n    style B fill:#bbf,stroke:#333,stroke-width:2px\n    style F fill:#bfb,stroke:#333,stroke-width:2px",
+        "caption": "FFmpegの基本的なワークフロー",
+        "theme": "default"
+      }
+    },
+    {
+      "id": "basic-download-heading",
+      "type": "heading",
+      "props": {
+        "content": "1. 基本的なダウンロード",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "basic-download",
+      "type": "code",
+      "props": {
+        "language": "bash",
+        "code": "# 基本的なダウンロード（最もシンプルな形式）\nffmpeg -i \"http://example.com/video.m3u8\" \\\n  -c copy -bsf:a aac_adtstoasc output.mp4\n\n# プログレスバーを表示しながらダウンロード\nffmpeg -stats -i \"http://example.com/video.m3u8\" \\\n  -c copy -bsf:a aac_adtstoasc output.mp4\n\n# 特定の時間範囲のみをダウンロード（例：開始30秒から2分間）\nffmpeg -i \"http://example.com/video.m3u8\" \\\n  -ss 30 -t 120 \\\n  -c copy -bsf:a aac_adtstoasc output.mp4",
+        "fileName": "basic-download.sh"
+      }
+    },
+    {
+      "id": "download-explanation",
+      "type": "callout",
+      "props": {
+        "type": "info",
+        "title": "ダウンロードオプションの説明",
+        "content": "- `-c copy`: 映像・音声コーデックをそのままコピー（再エンコード不要で高速）\n- `-bsf:a aac_adtstoasc`: AAC音声をMP4コンテナ用に変換\n- `-stats`: 進行状況を表示\n- `-ss`: 開始位置を指定（秒）\n- `-t`: 長さを指定（秒）"
+      }
+    },
+    {
+      "id": "format-conversion-heading",
+      "type": "heading",
+      "props": {
+        "content": "2. 形式変換とストリーミング作成",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "format-conversion",
+      "type": "code",
+      "props": {
+        "language": "bash",
+        "code": "# MP4からHLSストリームを作成\nffmpeg -i input.mp4 \\\n  -profile:v baseline -level 3.0 \\\n  -start_number 0 -hls_time 10 \\\n  -hls_list_size 0 -f hls output.m3u8\n\n# 解像度とビットレートを指定して変換\nffmpeg -i input.mp4 \\\n  -vf \"scale=1280:720\" \\\n  -b:v 2500k -b:a 128k \\\n  -hls_time 10 -hls_list_size 0 \\\n  -f hls output.m3u8",
+        "fileName": "format-conversion.sh"
+      }
+    },
+    {
+      "id": "conversion-process",
+      "type": "mermaid",
+      "props": {
+        "content": "sequenceDiagram\n    participant I as Input File\n    participant F as FFmpeg\n    participant O as Output\n    I->>F: Read Video\n    Note over F: Convert Format\n    F->>O: Create M3U8\n    loop Segmentation\n        F->>O: Create TS Segment\n        Note over O: Add to Playlist\n    end",
+        "caption": "HLS変換プロセスの流れ",
+        "theme": "default"
+      }
+    },
+    {
+      "id": "conversion-explanation",
+      "type": "callout",
+      "props": {
+        "type": "info",
+        "title": "変換オプションの説明",
+        "content": "- `-profile:v baseline`: 互換性の高いプロファイルを使用\n- `-hls_time`: 各セグメントの長さ（秒）\n- `-hls_list_size`: プレイリストに含めるセグメント数（0は無制限）\n- `-vf \"scale=1280:720\"`: 720p解像度に変換\n- `-b:v`: 動画のビットレート\n- `-b:a`: 音声のビットレート"
+      }
+    },
+    {
+      "id": "error-handling-heading",
+      "type": "heading",
+      "props": {
+        "content": "3. 基本的なエラー対処",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "error-handling",
+      "type": "code",
+      "props": {
+        "language": "bash",
+        "code": "# 接続エラー対策（リトライ回数を設定）\nffmpeg -reconnect 1 -reconnect_streamed 1 \\\n  -reconnect_delay_max 5 -i \"http://example.com/video.m3u8\" \\\n  -c copy output.mp4\n\n# プロトコルエラーの対策\nffmpeg -protocol_whitelist file,http,https,tcp,tls,crypto \\\n  -i \"http://example.com/video.m3u8\" \\\n  -c copy output.mp4\n\n# 403エラー対策（リファラーヘッダーを追加）\nffmpeg -headers \"Referer: http://example.com\\r\\n\" \\\n  -i \"http://example.com/video.m3u8\" \\\n  -c copy output.mp4",
+        "fileName": "error-handling.sh"
+      }
+    },
+    {
+      "id": "error-flow",
+      "type": "mermaid",
+      "props": {
+        "content": "graph TD\n    A[開始] --> B{接続エラー?}\n    B -->|Yes| C[リトライ設定]\n    B -->|No| D{プロトコルエラー?}\n    D -->|Yes| E[プロトコル許可]\n    D -->|No| F{403エラー?}\n    F -->|Yes| G[ヘッダー追加]\n    F -->|No| H[他のエラー処理]\n    C --> I[再試行]\n    E --> I\n    G --> I\n    H --> I\n    I --> J[完了]",
+        "caption": "エラー処理のフローチャート",
+        "theme": "default"
+      }
+    },
+    {
+      "id": "error-callout",
+      "type": "callout",
+      "props": {
+        "type": "warning",
+        "title": "エラー対処の重要ポイント",
+        "content": "1. **接続の安定性確保**:\n   - `reconnect` オプションでネットワークエラーに対応\n   - `reconnect_delay_max` で再試行の間隔を制御\n\n2. **プロトコル関連**:\n   - `protocol_whitelist` で必要なプロトコルを明示的に許可\n   - HTTPS関連のエラーはプロトコル設定で解決できることが多い\n\n3. **アクセス制限対策**:\n   - `headers` オプションでカスタムヘッダーを追加\n   - リファラーやUser-Agentの設定が必要なケースがある"
+      }
+    },
+    {
+      "id": "basic-summary",
+      "type": "text",
+      "props": {
+        "content": "これらの基本的な操作を理解することで、多くの一般的なシナリオに対応できます。より高度な使用法（マルチビットレート、ライブストリーミング、高度なエラー処理など）については、次のセクションで解説します。",
+        "align": "left"
+      }
+    }
+  ]
+}

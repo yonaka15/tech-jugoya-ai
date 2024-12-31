@@ -228,7 +228,7 @@ Mermaid.jsを使用して、フローチャート、シーケンス図、状態�
 ```typescript
 type MermaidBlockProps = {
   content: string;         // Mermaid図の定義
-  caption?: string;        // 図のキャプション（オプション）
+  caption?: string;        // 図のキャプション
   theme?: 'default' | 'dark' | 'forest' | 'neutral';  // テーマ設定
 };
 
@@ -251,35 +251,73 @@ const mermaidDiagram: Block = {
 };
 ```
 
-#### Mermaidブロックの特徴
+#### Mermaidの実装に関する重要な注意点
 
-1. **安定したレンダリング**
-   - SSRとクライアントサイドのハイドレーションを適切に処理
-   - コンテンツベースの安定したID生成
+1. **コンポーネントの実装**
+```typescript
+// MermaidBlock.tsx
+'use client';
+import { useEffect, useRef } from 'react';
+import mermaid from 'mermaid';
 
-2. **遅延読み込み**
-   - Mermaid.jsスクリプトは必要になったタイミングで読み込み
-   - パフォーマンスへの影響を最小限に抑制
+export const MermaidBlock: React.FC<MermaidBlockProps> = ({ content, caption, theme = 'default' }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
 
-3. **エラーハンドリング**
-   - 図の解析・レンダリングエラーを適切にキャッチ
-   - デバッグ情報をコンソールに出力
+  useEffect(() => {
+    if (containerRef.current) {
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: theme
+      });
+      
+      // 既存の内容をクリア
+      containerRef.current.innerHTML = '';
+      
+      // 新しい図を描画
+      mermaid.render('mermaid-diagram', content)
+        .then(({ svg }) => {
+          if (containerRef.current) {
+            containerRef.current.innerHTML = svg;
+          }
+        })
+        .catch(console.error);
+    }
+  }, [content, theme]);
 
-4. **テーマサポート**
-   - 複数のビルトインテーマに対応
-   - ダークモードとの連携も可能
+  return (
+    <div className="my-4">
+      <div ref={containerRef} className="overflow-x-auto" />
+      {caption && (
+        <p className="text-center text-sm text-gray-600 mt-2">{caption}</p>
+      )}
+    </div>
+  );
+};
+```
 
-#### 使用可能な図表タイプ
+2. **ハイドレーション対策**
+   - コンポーネントに`'use client'`ディレクティブを使用
+   - useEffectでのレンダリング
+   - 既存のコンテンツのクリア
+   - エラー処理の実装
 
-Mermaidブロックでは以下の図表タイプがサポートされています：
+3. **シンプルな図表の推奨**
+   - 複雑なスタイリングを避ける
+   - 基本的なフローチャート要素の使用
+   - 補足テキストによる説明の追加
 
-- フローチャート（`graph`/`flowchart`）
-- シーケンス図（`sequenceDiagram`）
-- クラス図（`classDiagram`）
-- 状態図（`stateDiagram`）
-- ER図（`erDiagram`）
-- ガントチャート（`gantt`）
-- 円グラフ（`pie`）
+4. **代替手段の提供**
+```typescript
+// コンテンツの構造をテキストでも表現
+const structureText = `
+フロー:
+1. 開始
+2. 条件判定
+   - Yes → 処理1
+   - No → 処理2
+3. 処理1/処理2 → 終了
+`;
+```
 
 ## 新しいブロックタイプの追加方法
 

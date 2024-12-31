@@ -115,6 +115,74 @@ content/
 - カテゴリータグは日本語可（例: "チュートリアル", "ベストプラクティス"）
 - タグは先頭を大文字に統一
 
+## Mermaidダイアグラムの使用
+
+Next.jsでMermaidを使用する場合、以下の点に注意が必要です：
+
+### 考慮すべき問題
+1. ハイドレーションエラー
+   - サーバーサイドレンダリング（SSR）とクライアントサイドレンダリングの不一致
+   - Mermaidの初期化タイミングの問題
+2. スタイリングの整合性
+   - フォントやカラースキームの不一致
+   - CSSの適用タイミング
+
+### 解決策
+1. **シンプルなグラフ構造の使用**
+   - 複雑なスタイリングを避ける
+   - 基本的なフローチャート要素の使用
+
+2. **テキストベースの代替説明**
+   - 複雑なダイアグラムには補足テキストを追加
+   - 箇条書きでの構造説明
+
+3. **クライアントサイドレンダリング**
+```typescript
+// mermaid-component.tsx
+'use client';
+import { useEffect, useRef } from 'react';
+import mermaid from 'mermaid';
+
+export const MermaidDiagram = ({ content }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      // 既存の内容をクリア
+      containerRef.current.innerHTML = '';
+
+      // Mermaidの初期化（毎回初期化して競合を防ぐ）
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'neutral',
+        securityLevel: 'strict'
+      });
+
+      // ユニークなID生成
+      const id = `mermaid-${Math.random().toString(36).substr(2, 9)}`;
+
+      // 非同期でレンダリング
+      mermaid.render(id, content)
+        .then(({ svg }) => {
+          if (containerRef.current) {
+            containerRef.current.innerHTML = svg;
+          }
+        })
+        .catch(error => {
+          console.error('Mermaid rendering failed:', error);
+          // エラー時は代替表示
+          if (containerRef.current) {
+            containerRef.current.innerHTML = 
+              `<pre class="text-sm bg-gray-100 p-4 rounded">${content}</pre>`;
+          }
+        });
+    }
+  }, [content]);
+
+  return <div ref={containerRef} className="overflow-x-auto my-4" />;
+};
+```
+
 ## 画像の管理
 
 - 記事関連の画像は`public/images/blog/[記事のスラッグ]/`に配置
@@ -163,6 +231,11 @@ content/
 - 段落は適度な長さに分割
 - 重要な用語は太字（`**bold**`）で強調
 - コードは適切にフォーマット
+- Calloutブロックは最小限に抑える
+  - 本当に注意が必要な事項のみに使用
+  - 通常のテキストで十分な場合はCalloutを避ける
+  - 連続したCalloutの使用は避ける
+  - アラート、警告、重要な注意事項など、真に強調が必要な情報に限定
 
 ### 画像
 - 必ず代替テキストを設定
