@@ -3,14 +3,15 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 type Props = {
-  params: { tag: string };
+  params: Promise<{ tag: string }>;
 };
 
 export async function generateMetadata({ params }: Props) {
-  const tag = decodeURIComponent(params.tag);
+  const { tag } = await params;
+  const decodedTag = decodeURIComponent(tag);
   return {
-    title: `${tag}の記事一覧 - tech.jugoya.ai`,
-    description: `tech.jugoya.aiの${tag}に関する記事一覧です。`,
+    title: `${decodedTag}の記事一覧 - tech.jugoya.ai`,
+    description: `tech.jugoya.aiの${decodedTag}に関する記事一覧です。`,
   };
 }
 
@@ -20,8 +21,9 @@ export async function generateStaticParams() {
 }
 
 export default async function TagPage({ params }: Props) {
-  const tag = decodeURIComponent(params.tag);
-  const posts = await getPostsByTag(tag);
+  const { tag } = await params;
+  const decodedTag = decodeURIComponent(tag);
+  const posts = await getPostsByTag(decodedTag);
 
   if (posts.length === 0) {
     notFound();
@@ -38,7 +40,7 @@ export default async function TagPage({ params }: Props) {
         </Link>
         <h1 className="text-4xl font-bold flex items-center gap-2">
           <span className="bg-blue-100 dark:bg-blue-900 px-3 py-1 rounded-full text-blue-800 dark:text-blue-200">
-            {tag}
+            {decodedTag}
           </span>
           <span className="text-2xl text-gray-600 dark:text-gray-400">
             の記事一覧
@@ -73,7 +75,7 @@ export default async function TagPage({ params }: Props) {
                         key={t}
                         className={`
                           text-sm px-2 py-1 rounded-full
-                          ${t === tag
+                          ${t === decodedTag
                             ? 'bg-blue-500 text-white'
                             : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
                           }
