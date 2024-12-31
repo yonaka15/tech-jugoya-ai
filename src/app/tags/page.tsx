@@ -26,15 +26,6 @@ export default async function TagsPage() {
   
   // タグの出現頻度に基づいてフォントサイズを計算
   const maxCount = Math.max(...tagsWithCount.map(t => t.count));
-  const minCount = Math.min(...tagsWithCount.map(t => t.count));
-  
-  const getTagSize = (count: number) => {
-    const minSize = 1;
-    const maxSize = 2.5;
-    if (maxCount === minCount) return 'text-lg';
-    const size = minSize + ((count - minCount) / (maxCount - minCount)) * (maxSize - minSize);
-    return `text-[${size}rem]`;
-  };
 
   return (
     <div className="container mx-auto px-4 py-8">
