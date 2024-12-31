@@ -18,6 +18,15 @@
       }
     },
     {
+      "id": "error-handling-flow",
+      "type": "mermaid",
+      "props": {
+        "content": "graph TD\n    A[セグメントリクエスト] -->|エラー発生| B{エラー種別判定}\n    B -->|ネットワークエラー| C[リトライ処理]\n    B -->|セグメント不存在| D[代替セグメント検索]\n    B -->|認証エラー| E[認証トークン更新]\n    C -->|リトライ成功| F[再生継続]\n    C -->|リトライ失敗| G[品質低下]\n    D -->|代替セグメント発見| F\n    D -->|代替なし| G\n    E -->|更新成功| F\n    E -->|更新失敗| H[エラー表示]\n    G --> F",
+        "caption": "HLSストリーミングのエラーハンドリングフロー",
+        "theme": "default"
+      }
+    },
+    {
       "id": "common-errors-heading",
       "type": "heading",
       "props": {
