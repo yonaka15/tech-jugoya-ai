@@ -1,0 +1,30 @@
+{
+  "blocks": [
+    {
+      "id": "references-heading",
+      "type": "heading",
+      "props": {
+        "content": "参考文献と関連リソース",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "references-text",
+      "type": "text",
+      "props": {
+        "content": "### 公式ドキュメント\n\n- [GraphQL公式ドキュメント](https://graphql.org/learn/)\n\n- [Apollo Server Documentation](https://www.apollographql.com/docs/apollo-server/)\n\n- [GraphQL Foundation](https://graphql.org/foundation/)\n\n### 技術仕様とベストプラクティス\n\n- [GraphQL Specification](https://spec.graphql.org/October2021/)\n\n- [GraphQL Best Practices](https://graphql.org/learn/best-practices/)\n\n- [Apollo GraphQL Best Practices Guide](https://www.apollographql.com/docs/apollo-server/security/authentication/)\n\n### Federated GraphQLと分散システム\n\n- [Federation Specification](https://www.apollographql.com/docs/federation/federation-spec/)\n\n- [WunderGraph: The GraphQL Report 2024](https://wundergraph.com/blog/graphql_report_2024)\n\n### パフォーマンスとスケーリング\n\n- [Solving the N+1 Problem](https://hygraph.com/blog/graphql-n-1-problem)\n\n- [DataLoader Documentation](https://github.com/graphql/dataloader)\n\n### セキュリティ\n\n- [GraphQL Security Checklist](https://www.apollographql.com/blog/graphql-security-checklist/)\n\n- [OWASP GraphQL Security](https://owasp.org/www-project-web-security-testing-guide/v42/4-Web_Application_Security_Testing/12-API_Testing/01-Testing_GraphQL)\n\n### 開発ツールとライブラリ\n\n- [Apollo Client](https://www.apollographql.com/docs/react/)\n\n- [GraphQL Code Generator](https://www.graphql-code-generator.com/)\n\n### コミュニティリソース\n\n- [The Guild Blog](https://the-guild.dev/blog)\n\n- [GraphQL Weekly Newsletter](https://www.graphqlweekly.com/)",
+        "align": "left"
+      }
+    },
+    {
+      "id": "note",
+      "type": "callout",
+      "props": {
+        "type": "info",
+        "title": "参考文献について",
+        "content": "これらの参照は2024年12月時点のものです。特にGraphQL関連の技術は急速に進化していますので、最新の情報は各公式サイトで確認することをお勧めします。"
+      }
+    }
+  ]
+}

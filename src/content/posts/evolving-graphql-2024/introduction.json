@@ -1,0 +1,74 @@
+{
+  "blocks": [
+    {
+      "id": "intro-text",
+      "type": "text",
+      "props": {
+        "content": "近年のWeb開発において、APIの設計と実装は increasingly complexな課題となっています。特に、マイクロサービスアーキテクチャの採用や、さまざまなクライアントプラットフォームへの対応が求められる現代において、効率的なAPIの構築は開発者にとって重要なスキルとなっています。\n\nその中で、GraphQLは単なるREST APIの代替としてだけでなく、より洗練されたAPI開発のアプローチとして進化を続けています。2024年に入り、特にDistributed GraphQLやFederationといった新しいパターンの採用が進み、エンタープライズでの利用も増加しています。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "rest-comparison-heading",
+      "type": "heading",
+      "props": {
+        "content": "従来のREST APIとGraphQLの根本的な違い",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "rest-comparison",
+      "type": "text",
+      "props": {
+        "content": "REST APIは、HTTPメソッドとエンドポイントの組み合わせによってリソースへのアクセスを表現します。この設計は直感的で理解しやすい一方で、複数のリソースを組み合わせた操作や、クライアントごとに異なるデータ要件に対応する際には制約が生じることがあります。\n\n一方、GraphQLは「クエリ言語」としてのアプローチを取ります。クライアントは必要なデータの構造を正確に指定でき、サーバーはその要求に応じて必要なデータのみを返します。これにより、over-fetchingやunder-fetchingの問題を解決し、より効率的なデータ転送を実現できます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "api-comparison-diagram",
+      "type": "mermaid",
+      "props": {
+        "content": "graph TD\n    A[クライアント] --> B{API Type}\n    B -->|REST API| C[GET /users/:id]\n    B -->|REST API| D[GET /users/:id/posts]\n    B -->|REST API| E[GET /users/:id/comments]\n    B -->|GraphQL| F[POST /graphql]\n    C --> G[User Data]\n    D --> H[Posts Data]\n    E --> I[Comments Data]\n    F --> J[Requested Data Only]",
+        "caption": "REST APIとGraphQLのデータ取得パターンの違い",
+        "theme": "default"
+      }
+    },
+    {
+      "id": "code-comparison",
+      "type": "text",
+      "props": {
+        "content": "具体的な例で見てみましょう。ユーザーとその投稿を取得する場合、REST APIとGraphQLでは以下のような違いがあります：",
+        "align": "left"
+      }
+    },
+    {
+      "id": "rest-example",
+      "type": "code",
+      "props": {
+        "language": "http",
+        "fileName": "REST API Example",
+        "code": "# First request - Get user\nGET /api/users/123\n\n# Second request - Get user's posts\nGET /api/users/123/posts",
+        "highlight": []
+      }
+    },
+    {
+      "id": "graphql-example",
+      "type": "code",
+      "props": {
+        "language": "graphql",
+        "fileName": "GraphQL Example",
+        "code": "query {\n  user(id: \"123\") {\n    id\n    name\n    email\n    posts {\n      id\n      title\n      content\n    }\n  }\n}",
+        "highlight": [2, 6]
+      }
+    },
+    {
+      "id": "modern-trends",
+      "type": "text",
+      "props": {
+        "content": "しかし、2024年におけるGraphQLの価値は、単にREST APIの代替として機能することだけではありません。現代のGraphQLは、特に以下の領域で重要な役割を果たしています：\n\n1. マイクロサービスの統合：複数のバックエンドサービスを単一のGraphQLレイヤーで統合し、クライアントに一貫したインターフェースを提供\n\n2. スキーマ駆動開発：型安全性とスキーマファーストの開発アプローチによる、より堅牢なAPI開発\n\n3. リアルタイムデータ処理：Subscriptionを活用したリアルタイムアップデートの実現\n\n以降のセクションでは、これらの要素について、実装例を交えながら詳しく解説していきます。",
+        "align": "left"
+      }
+    }
+  ]
+}

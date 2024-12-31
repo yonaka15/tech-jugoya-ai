@@ -1,0 +1,136 @@
+{
+  "blocks": [
+    {
+      "id": "arch-intro",
+      "type": "text",
+      "props": {
+        "content": "GraphQLの基本アーキテクチャを理解することは、効果的な実装を行う上で重要です。GraphQLは仕様（Specification）として定義されており、その実装は各言語やフレームワークに委ねられています。ここでは、GraphQLの主要なコンポーネントとその連携について説明します。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "architecture-diagram",
+      "type": "mermaid",
+      "props": {
+        "content": "graph TD\n    A[クライアント] -->|GraphQLクエリ| B[GraphQLサーバー]\n    B --> C[スキーマ定義]\n    B --> D[リゾルバー]\n    D -->|データ取得| E[(データベース)]\n    D -->|外部API呼び出し| F[外部サービス]\n    D -->|キャッシュ利用| G[キャッシュ層]",
+        "caption": "GraphQLの基本アーキテクチャ",
+        "theme": "default"
+      }
+    },
+    {
+      "id": "schema-heading",
+      "type": "heading",
+      "props": {
+        "content": "スキーマ定義とその重要性",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "schema-explanation",
+      "type": "text",
+      "props": {
+        "content": "GraphQLのスキーマは、APIで利用可能なデータ型とその関係性を定義します。スキーマは、クライアントとサーバーの間の「契約」として機能し、利用可能なクエリ、ミューテーション、サブスクリプションを明確に定義します。\n\nスキーマファースト開発では、まずAPIの設計をスキーマとして明確に定義し、その後で実装を進めていきます。これにより、フロントエンドとバックエンドの開発チームが並行して作業を進めることが可能になります。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "schema-example",
+      "type": "code",
+      "props": {
+        "language": "graphql",
+        "fileName": "schema.graphql",
+        "code": "type User {\n  id: ID!\n  name: String!\n  email: String!\n  posts: [Post!]\n}\n\ntype Post {\n  id: ID!\n  title: String!\n  content: String!\n  author: User!\n  comments: [Comment!]\n}\n\ntype Comment {\n  id: ID!\n  content: String!\n  author: User!\n  post: Post!\n}\n\ntype Query {\n  user(id: ID!): User\n  users: [User!]!\n  post(id: ID!): Post\n  posts: [Post!]!\n}\n\ntype Mutation {\n  createPost(title: String!, content: String!): Post!\n  createComment(postId: ID!, content: String!): Comment!\n}",
+        "highlight": [1, 8, 15, 21, 28]
+      }
+    },
+    {
+      "id": "resolver-heading",
+      "type": "heading",
+      "props": {
+        "content": "リゾルバーの実装",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "resolver-explanation",
+      "type": "text",
+      "props": {
+        "content": "リゾルバーは、GraphQLクエリの各フィールドに対してデータを取得する関数です。スキーマで定義された各フィールドには、対応するリゾルバー関数が必要です。リゾルバーは、データベースからのデータ取得、外部APIの呼び出し、計算処理など、さまざまな処理を実行できます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "resolver-example",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "resolvers.ts",
+        "code": "const resolvers = {\n  Query: {\n    user: async (_, { id }, context) => {\n      return await context.dataSources.users.findById(id);\n    },\n    users: async (_, __, context) => {\n      return await context.dataSources.users.findAll();\n    }\n  },\n  User: {\n    posts: async (parent, _, context) => {\n      // parentにはユーザーオブジェクトが含まれている\n      return await context.dataSources.posts.findByUserId(parent.id);\n    }\n  },\n  Mutation: {\n    createPost: async (_, { title, content }, context) => {\n      const userId = context.currentUser.id;\n      return await context.dataSources.posts.create({\n        title,\n        content,\n        userId\n      });\n    }\n  }\n};",
+        "highlight": [3, 11, 17]
+      }
+    },
+    {
+      "id": "datasource-heading",
+      "type": "heading",
+      "props": {
+        "content": "データソースの抽象化",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "datasource-explanation",
+      "type": "text",
+      "props": {
+        "content": "データソースの抽象化は、リゾルバーの実装をクリーンに保つための重要な要素です。Apollo ServerではDataSourcesクラスを使用して、データの取得ロジックをカプセル化できます。これにより：\n\n1. キャッシュの実装が容易になる\n2. エラーハンドリングを一元化できる\n3. データ取得ロジックを再利用できる\n\nまた、この抽象化により、将来的なデータソースの変更（例：データベースの変更やマイクロサービスへの移行）にも柔軟に対応できます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "datasource-example",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "UserDataSource.ts",
+        "code": "import { DataSource } from 'apollo-datasource';\n\nclass UsersDataSource extends DataSource {\n  private store: Database;\n\n  constructor({ store }) {\n    super();\n    this.store = store;\n  }\n\n  async findById(id: string) {\n    const user = await this.store.users.findOne({ id });\n    return this.userReducer(user);\n  }\n\n  async findAll() {\n    const users = await this.store.users.findMany();\n    return users.map(user => this.userReducer(user));\n  }\n\n  private userReducer(user) {\n    return {\n      id: user.id,\n      name: user.name,\n      email: user.email\n    };\n  }\n}",
+        "highlight": [11, 16, 20]
+      }
+    },
+    {
+      "id": "execution-flow-heading",
+      "type": "heading",
+      "props": {
+        "content": "クエリの実行フロー",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "execution-flow-diagram",
+      "type": "mermaid",
+      "props": {
+        "content": "sequenceDiagram\n    participant Client as クライアント\n    participant Server as GraphQLサーバー\n    participant Resolver as リゾルバー\n    participant DataSource as データソース\n    participant DB as データベース\n    \n    Client->>Server: GraphQLクエリ送信\n    Server->>Server: クエリのバリデーション\n    Server->>Resolver: リゾルバー呼び出し\n    Resolver->>DataSource: データ要求\n    DataSource->>DB: データベースクエリ\n    DB->>DataSource: データ返却\n    DataSource->>Resolver: 整形されたデータ\n    Resolver->>Server: 結果返却\n    Server->>Client: レスポンス送信",
+        "caption": "GraphQLクエリの実行フロー",
+        "theme": "default"
+      }
+    },
+    {
+      "id": "execution-flow-explanation",
+      "type": "text",
+      "props": {
+        "content": "GraphQLのクエリ実行は、複数のフェーズで構成される洗練されたプロセスです。各フェーズでは：\n\n1. クエリのバリデーション：スキーマに対する構文チェックと型チェック\n2. リゾルバーの実行：必要なデータの取得と変換\n3. レスポンスの構築：クエリで要求された形式でのデータ整形\n\nこの実行フローを理解することで、効率的なクエリの設計とパフォーマンスの最適化が可能になります。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "summary",
+      "type": "text",
+      "props": {
+        "content": "GraphQLの基本アーキテクチャを理解することは、効果的な実装の第一歩です。スキーマ、リゾルバー、データソースの適切な設計と実装により、保守性が高く、パフォーマンスの良いAPIを構築することができます。次のセクションでは、これらの基礎の上に構築される、より高度な機能と実装パターンについて説明していきます。",
+        "align": "left"
+      }
+    }
+  ]
+}
