@@ -9,15 +9,15 @@ export const Footer: React.FC = () => {
         <div className="flex flex-col items-center justify-center space-y-4">
           <div className="flex items-center space-x-2">
             <a 
-              href="https://tech.jugoya.ai" 
+              href="https://jugoya.ai" 
               className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
             >
-              tech.jugoya.ai
+              jugoya.ai
             </a>
           </div>
           <div className="text-sm text-gray-500 dark:text-gray-400">
             <p>
-              © {currentYear} tech.jugoya.ai All rights reserved.
+              © {currentYear} jugoya.ai All rights reserved.
             </p>
             <p className="mt-2 text-xs">
               Content licensed under{' '}
