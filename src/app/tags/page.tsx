@@ -19,8 +19,8 @@ async function getTagsWithCount() {
   
   // カウントが0より大きいタグのみを返す
   return Array.from(tagCount.entries())
-    .filter(([_, count]) => count > 0)
-    .map(([tag, count]) => ({ tag, count }))
+    .filter(entry => entry[1] > 0)
+    .map(entry => ({ tag: entry[0], count: entry[1] }))
     .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag));
 }
 
