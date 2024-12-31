@@ -10,14 +10,17 @@ async function getTagsWithCount() {
   const posts = await getAllPosts();
   const tagCount = new Map<string, number>();
   
+  // タグの使用回数を集計
   posts.forEach(post => {
     post.meta.tags.forEach(tag => {
       tagCount.set(tag, (tagCount.get(tag) || 0) + 1);
     });
   });
   
+  // カウントが0より大きいタグのみを返す
   return Array.from(tagCount.entries())
-    .map(([tag, count]) => ({ tag, count }))
+    .filter(entry => entry[1] > 0)
+    .map(entry => ({ tag: entry[0], count: entry[1] }))
     .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag));
 }
 
