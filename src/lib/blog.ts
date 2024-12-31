@@ -14,6 +14,12 @@ async function isDirectory(path: string): Promise<boolean> {
   }
 }
 
+// BlockIDを生成するユーティリティ関数
+function generateBlockId(filePath: string, blockId: string): string {
+  const prefix = path.basename(filePath, '.json').replace(/\//g, '_');
+  return `${prefix}_${blockId}`;
+}
+
 export async function getPost(slug: string): Promise<BlogPost | null> {
   try {
     const postsDirectory = path.join(process.cwd(), 'src', 'content', 'posts');
@@ -26,7 +32,6 @@ export async function getPost(slug: string): Promise<BlogPost | null> {
       const indexContent = await fs.readFile(indexPath, 'utf-8');
       const indexPost = JSON.parse(indexContent) as BlogPost;
       
-      // blocksにある順序通りにファイルを読み込む
       const updatedBlocks: Block[] = [];
       
       for (const block of indexPost.blocks) {
@@ -36,9 +41,15 @@ export async function getPost(slug: string): Promise<BlogPost | null> {
         try {
           const blockContent = await fs.readFile(blockFilePath, 'utf-8');
           const { blocks } = JSON.parse(blockContent) as { blocks: Block[] };
-          updatedBlocks.push(...blocks);
+          
+          // 各ブロックのIDを解決
+          const resolvedBlocks = blocks.map(b => ({
+            ...b,
+            id: generateBlockId(blockFilePath, b.id)
+          }));
+          
+          updatedBlocks.push(...resolvedBlocks);
         } catch (error) {
-          // ファイルが見つからない場合は元のブロックをそのまま使用
           console.error(`Failed to load block file: ${blockFilePath}`, error);
           updatedBlocks.push(block);
         }
@@ -52,7 +63,18 @@ export async function getPost(slug: string): Promise<BlogPost | null> {
       // 単一ファイルの場合
       const filePath = path.join(postsDirectory, `${slug}.json`);
       const fileContent = await fs.readFile(filePath, 'utf-8');
-      return JSON.parse(fileContent) as BlogPost;
+      const post = JSON.parse(fileContent) as BlogPost;
+      
+      // 単一ファイルの場合もブロックIDを解決
+      const resolvedBlocks = post.blocks.map(block => ({
+        ...block,
+        id: generateBlockId(filePath, block.id)
+      }));
+
+      return {
+        ...post,
+        blocks: resolvedBlocks
+      };
     }
   } catch (error) {
     console.error(`Failed to load post: ${slug}`, error);

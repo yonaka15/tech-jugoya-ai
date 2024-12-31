@@ -4,7 +4,7 @@
       "id": "subtitle-heading",
       "type": "heading",
       "props": {
-        "content": "字幕とメタデータの処理",
+        "content": "HLSストリーミングにおける字幕の実装",
         "level": 2,
         "align": "left"
       }
@@ -13,42 +13,118 @@
       "id": "subtitle-intro",
       "type": "text",
       "props": {
-        "content": "HLSストリーミングでの字幕対応は、アクセシビリティと多言語対応の観点から重要です。FFmpegを使用して字幕を適切に処理し、配信する方法を解説します。",
+        "content": "HLSストリーミングにおける字幕の実装は、アクセシビリティと多言語対応の観点から非常に重要です。FFmpegを使用することで、様々な形式の字幕をHLSストリーミングに統合することができます。このセクションでは、字幕ファイルの変換、セグメント化、そしてマルチ言語字幕の実装方法について解説します。",
         "align": "left"
       }
     },
     {
-      "id": "subtitle-process",
-      "type": "mermaid",
+      "id": "subtitle-formats-heading",
+      "type": "heading",
       "props": {
-        "content": "graph LR\n    A[入力ファイル] --> B{FFmpeg}\n    C[字幕ファイル] --> B\n    B --> D[HLSセグメント]\n    B --> E[字幕セグメント]\n    D --> F[マスタープレイリスト]\n    E --> F\n    style B fill:#bbf,stroke:#333,stroke-width:2px\n    style F fill:#bfb,stroke:#333,stroke-width:2px",
-        "caption": "字幕処理のワークフロー",
-        "theme": "default"
-      }
-    },
-    {
-      "id": "subtitle-examples",
-      "type": "code",
-      "props": {
-        "language": "bash",
-        "code": "# 字幕付きHLSストリームの作成\nffmpeg -i video.mp4 -i subtitles.srt \\\n  -map 0:v -map 0:a -map 1 \\\n  -c:v libx264 -c:a aac \\\n  -c:s webvtt \\\n  -f hls \\\n  -hls_time 10 \\\n  -hls_list_size 0 \\\n  -hls_segment_type fmp4 \\\n  -hls_fmp4_init_filename init.mp4 \\\n  -var_stream_map \"v:0,a:0 s:0\" \\\n  -master_pl_name master.m3u8 \\\n  stream_%v.m3u8\n\n# 複数言語の字幕対応\nffmpeg -i video.mp4 \\\n  -i subtitles_en.srt \\\n  -i subtitles_ja.srt \\\n  -map 0:v -map 0:a \\\n  -map 1 -map 2 \\\n  -c:v libx264 -c:a aac \\\n  -c:s webvtt \\\n  -metadata:s:s:0 language=eng \\\n  -metadata:s:s:1 language=jpn \\\n  -f hls \\\n  -hls_time 10 \\\n  -var_stream_map \"v:0,a:0 s:0,s:1\" \\\n  -master_pl_name master.m3u8 \\\n  stream_%v.m3u8",
-        "fileName": "subtitle_processing.sh"
+        "content": "HLSでサポートされる字幕形式",
+        "level": 3,
+        "align": "left"
       }
     },
     {
       "id": "subtitle-formats",
-      "type": "callout",
+      "type": "text",
       "props": {
-        "type": "info",
-        "title": "対応する字幕形式",
-        "content": "- **入力形式**:\n  - SRT (SubRip)\n  - ASS/SSA (Advanced SubStation Alpha)\n  - WebVTT\n  - TTML (Timed Text Markup Language)\n\n- **出力形式**:\n  - WebVTT (Web Video Text Tracks)\n    - HLS配信に最適\n    - ブラウザでの広い互換性\n    - スタイリングのサポート\n\n- **特徴**:\n  - タイミングの自動調整\n  - 文字コード変換\n  - スタイル情報の保持"
+        "content": "HLSでは主に以下の字幕形式がサポートされています。\n\nWebVTT（Web Video Text Tracks）は、HLSで最も一般的に使用される字幕形式です。テキストベースで扱いやすく、スタイリングも可能です。また、チャプターマーカーやメタデータの記述にも使用できます。\n\nCEA-608/708は、主に北米で使用されるクローズドキャプション規格です。放送用コンテンツでよく使用され、FFmpegでもサポートされています。\n\nTEXT/TTML（Timed Text Markup Language）は、XMLベースの字幕形式で、より高度なスタイリングと構造化が可能です。特に放送業界で広く使用されています。",
+        "align": "left"
       }
     },
     {
-      "id": "subtitle-metadata",
+      "id": "webvtt-conversion-heading",
+      "type": "heading",
+      "props": {
+        "content": "WebVTT字幕の変換と統合",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "webvtt-basic-command",
+      "type": "code",
+      "props": {
+        "language": "bash",
+        "code": "ffmpeg -i input.mp4 \\\n  -i subtitles.srt \\\n  -c:v libx264 -c:a aac \\\n  -c:s webvtt \\\n  -f hls \\\n  -hls_time 6 \\\n  -hls_list_size 0 \\\n  -hls_segment_type fmp4 \\\n  -hls_flags single_file \\\n  -var_stream_map \"v:0,a:0,s:0,name:with-subtitles\" \\\n  -master_pl_name master.m3u8 \\\n  stream_%v.m3u8",
+        "fileName": "webvtt-conversion.sh"
+      }
+    },
+    {
+      "id": "webvtt-command-explanation",
       "type": "text",
       "props": {
-        "content": "字幕処理では、単なる変換だけでなく、適切なメタデータの設定も重要です。言語コードの設定や文字コードの処理、タイミングの同期などに注意を払う必要があります。",
+        "content": "このコマンドでは、SRT形式の字幕ファイルをWebVTTに変換し、HLSストリームに統合しています。\n\n-c:s webvttで字幕コーデックをWebVTTに指定します。FFmpegは自動的にSRTからWebVTTへの変換を行います。\n\n-hls_segment_type fmp4を指定することで、fMP4セグメントを生成します。これは字幕の同期性を向上させるために推奨される設定です。\n\n-hls_flags single_fileは、字幕を単一のファイルとして出力します。これにより、字幕のセグメント化に関する問題を回避できます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "multilingual-subtitles-heading",
+      "type": "heading",
+      "props": {
+        "content": "多言語字幕の実装",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "multilingual-command",
+      "type": "code",
+      "props": {
+        "language": "bash",
+        "code": "ffmpeg -i input.mp4 \\\n  -i subtitles_en.srt \\\n  -i subtitles_ja.srt \\\n  -i subtitles_es.srt \\\n  -c:v libx264 -c:a aac \\\n  -c:s webvtt \\\n  -f hls \\\n  -hls_time 6 \\\n  -hls_list_size 0 \\\n  -hls_flags single_file \\\n  -var_stream_map \"v:0,a:0,s:0,name:english v:0,a:0,s:1,name:japanese v:0,a:0,s:2,name:spanish\" \\\n  -master_pl_name master.m3u8 \\\n  -hls_segment_filename stream_%v_%03d.ts \\\n  stream_%v.m3u8",
+        "fileName": "multilingual-subtitles.sh"
+      }
+    },
+    {
+      "id": "multilingual-explanation",
+      "type": "text",
+      "props": {
+        "content": "多言語字幕の実装では、複数の字幕ファイルを同時に処理し、それぞれを個別のストリームとして管理します。var_stream_mapを使用して、各言語版のストリームを定義します。\n\nマスタープレイリストには、各言語の字幕ストリームが個別に記述され、クライアントは必要な言語を選択して再生することができます。この方式により、ユーザーは再生中でも字幕言語をシームレスに切り替えることが可能になります。\n\n字幕ファイルのタイミングは、動画のフレームレートと正確に同期している必要があります。タイミングがずれている場合は、subtitleタイムシフトフィルターを使用して調整できます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "styling-heading",
+      "type": "heading",
+      "props": {
+        "content": "字幕のスタイリングとカスタマイズ",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "styling",
+      "type": "text",
+      "props": {
+        "content": "WebVTT形式では、CSSを使用して字幕のスタイルをカスタマイズすることができます。フォント、サイズ、色、位置などの指定が可能です。ただし、プレーヤーの互換性に注意が必要です。\n\n字幕のスタイリングは、WebVTTファイル内で直接指定するか、プレーヤー側のスタイル設定を使用します。複雑なスタイリングが必要な場合は、プレーヤー側での実装を推奨します。これにより、より柔軟なカスタマイズと、プレーヤー間の互換性の維持が可能になります。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "subtitle-synchronization",
+      "type": "text",
+      "props": {
+        "content": "字幕の同期は、品質の高いストリーミング体験に不可欠です。FFmpegでは、-itsoffsetオプションを使用して字幕のタイミングを微調整できます。また、字幕ファイルのフレームレートが動画と異なる場合は、-subfpsオプションで調整が可能です。\n\nライブストリーミングでの字幕同期には特に注意が必要です。低遅延設定と字幕の同期性のバランスを取ることが重要です。セグメント長を短くすることで同期性は向上しますが、システムの負荷も増加するため、適切なバランスを見つける必要があります。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "troubleshooting-heading",
+      "type": "heading",
+      "props": {
+        "content": "字幕関連の一般的な問題と解決方法",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "troubleshooting",
+      "type": "text",
+      "props": {
+        "content": "字幕の実装時によく遭遇する問題とその解決方法について説明します。\n\n文字化けの問題は、入力ファイルのエンコーディングが適切に認識されていない場合に発生します。-sub_charencオプションで正しいエンコーディングを指定することで解決できます。\n\n字幕の表示タイミングがずれる場合は、-subfps（字幕のフレームレート）と-itsoffset（タイムオフセット）を組み合わせて調整します。\n\nセグメント化された字幕で同期がずれる場合は、-hls_flags single_fileオプションの使用を検討します。これにより、字幕を単一ファイルとして扱い、同期の問題を回避できます。\n\nまた、プレーヤーの互換性の問題は、より標準的なWebVTT形式の使用と、複雑なスタイリングの回避により、最小限に抑えることができます。",
         "align": "left"
       }
     }

@@ -115,72 +115,67 @@ content/
 - カテゴリータグは日本語可（例: "チュートリアル", "ベストプラクティス"）
 - タグは先頭を大文字に統一
 
-## Mermaidダイアグラムの使用
+## 記事の作成ガイドライン
 
-Next.jsでMermaidを使用する場合、以下の点に注意が必要です：
+### 記述スタイル
 
-### 考慮すべき問題
-1. ハイドレーションエラー
-   - サーバーサイドレンダリング（SSR）とクライアントサイドレンダリングの不一致
-   - Mermaidの初期化タイミングの問題
-2. スタイリングの整合性
-   - フォントやカラースキームの不一致
-   - CSSの適用タイミング
+本文の記述は、箇条書きやCalloutの多用を避け、説明的な文章形式を基本とします：
 
-### 解決策
-1. **シンプルなグラフ構造の使用**
-   - 複雑なスタイリングを避ける
-   - 基本的なフローチャート要素の使用
+- **文章による説明**: 
+  単なる項目の列挙ではなく、それぞれの要素がどのように関連し、なぜ重要なのかを説明的に記述します。これにより、読者は文脈を理解しやすくなります。
 
-2. **テキストベースの代替説明**
-   - 複雑なダイアグラムには補足テキストを追加
-   - 箇条書きでの構造説明
+- **段落の構成**:
+  関連する情報をまとめて段落を構成し、各段落は明確なトピックを持つようにします。段落間のつながりを意識し、自然な流れを作ります。
 
-3. **クライアントサイドレンダリング**
-```typescript
-// mermaid-component.tsx
-'use client';
-import { useEffect, useRef } from 'react';
-import mermaid from 'mermaid';
+- **Calloutの使用**:
+  Calloutブロックは、本当に重要な警告や注意事項のみに限定して使用します。通常の説明は本文中に組み込みます。
 
-export const MermaidDiagram = ({ content }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+- **箇条書きの使用**:
+  箇条書きは、手順や具体的な選択肢を示す場合など、本当に必要な場合のみに限定します。可能な限り、文章の中で自然に情報を伝えることを心がけます。
 
-  useEffect(() => {
-    if (containerRef.current) {
-      // 既存の内容をクリア
-      containerRef.current.innerHTML = '';
+例:
+```
+// 避けるべき記述
+Reactの特徴:
+- コンポーネントベース
+- 仮想DOM
+- JSX記法
+- 単方向データフロー
 
-      // Mermaidの初期化（毎回初期化して競合を防ぐ）
-      mermaid.initialize({
-        startOnLoad: false,
-        theme: 'neutral',
-        securityLevel: 'strict'
-      });
+// 推奨される記述
+Reactは、コンポーネントベースのアーキテクチャを採用しているJavaScriptライブラリです。
+UI要素を再利用可能なコンポーネントとして設計することで、開発効率と保守性を高めています。
+仮想DOMを採用することで、効率的なレンダリングを実現し、パフォーマンスを最適化しています。
+また、JSX記法を使用することで、HTMLライクな直感的な記述が可能になり、
+UI構造の理解や開発がしやすくなっています。さらに、単方向データフローの採用により、
+アプリケーションの状態管理が予測可能で追跡しやすいものとなっています。
+```
 
-      // ユニークなID生成
-      const id = `mermaid-${Math.random().toString(36).substr(2, 9)}`;
+### コードブロックの記述
 
-      // 非同期でレンダリング
-      mermaid.render(id, content)
-        .then(({ svg }) => {
-          if (containerRef.current) {
-            containerRef.current.innerHTML = svg;
-          }
-        })
-        .catch(error => {
-          console.error('Mermaid rendering failed:', error);
-          // エラー時は代替表示
-          if (containerRef.current) {
-            containerRef.current.innerHTML = 
-              `<pre class="text-sm bg-gray-100 p-4 rounded">${content}</pre>`;
-          }
-        });
-    }
-  }, [content]);
+コードブロックを含める場合は、以下の点に注意します：
 
-  return <div ref={containerRef} className="overflow-x-auto my-4" />;
-};
+1. 適切な文脈提供
+   - コードの前後で、そのコードが何を行うのか、なぜその実装が選ばれたのかを説明
+   - 重要な部分には具体的な説明を追加
+
+2. 実用的なコード例
+   - 実際の使用シーンを想定したコード
+   - エラーハンドリングなど、実践的な要素を含める
+   - コメントで重要なポイントを説明
+
+例:
+```json
+{
+  "id": "code-example",
+  "type": "code",
+  "props": {
+    "language": "typescript",
+    "fileName": "example.ts",
+    "code": "try {\n  // データの取得と処理\n  const data = await fetchData();\n  const result = processData(data);\n  \n  // 結果の保存\n  await saveResult(result);\n} catch (error) {\n  // エラーログの記録\n  logger.error('データ処理中にエラーが発生:', error);\n  // ユーザーへの通知\n  notifyUser('データの処理に失敗しました');\n}",
+    "highlight": [2, 3, 6]
+  }
+}
 ```
 
 ## 画像の管理
@@ -228,14 +223,12 @@ export const MermaidDiagram = ({ content }) => {
 - 40文字以内を推奨
 
 ### 本文
-- 段落は適度な長さに分割
+- パラグラフは論理的なまとまりで構成
 - 重要な用語は太字（`**bold**`）で強調
 - コードは適切にフォーマット
-- Calloutブロックは最小限に抑える
-  - 本当に注意が必要な事項のみに使用
-  - 通常のテキストで十分な場合はCalloutを避ける
-  - 連続したCalloutの使用は避ける
-  - アラート、警告、重要な注意事項など、真に強調が必要な情報に限定
+- 箇条書きやCalloutは必要最小限に
+- 説明的な文章で情報を伝える
+- 段落間の自然な流れを意識
 
 ### 画像
 - 必ず代替テキストを設定
@@ -251,3 +244,7 @@ export const MermaidDiagram = ({ content }) => {
 - ❌ 商用利用禁止
 - ❌ 改変禁止
 - ℹ️ 著作権表示が必要
+
+## 参照情報
+
+技術的な説明や仕様に関する記述を行う際は、その客観性を担保するために、参照した情報源のURLを記載してください。一般的なプログラミングの解説や、コードの書き方の説明には必要ありません。

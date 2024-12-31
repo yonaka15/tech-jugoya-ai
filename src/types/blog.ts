@@ -14,24 +14,18 @@ export type BlogMeta = {
   tags: string[];
   isDraft?: boolean;
   author: string;
-  blocks?: Block[];  // メタ情報にもブロックを追加可能に
-};
-
-// コンテンツファイルの型
-export type ContentFile = {
-  blocks: Block[];
 };
 
 // 各ブロックの Props 型
 export type HeadingBlockProps = {
   content: string;
   level: 1 | 2 | 3 | 4 | 5 | 6;
-  align?: 'left' | 'center' | 'right';
+  align?: "left" | "center" | "right";
 };
 
 export type TextBlockProps = {
   content: string;
-  align?: 'left' | 'center' | 'right';
+  align?: "left" | "center" | "right";
 };
 
 export type ImageBlockProps = {
@@ -57,7 +51,7 @@ export type QuoteBlockProps = {
 
 export type CalloutBlockProps = {
   content: string;
-  type: 'info' | 'warning' | 'error' | 'success';
+  type: "info" | "warning" | "error" | "success";
   title?: string;
 };
 
@@ -69,29 +63,29 @@ export type TableBlockProps = {
 
 // Mermaidブロックの Props 型を追加
 export type MermaidBlockProps = {
-  content: string;         // Mermaid図の定義
-  caption?: string;        // 図のキャプション（オプション）
-  theme?: 'default' | 'dark' | 'forest' | 'neutral';  // テーマ設定（オプション）
+  content: string; // Mermaid図の定義
+  caption?: string; // 図のキャプション（オプション）
+  theme?: "default" | "dark" | "forest" | "neutral"; // テーマ設定（オプション）
 };
 
 // 具体的なブロック型
-export type HeadingBlock = BaseBlock<'heading', HeadingBlockProps>;
-export type TextBlock = BaseBlock<'text', TextBlockProps>;
-export type ImageBlock = BaseBlock<'image', ImageBlockProps>;
-export type CodeBlock = BaseBlock<'code', CodeBlockProps>;
-export type QuoteBlock = BaseBlock<'quote', QuoteBlockProps>;
-export type CalloutBlock = BaseBlock<'callout', CalloutBlockProps>;
-export type TableBlock = BaseBlock<'table', TableBlockProps>;
-export type MermaidBlock = BaseBlock<'mermaid', MermaidBlockProps>;
+export type HeadingBlock = BaseBlock<"heading", HeadingBlockProps>;
+export type TextBlock = BaseBlock<"text", TextBlockProps>;
+export type ImageBlock = BaseBlock<"image", ImageBlockProps>;
+export type CodeBlock = BaseBlock<"code", CodeBlockProps>;
+export type QuoteBlock = BaseBlock<"quote", QuoteBlockProps>;
+export type CalloutBlock = BaseBlock<"callout", CalloutBlockProps>;
+export type TableBlock = BaseBlock<"table", TableBlockProps>;
+export type MermaidBlock = BaseBlock<"mermaid", MermaidBlockProps>;
 
 // すべてのブロック型の Union 型
-export type Block = 
+export type Block =
   | HeadingBlock
-  | TextBlock 
-  | ImageBlock 
-  | CodeBlock 
-  | QuoteBlock 
-  | CalloutBlock 
+  | TextBlock
+  | ImageBlock
+  | CodeBlock
+  | QuoteBlock
+  | CalloutBlock
   | TableBlock
   | MermaidBlock;
 
@@ -103,7 +97,7 @@ export type BlogPost = {
 
 // ブロック作成のヘルパー関数型
 export type BlockCreator<T extends Block> = (
-  props: T['props'],
+  props: T["props"],
   id?: string
 ) => T;
 
@@ -120,25 +114,26 @@ export const createBlock = <T extends string, P>(
 
 // 各ブロック型のファクトリ関数
 export const createHeadingBlock: BlockCreator<HeadingBlock> = (props, id) =>
-  createBlock('heading', props, id);
+  createBlock("heading", props, id);
 
 export const createTextBlock: BlockCreator<TextBlock> = (props, id) =>
-  createBlock('text', props, id);
+  createBlock("text", props, id);
 
 export const createImageBlock: BlockCreator<ImageBlock> = (props, id) =>
-  createBlock('image', props, id);
+  createBlock("image", props, id);
 
 export const createCodeBlock: BlockCreator<CodeBlock> = (props, id) =>
-  createBlock('code', props, id);
+  createBlock("code", props, id);
 
 export const createQuoteBlock: BlockCreator<QuoteBlock> = (props, id) =>
-  createBlock('quote', props, id);
+  createBlock("quote", props, id);
 
 export const createCalloutBlock: BlockCreator<CalloutBlock> = (props, id) =>
-  createBlock('callout', props, id);
+  createBlock("callout", props, id);
 
 export const createTableBlock: BlockCreator<TableBlock> = (props, id) =>
-  createBlock('table', props, id);
+  createBlock("table", props, id);
 
 export const createMermaidBlock: BlockCreator<MermaidBlock> = (props, id) =>
-  createBlock('mermaid', props, id);
+  createBlock("mermaid", props, id);
+
