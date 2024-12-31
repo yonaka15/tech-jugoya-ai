@@ -3,7 +3,7 @@
     "title": "FFmpegでm3u8形式の動画をダウンロードする実践ガイド",
     "description": "FFmpegを使用してm3u8形式の動画をダウンロードする方法を詳しく解説します。基本的なコマンドから認証が必要なケース、エラー対応まで、実践的なテクニックを網羅的に紹介します。",
     "publishedAt": "2024-01-31T00:00:00.000Z",
-    "tags": ["FFmpeg", "m3u8", "HLS", "動画処理", "ストリーミング"],
+    "tags": ["FFmpeg", "m3u8", "HLS", "Video Processing", "Streaming"],
     "author": {
       "name": "tech.jugoya.ai",
       "avatar": "/images/avatars/jugoya.png"
