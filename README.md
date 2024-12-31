@@ -7,6 +7,29 @@
 [tech.jugoya.ai](https://tech.jugoya.ai) のソースコードです。
 Next.js App RouterとTypeScriptで実装された、ブロックベースのブログシステムです。
 
+## 開発メモ
+
+### Next.js 15の主な変更点
+
+- **paramsの非同期化**: Next.js 15以降、ページコンポーネントの`params`プロパティが非同期（Promise）になりました。
+  ```typescript
+  // Before (Next.js 14以前)
+  type Props = {
+    params: { tag: string };
+  };
+
+  // After (Next.js 15以降)
+  type Props = {
+    params: Promise<{ tag: string }>;
+  };
+
+  // 使用例
+  export default async function Page({ params }: Props) {
+    const { tag } = await params;
+    // ... 
+  }
+  ```
+
 ## 開発状況
 
 - ✅ プロジェクトの基本設定
