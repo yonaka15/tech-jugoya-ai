@@ -14,6 +14,7 @@
 - `QuoteBlock.tsx`: 引用ブロック
 - `CalloutBlock.tsx`: 注意書きブロック
 - `TableBlock.tsx`: テーブルブロック
+- `MermaidBlock.tsx`: Mermaid図表ブロック
 
 ## 基本構造
 
@@ -100,10 +101,10 @@ const text: Block = {
 
 ```typescript
 type CodeBlockProps = {
-  content: string;        // コードの内容
-  language?: string;      // プログラミング言語
+  code: string;        // コードの内容
+  language: string;      // プログラミング言語
   fileName?: string;      // 表示するファイル名（オプション）
-  showLineNumbers?: boolean;  // 行番号の表示
+  highlight?: number[];  // ハイライトする行番号
 };
 
 // 使用例
@@ -111,10 +112,10 @@ const code: Block = {
   id: 'example-code',
   type: 'code',
   props: {
-    content: 'const greeting = "Hello, World!";\nconsole.log(greeting);',
+    code: 'const greeting = "Hello, World!";\nconsole.log(greeting);',
     language: 'typescript',
     fileName: 'example.ts',
-    showLineNumbers: true
+    highlight: [2]
   }
 };
 ```
@@ -194,15 +195,6 @@ const callout: Block = {
 };
 ```
 
-Calloutブロックでは以下のMarkdown記法がサポートされています：
-
-- **太字** (`**text**`)
-- *イタリック* (`*text*`)
-- [リンク](`[text](url)`)
-- リスト（箇条書きと番号付き）
-- `インラインコード`
-- その他のMarkdown記法
-
 ### TableBlock
 
 表形式のデータを表示するためのブロックです。
@@ -228,6 +220,66 @@ const table: Block = {
   }
 };
 ```
+
+### MermaidBlock
+
+Mermaid.jsを使用して、フローチャート、シーケンス図、状態遷移図などの図表を描画するブロックです。
+
+```typescript
+type MermaidBlockProps = {
+  content: string;         // Mermaid図の定義
+  caption?: string;        // 図のキャプション（オプション）
+  theme?: 'default' | 'dark' | 'forest' | 'neutral';  // テーマ設定
+};
+
+// 使用例
+const mermaidDiagram: Block = {
+  id: 'system-flow',
+  type: 'mermaid',
+  props: {
+    content: `
+    graph TD
+      A[開始] --> B{条件判定}
+      B -->|Yes| C[処理1]
+      B -->|No| D[処理2]
+      C --> E[終了]
+      D --> E
+    `,
+    caption: '図1: システムフロー図',
+    theme: 'default'
+  }
+};
+```
+
+#### Mermaidブロックの特徴
+
+1. **安定したレンダリング**
+   - SSRとクライアントサイドのハイドレーションを適切に処理
+   - コンテンツベースの安定したID生成
+
+2. **遅延読み込み**
+   - Mermaid.jsスクリプトは必要になったタイミングで読み込み
+   - パフォーマンスへの影響を最小限に抑制
+
+3. **エラーハンドリング**
+   - 図の解析・レンダリングエラーを適切にキャッチ
+   - デバッグ情報をコンソールに出力
+
+4. **テーマサポート**
+   - 複数のビルトインテーマに対応
+   - ダークモードとの連携も可能
+
+#### 使用可能な図表タイプ
+
+Mermaidブロックでは以下の図表タイプがサポートされています：
+
+- フローチャート（`graph`/`flowchart`）
+- シーケンス図（`sequenceDiagram`）
+- クラス図（`classDiagram`）
+- 状態図（`stateDiagram`）
+- ER図（`erDiagram`）
+- ガントチャート（`gantt`）
+- 円グラフ（`pie`）
 
 ## 新しいブロックタイプの追加方法
 
@@ -270,6 +322,11 @@ case 'new-block':
 4. **レスポンシブ対応**
    - モバイルファーストの設計
    - 適切なブレークポイントの使用
+
+5. **クライアントサイド処理の最適化**
+   - 必要に応じてクライアントコンポーネント化
+   - SSRとハイドレーションの整合性確保
+   - 外部スクリプトの遅延読み込み
 
 ---
 

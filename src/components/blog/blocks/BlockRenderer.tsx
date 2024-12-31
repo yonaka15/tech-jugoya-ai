@@ -7,6 +7,7 @@ import QuoteBlock from './QuoteBlock';
 import CalloutBlock from './CalloutBlock';
 import TableBlock from './TableBlock';
 import HeadingBlock from './HeadingBlock';
+import MermaidBlock from './MermaidBlock';
 
 interface BlockRendererProps {
   block: Block;
@@ -28,6 +29,8 @@ const BlockRenderer: FC<BlockRendererProps> = ({ block }) => {
       return <CalloutBlock {...block.props} />;
     case 'table':
       return <TableBlock {...block.props} />;
+    case 'mermaid':
+      return <MermaidBlock {...block.props} />;
     default:
       console.warn(`Unknown block type: ${(block as Block).type}`);
       return null;

@@ -10,6 +10,15 @@
       }
     },
     {
+      "id": "m3u8-hierarchy",
+      "type": "mermaid",
+      "props": {
+        "content": "graph TD\nA[master.m3u8] -->|高画質| B[1080p.m3u8]\nA -->|中画質| C[720p.m3u8]\nA -->|低画質| D[480p.m3u8]\nB --> B1[segment1.ts]\nB --> B2[segment2.ts]\nB --> B3[segment3.ts]\nC --> C1[segment1.ts]\nC --> C2[segment2.ts]\nC --> C3[segment3.ts]\nD --> D1[segment1.ts]\nD --> D2[segment2.ts]\nD --> D3[segment3.ts]",
+        "caption": "m3u8ファイルとセグメントの階層構造",
+        "theme": "default"
+      }
+    },
+    {
       "id": "structure",
       "type": "text",
       "props": {
@@ -32,6 +41,15 @@
       "props": {
         "content": "- `#EXTM3U`: m3u8ファイルであることを示す宣言\n- `#EXT-X-TARGETDURATION`: セグメントの最大再生時間（秒）\n- `#EXT-X-MEDIA-SEQUENCE`: 再生すべきセグメント番号の開始点\n- `#EXTINF`: 次のセグメントの再生時間（秒）\n- `segment1.ts`: 動画・音声の実際のデータ（チャンク）",
         "align": "left"
+      }
+    },
+    {
+      "id": "streaming-flow",
+      "type": "mermaid",
+      "props": {
+        "content": "sequenceDiagram\nparticipant C as Client\nparticipant S as Server\nC->>S: Request master.m3u8\nS->>C: Response with quality options\nC->>S: Request specific quality.m3u8\nS->>C: Response with segment list\nloop Streaming\n    C->>S: Request segment.ts\n    S->>C: Stream segment data\nend",
+        "caption": "HLSストリーミングの基本的なフロー",
+        "theme": "default"
       }
     },
     {

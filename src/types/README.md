@@ -51,6 +51,15 @@ type TextBlockProps = {
 
 // ブロック型の定義
 type TextBlock = BaseBlock<'text', TextBlockProps>;
+
+// Mermaidブロックの例
+type MermaidBlockProps = {
+  content: string;         // Mermaid図の定義
+  caption?: string;        // 図のキャプション
+  theme?: 'default' | 'dark' | 'forest' | 'neutral';  // テーマ設定
+};
+
+type MermaidBlock = BaseBlock<'mermaid', MermaidBlockProps>;
 ```
 
 ### ブロックの Union 型
@@ -65,7 +74,8 @@ type Block =
   | CodeBlock 
   | QuoteBlock 
   | CalloutBlock 
-  | TableBlock;
+  | TableBlock
+  | MermaidBlock;
 ```
 
 ## ブロックの作成
@@ -127,6 +137,15 @@ const post: BlogPost = {
     createTextBlock({
       content: "TypeScriptの型システムは...",
       align: "left"
+    }),
+    createMermaidBlock({
+      content: `
+        graph TD
+        A[TypeScript] -->|コンパイル| B[JavaScript]
+        B -->|実行| C[ブラウザ/Node.js]
+      `,
+      caption: "TypeScriptのコンパイルフロー",
+      theme: "default"
     })
   ]
 };
@@ -180,6 +199,11 @@ export const createNewBlock: BlockCreator<NewBlock> = (props, id) =>
 5. **ファクトリパターンの採用**
    - 型安全なブロック作成のためのヘルパー関数を提供
    - IDの自動生成などの共通機能を集約
+
+6. **クライアントサイドコンポーネントの型安全性**
+   - クライアントコンポーネントの明示的な型定義
+   - SSRとクライアントの型の一貫性確保
+   - コンポーネントプロパティの厳密な型チェック
 
 ## ユーティリティ型
 
