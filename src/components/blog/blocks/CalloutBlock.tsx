@@ -1,5 +1,7 @@
 import { type FC } from 'react';
 import { type CalloutBlockProps } from '@/types/blog';
+import ReactMarkdown from 'react-markdown';
+import { cn } from '@/lib/utils';
 
 const CalloutBlock: FC<CalloutBlockProps> = ({ content, type, title }) => {
   const styles = {
@@ -34,7 +36,38 @@ const CalloutBlock: FC<CalloutBlockProps> = ({ content, type, title }) => {
       {title && (
         <h4 className={`${styles.title} font-semibold mb-2`}>{title}</h4>
       )}
-      <div className={`${styles.text}`}>{content}</div>
+      <div
+        className={cn(
+          styles.text,
+          'prose prose-zinc dark:prose-invert max-w-none',
+          'prose-p:my-0 prose-p:leading-7',
+          'prose-li:my-0 prose-li:leading-7',
+          'prose-a:text-primary hover:prose-a:text-primary/80'
+        )}
+      >
+        <ReactMarkdown
+          components={{
+            p: ({ children, ...props }) => {
+              const content = props.node?.children[0]?.value;
+              return (
+                <p className="mb-4 last:mb-0">
+                  {content === '' ? '\u00A0' : children}
+                </p>
+              );
+            },
+            a: ({ ...props }) => (
+              <a
+                {...props}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="break-words"
+              />
+            ),
+          }}
+        >
+          {content}
+        </ReactMarkdown>
+      </div>
     </div>
   );
 };

@@ -171,7 +171,7 @@ const quote: Block = {
 
 ### CalloutBlock
 
-重要な情報や注意事項を目立たせるためのブロックです。
+重要な情報や注意事項を目立たせるためのブロックです。Markdownフォーマットをサポートしており、リッチなコンテンツ表示が可能です。
 
 ```typescript
 type CalloutBlockType = 'info' | 'warning' | 'error' | 'success';
@@ -179,7 +179,7 @@ type CalloutBlockType = 'info' | 'warning' | 'error' | 'success';
 type CalloutBlockProps = {
   type: CalloutBlockType;  // Calloutの種類
   title: string;          // タイトル
-  content: string;        // 内容
+  content: string;        // 内容（Markdown形式サポート）
 };
 
 // 使用例
@@ -189,10 +189,19 @@ const callout: Block = {
   props: {
     type: 'warning',
     title: '注意',
-    content: 'この操作は取り消すことができません。'
+    content: '**重要**: この操作は取り消すことができません。\n\n以下の点に注意してください：\n\n1. データのバックアップ\n2. 設定の確認\n3. [ドキュメント](https://example.com)の参照'
   }
 };
 ```
+
+Calloutブロックでは以下のMarkdown記法がサポートされています：
+
+- **太字** (`**text**`)
+- *イタリック* (`*text*`)
+- [リンク](`[text](url)`)
+- リスト（箇条書きと番号付き）
+- `インラインコード`
+- その他のMarkdown記法
 
 ### TableBlock
 
