@@ -23,11 +23,33 @@ function generateBlockId(filePath: string, blockId: string): string {
 export async function getPost(slug: string): Promise<BlogPost | null> {
   try {
     const postsDirectory = path.join(process.cwd(), 'src', 'content', 'posts');
-    const slugPath = path.join(postsDirectory, slug);
-    const isDir = await isDirectory(slugPath);
+    
+    // 単一ファイルのパスを先に確認
+    const jsonPath = path.join(postsDirectory, `${slug}.json`);
+    try {
+      const fileContent = await fs.readFile(jsonPath, 'utf-8');
+      const post = JSON.parse(fileContent) as BlogPost;
+      
+      // 単一ファイルの場合もブロックIDを解決
+      const resolvedBlocks = post.blocks.map(block => ({
+        ...block,
+        id: generateBlockId(jsonPath, block.id)
+      }));
 
-    if (isDir) {
-      // ディレクトリ構造の場合
+      return {
+        ...post,
+        blocks: resolvedBlocks
+      };
+    } catch {
+      // ファイルが存在しない場合は、ディレクトリとして試行
+      const slugPath = path.join(postsDirectory, slug);
+      const isDir = await isDirectory(slugPath);
+
+      if (!isDir) {
+        throw new Error(`Post not found: ${slug}`);
+      }
+
+      // ディレクトリ構造の場合の処理
       const indexPath = path.join(slugPath, 'index.json');
       const indexContent = await fs.readFile(indexPath, 'utf-8');
       const indexPost = JSON.parse(indexContent) as BlogPost;
@@ -58,22 +80,6 @@ export async function getPost(slug: string): Promise<BlogPost | null> {
       return {
         meta: indexPost.meta,
         blocks: updatedBlocks
-      };
-    } else {
-      // 単一ファイルの場合
-      const filePath = path.join(postsDirectory, `${slug}.json`);
-      const fileContent = await fs.readFile(filePath, 'utf-8');
-      const post = JSON.parse(fileContent) as BlogPost;
-      
-      // 単一ファイルの場合もブロックIDを解決
-      const resolvedBlocks = post.blocks.map(block => ({
-        ...block,
-        id: generateBlockId(filePath, block.id)
-      }));
-
-      return {
-        ...post,
-        blocks: resolvedBlocks
       };
     }
   } catch (error) {
