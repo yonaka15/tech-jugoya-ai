@@ -2,7 +2,7 @@
 
 [![Apache License 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
-[![Next.js](https://img.shields.io/badge/Next.js-14.0-black)](https://nextjs.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-15.1-black)](https://nextjs.org/)
 
 [tech.jugoya.ai](https://tech.jugoya.ai) のソースコードです。
 Next.js App RouterとTypeScriptで実装された、ブロックベースのブログシステムです。
@@ -67,23 +67,24 @@ Next.js App RouterとTypeScriptで実装された、ブロックベースのブ�
 
 ## 🔧 技術スタック
 
-- [Next.js](https://nextjs.org/) 14 (App Router)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [react-syntax-highlighter](https://github.com/react-syntax-highlighter/react-syntax-highlighter)
-- [react-markdown](https://github.com/remarkjs/react-markdown)
+- [Next.js](https://nextjs.org/) 15.1 (App Router)
+- [TypeScript](https://www.typescriptlang.org/) 5.x
+- [React](https://react.dev/) 19
+- [Tailwind CSS](https://tailwindcss.com/) 3.4
+- [react-syntax-highlighter](https://github.com/react-syntax-highlighter/react-syntax-highlighter) 15.5
+- [react-markdown](https://github.com/remarkjs/react-markdown) 9.0
 
 ## 🚀 開始方法
 
 ```bash
 # リポジトリのクローン
-git clone https://github.com/yourusername/tech-jugoya-ai.git
+git clone https://github.com/yonaka15/tech-jugoya-ai.git
 cd tech-jugoya-ai
 
 # パッケージのインストール
 npm install
 
-# 開発サーバーの起動
+# 開発サーバーの起動 (Turbopack使用)
 npm run dev
 ```
 
@@ -221,4 +222,4 @@ src/content ディレクトリ内のすべてのコンテンツ（記事、画�
 
 ---
 
-🌐 [tech.jugoya.ai](https://tech.jugoya.ai) | 📧 [Issues](https://github.com/yourusername/tech-jugoya-ai/issues)
+🌐 [tech.jugoya.ai](https://tech.jugoya.ai) | 📧 [Issues](https://github.com/yonaka15/tech-jugoya-ai/issues)
