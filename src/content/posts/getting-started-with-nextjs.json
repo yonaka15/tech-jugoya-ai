@@ -4,7 +4,7 @@
     "description": "Next.jsを使用してブログを構築する方法を解説します。App RouterやTypeScriptの活用方法も含めて説明します。",
     "publishedAt": "2024-01-01T00:00:00.000Z",
     "updatedAt": "2024-01-02T00:00:00.000Z",
-    "tags": ["Next.js", "TypeScript", "React"]
+    "tags": ["Next.js", "TypeScript", "React", "Frontend", "Web Development"]
   },
   "blocks": [
     {

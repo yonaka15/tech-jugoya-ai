@@ -3,7 +3,7 @@
     "title": "実践で学ぶm3u8/HLSストリーミング - FFmpegによる高度な動画配信の実装",
     "description": "m3u8ファイルはHTTP Live Streaming（HLS）で使用される重要なプレイリストファイルです。本記事では、m3u8の基本概念から、アダプティブストリーミングでの役割、さらにFFmpegを使った変換・ダウンロード・作成まで、実践的な活用方法を具体的なコマンド例とともに解説します。",
     "publishedAt": "2024-01-01T00:00:00.000Z",
-    "tags": ["m3u8", "ffmpeg", "video", "streaming", "HLS"],
+    "tags": ["m3u8", "FFmpeg", "Video Processing", "Streaming", "HLS"],
     "author": "yonaka"
   },
   "blocks": [

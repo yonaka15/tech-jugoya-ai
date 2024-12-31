@@ -111,9 +111,52 @@ content/
 
 ### タグの命名規則
 
-- 技術スタックは正式名称を使用（例: "Next.js", "TypeScript"）
-- カテゴリータグは日本語可（例: "チュートリアル", "ベストプラクティス"）
-- タグは先頭を大文字に統一
+技術スタックとカテゴリー、両方のタグを英語で記述します：
+
+1. 技術スタック
+   - 正式名称をそのまま使用（例: "Next.js", "TypeScript", "Python"）
+   - 大文字小文字は正式な表記に従う
+
+2. カテゴリータグ
+   - すべて英語で記述
+   - 複数単語の場合はスペースで区切る（例: "Web Development", "Best Practice"）
+   - 先頭の単語を大文字にする
+
+例:
+```json
+{
+  "tags": [
+    "Next.js",          // 技術スタック（正式名称）
+    "TypeScript",       // 技術スタック（正式名称）
+    "Web Development",  // カテゴリー
+    "Frontend",         // カテゴリー
+    "Tutorial"          // カテゴリー
+  ]
+}
+```
+
+推奨されるカテゴリータグ:
+- "Tutorial" - チュートリアル
+- "Best Practice" - ベストプラクティス
+- "Getting Started" - 入門ガイド
+- "Guide" - 解説記事
+- "Practice" - 実践的な内容
+- "Case Study" - 事例研究
+- "Architecture" - アーキテクチャ設計
+- "Performance" - パフォーマンス
+- "Security" - セキュリティ
+- "Frontend" - フロントエンド開発
+- "Backend" - バックエンド開発
+- "Web Development" - Web開発全般
+- "API" - API関連
+- "Database" - データベース
+- "DevOps" - 開発運用
+- "Testing" - テスト関連
+- "Mobile" - モバイル開発
+- "Education" - 教育
+- "Learning Design" - 学習設計
+- "Video Processing" - 動画処理
+- "Streaming" - ストリーミング
 
 ## 記事の作成ガイドライン
 

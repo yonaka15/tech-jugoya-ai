@@ -4,7 +4,7 @@
     "description": "TypeScriptを効果的に活用するためのベストプラクティスを紹介します。型の活用からプロジェクト構成まで、実践的なTipsをお届けします。",
     "publishedAt": "2024-01-15T00:00:00.000Z",
     "updatedAt": "2024-01-16T00:00:00.000Z",
-    "tags": ["TypeScript", "JavaScript", "Programming"]
+    "tags": ["TypeScript", "JavaScript", "Programming", "Best Practice"]
   },
   "blocks": [
     {
