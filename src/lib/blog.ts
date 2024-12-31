@@ -1,6 +1,7 @@
 import { type BlogPost, Block } from '@/types/blog';
 import fs from 'fs/promises';
 import path from 'path';
+import { formatTagForUrl } from './tags';
 
 export type PostWithSlug = BlogPost & { slug: string };
 
@@ -141,5 +142,11 @@ export async function getAllTags(): Promise<string[]> {
 
 export async function getPostsByTag(tag: string): Promise<PostWithSlug[]> {
   const posts = await getAllPosts();
-  return posts.filter(post => post.meta.tags.includes(tag));
+  const formattedSearchTag = formatTagForUrl(tag);
+  
+  return posts.filter(post => 
+    post.meta.tags.some(postTag => 
+      formatTagForUrl(postTag) === formattedSearchTag
+    )
+  );
 }
