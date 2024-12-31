@@ -1,0 +1,115 @@
+{
+  "blocks": [
+    {
+      "id": "features-heading",
+      "type": "heading",
+      "props": {
+        "content": "研究に基づく主要機能と効果",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "features-intro",
+      "type": "text",
+      "props": {
+        "content": "93の学術研究による包括的なレビューから、Kahoot!の教育効果を最大化する重要な要素が明らかになっています。これらの研究結果は、プラットフォームの機能開発や改善に直接反映され、より効果的な学習体験の実現に貢献しています。\n\n[^1]: [The effect of using Kahoot! for learning – A literature review](https://www.sciencedirect.com/science/article/pii/S0360131520300208)",
+        "align": "left"
+      }
+    },
+    {
+      "id": "adaptive-learning-heading",
+      "type": "heading",
+      "props": {
+        "content": "適応的学習システム",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "adaptive-learning-text",
+      "type": "text",
+      "props": {
+        "content": "Kahoot!の適応的学習システムは、学習者の理解度に応じて自動的に難易度を調整します。2024年の研究によると、この機能により学習者の約75%が学習意欲の向上を報告しています。\n\nこの適応的システムは、特に多様な学力レベルの学習者が混在する教室環境で、その効果を発揮します。上級者には十分な挑戦を提供しながら、初学者にも適切な難易度の問題を提示することで、全ての学習者が適切なペースで学習を進められます。\n\n[^2]: [Students' perception of Kahoot!](https://telrp.springeropen.com/articles/10.1186/s41039-018-0078-8)",
+        "align": "left"
+      }
+    },
+    {
+      "id": "adaptive-flow",
+      "type": "mermaid",
+      "props": {
+        "content": "sequenceDiagram\n    participant S as 学習者\n    participant K as Kahoot!\n    participant A as 分析エンジン\n    S->>K: 問題に回答\n    K->>A: 回答データ送信\n    A->>A: パターン分析\n    A->>K: 難易度調整\n    K->>S: 最適化された問題提示",
+        "caption": "適応的学習システムの動作フロー"
+      }
+    },
+    {
+      "id": "feedback-system-heading",
+      "type": "heading",
+      "props": {
+        "content": "即時フィードバックシステム",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "feedback-system-text",
+      "type": "text",
+      "props": {
+        "content": "即時フィードバックは、効果的な学習において極めて重要な役割を果たします。研究結果によると、Kahoot!の即時フィードバック機能は、学習の定着率を平均で23%向上させることが確認されています。この効果は、フィードバックの提供タイミングと内容の最適化によって実現されています。\n\nシステムは単に正誤を表示するだけでなく、誤答の場合は正しい理解に導くための補足説明を提供します。また、回答時間や正答率などの詳細なデータも即座に可視化され、教師は学習者の理解度をリアルタイムで把握できます。\n\n[^3]: [Using Kahoot! in the Classroom](https://www.researchgate.net/publication/313418401)",
+        "align": "left"
+      }
+    },
+    {
+      "id": "feedback-config",
+      "type": "code",
+      "props": {
+        "language": "json",
+        "fileName": "feedback-settings.json",
+        "code": "{\n  \"feedbackConfig\": {\n    \"timing\": {\n      \"immediate\": true,          // 即時フィードバックの有効化\n      \"delayMs\": 500             // 表示までの遅延時間\n    },\n    \"content\": {\n      \"showCorrectAnswer\": true,  // 正解の表示\n      \"explanation\": true,        // 解説の表示\n      \"hints\": true              // ヒントの提供\n    },\n    \"analytics\": {\n      \"responseTime\": true,       // 回答時間の記録\n      \"patterns\": true,          // 回答パターンの分析\n      \"progress\": true           // 進捗の追跡\n    }\n  }\n}",
+        "highlight": [4, 8, 14]
+      }
+    },
+    {
+      "id": "engagement-mechanics-heading",
+      "type": "heading",
+      "props": {
+        "content": "エンゲージメントメカニクス",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "engagement-mechanics-text",
+      "type": "text",
+      "props": {
+        "content": "Kahoot!のエンゲージメントメカニクスは、ゲーム理論と教育心理学の知見を組み合わせて設計されています。2024年の包括的なメタ分析では、これらのメカニクスが学習者の参加意欲と集中力を持続的に高める効果があることが示されています。\n\n特に注目すべきは、競争要素と協力要素のバランスです。個人戦モードでは適度な競争意識を刺激し、チームモードでは協調学習を促進します。また、ポイントシステムやスコアボードは、単なる競争の要素ではなく、学習の進捗を可視化し、自己改善の動機付けとして機能します。\n\n[^4]: [Gamification of Kahoot!](https://www.researchgate.net/publication/328342175)",
+        "align": "left"
+      }
+    },
+    {
+      "id": "analytics-heading",
+      "type": "heading",
+      "props": {
+        "content": "学習分析と評価システム",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "analytics-text",
+      "type": "text",
+      "props": {
+        "content": "Kahoot!の学習分析システムは、詳細なデータ収集と高度な分析機能を提供します。1,706名の実験群を対象とした最新の研究では、クラス全体の傾向から個々の学習者の理解度まで、様々なレベルでの学習状況を正確に把握できることが実証されています。\n\n特に2024年の更新では、AIを活用した予測分析機能が強化され、学習者の将来的な躓きポイントを事前に特定することが可能になりました。これにより、予防的な教育介入がより効果的に行えるようになっています。\n\n[^5]: [New research shows Kahoot! delivers impactful evidence based learning](https://kahoot.com/blog/2024/03/13/research-kahoot-boosts-students-academic-performance/)",
+        "align": "left"
+      }
+    },
+    {
+      "id": "analytics-visualization",
+      "type": "mermaid",
+      "props": {
+        "content": "flowchart LR\n    A[データ収集] --> B[リアルタイム分析]\n    B --> C[パターン認識]\n    C --> D[予測モデル]\n    D --> E[介入推奨]\n    B --> F[即時フィードバック]\n    C --> G[進捗レポート]\n    D --> H[リスク予測]",
+        "caption": "学習分析システムのデータフロー"
+      }
+    }
+  ]
+}

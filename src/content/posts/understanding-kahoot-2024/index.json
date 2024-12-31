@@ -1,0 +1,36 @@
+{
+  "meta": {
+    "title": "Kahoot!完全解説2024 - 93の研究が実証する教育効果と実践テクニック",
+    "description": "Kahoot!の効果が93の学術研究で実証されました。最新機能と研究に基づく活用法を詳しく解説し、具体的な設定例とベストプラクティスを紹介します。",
+    "publishedAt": "2024-01-30T00:00:00.000Z",
+    "tags": ["EdTech", "教育", "Kahoot", "学習設計", "Python"]
+  },
+  "blocks": [
+    {
+      "id": "introduction",
+      "type": "introduction",
+      "props": {}
+    },
+    {
+      "id": "research-based-features",
+      "type": "research-based-features",
+      "props": {}
+    },
+    {
+      "id": "implementation-guide",
+      "type": "implementation-guide",
+      "props": {}
+    },
+    {
+      "id": "best-practices",
+      "type": "best-practices",
+      "props": {}
+    },
+    {
+      "id": "bulk-creation",
+      "type": "bulk-creation",
+      "props": {}
+    }
+  ]
+}
+

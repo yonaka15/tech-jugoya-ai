@@ -1,0 +1,90 @@
+{
+  "blocks": [
+    {
+      "id": "implementation-heading",
+      "type": "heading",
+      "props": {
+        "content": "効果的な実装のためのガイド",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "implementation-intro",
+      "type": "text",
+      "props": {
+        "content": "研究結果から得られた知見を実践に活かすには、適切な実装とカスタマイズが重要です。2024年の研究により、最適な設定とその効果が明らかになっています[^1]。ここでは、Kahoot!を教育現場で最大限に活用するための具体的な設定方法と実装のポイントを解説します。\n\n[^1]: [Advantages of Kahoot! Game-based Formative Assessments along with Methods of Its Use and Application during the COVID-19 Pandemic](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7883495/)",
+        "align": "left"
+      }
+    },
+    {
+      "id": "initial-setup-heading",
+      "type": "heading",
+      "props": {
+        "content": "最適な初期設定",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "initial-setup-text",
+      "type": "text",
+      "props": {
+        "content": "Kahoot!の効果を最大化するには、適切な初期設定が不可欠です。研究結果に基づくと、特に重要なのは問題の表示時間と回答オプションの設定です[^2]。基本的な設定から応用的な設定まで、具体的な推奨値とその根拠を見ていきましょう。\n\n[^2]: [Students' perception of Kahoot!'s influence on teaching and learning](https://telrp.springeropen.com/articles/10.1186/s41039-018-0078-8)",
+        "align": "left"
+      }
+    },
+    {
+      "id": "optimal-settings",
+      "type": "code",
+      "props": {
+        "language": "json",
+        "fileName": "optimal-settings.json",
+        "code": "{\n  \"quizSettings\": {\n    \"questionDuration\": {\n      \"basic\": 20,           // 基本的な問題の制限時間（秒）\n      \"complex\": 40,         // 複雑な問題の制限時間\n      \"reading\": 60          // 長文を含む問題の制限時間\n    },\n    \"pointSystem\": {\n      \"speedBonus\": true,    // 早期回答ボーナス\n      \"streakBonus\": true,   // 連続正解ボーナス\n      \"basePoints\": 1000     // 基本ポイント\n    },\n    \"accessibility\": {\n      \"textToSpeech\": true,  // 読み上げ機能\n      \"highContrast\": true,  // 高コントラストモード\n      \"extraTime\": 5         // 追加時間（秒）\n    }\n  }\n}",
+        "highlight": [4, 9, 14]
+      }
+    },
+    {
+      "id": "game-modes-heading",
+      "type": "heading",
+      "props": {
+        "content": "効果的なゲームモードの選択",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "game-modes-text",
+      "type": "text",
+      "props": {
+        "content": "Kahoot!は複数のゲームモードを提供しており、学習目的や参加者の特性に応じて適切なモードを選択することが重要です。2024年の研究によると、チームモードは協調学習を促進し、個人モードは個々の理解度の正確な把握に適しています[^3]。\n\n例えば、新しい概念の導入時にはチームモードを使用することで、学習者同士の対話と相互支援を促進できます。一方、理解度の確認や評価の場面では、個人モードを使用することで、より正確な学習状況の把握が可能です。\n\n[^3]: [Kahoot! Game‐based digital learning platform: A comprehensive meta‐analysis](https://onlinelibrary.wiley.com/doi/10.1111/jcal.13084)",
+        "align": "left"
+      }
+    },
+    {
+      "id": "content-optimization-heading",
+      "type": "heading",
+      "props": {
+        "content": "コンテンツの最適化",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "content-optimization-text",
+      "type": "text",
+      "props": {
+        "content": "効果的な学習を実現するには、問題の構造と提示方法の最適化が重要です。研究結果から、問題の難易度は80%の正答率を目標とする設計が、学習者のモチベーション維持と理解度向上の両面で最も効果的であることが示されています[^4]。\n\n問題の難易度は段階的に上げていくことが効果的です。簡単な問題から始めることで、学習者の自信を築き、モチベーションを高めることができます。また、各問題には明確な学習目標を設定し、フィードバックでは単なる正誤の表示だけでなく、理解を深めるための説明を提供することが重要です。\n\n[^4]: [Using online game-based platforms to improve student performance and engagement in learning](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6647160/)",
+        "align": "left"
+      }
+    },
+    {
+      "id": "content-structure",
+      "type": "mermaid",
+      "props": {
+        "content": "flowchart TD\n    A[導入問題] --> B[基本概念]\n    B --> C[応用問題]\n    C --> D[総合問題]\n    B --> E[補足説明]\n    C --> F[発展課題]\n    D --> G[振り返り]\n    E --> B\n    F --> C",
+        "caption": "効果的な問題構成のフロー"
+      }
+    }
+  ]
+}
