@@ -1,0 +1,44 @@
+{
+  "meta": {
+    "title": "進化するGraphQL: 2024年におけるトレンドと実践的アプローチ",
+    "description": "GraphQLの基本から最新の実践的な使用パターンまで、詳しく解説します。従来のREST APIとの比較、N+1問題への対処、Distributed GraphQLなど、実装時の重要なポイントを網羅的に紹介します。",
+    "publishedAt": "2024-12-31T00:00:00.000Z",
+    "tags": ["GraphQL", "API", "Web開発", "バックエンド", "フロントエンド"],
+    "author": {
+      "name": "tech.jugoya.ai",
+      "avatar": "/images/avatars/jugoya.png"
+    }
+  },
+  "blocks": [
+    {
+      "id": "introduction",
+      "type": "introduction",
+      "props": {}
+    },
+    {
+      "id": "basic-architecture",
+      "type": "basic-architecture",
+      "props": {}
+    },
+    {
+      "id": "evolution-and-trends",
+      "type": "evolution-and-trends",
+      "props": {}
+    },
+    {
+      "id": "implementation-considerations",
+      "type": "implementation-considerations",
+      "props": {}
+    },
+    {
+      "id": "best-practices",
+      "type": "best-practices",
+      "props": {}
+    },
+    {
+      "id": "references",
+      "type": "references",
+      "props": {}
+    }
+  ]
+}

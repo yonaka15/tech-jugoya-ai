@@ -1,0 +1,191 @@
+{
+  "blocks": [
+    {
+      "id": "best-practices-intro",
+      "type": "text",
+      "props": {
+        "content": "これまでの内容を踏まえ、GraphQLを実装する際の具体的なベストプラクティスについてまとめていきます。2024年の状況を反映した、実践的なアプローチと推奨事項を紹介します。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "schema-design-heading",
+      "type": "heading",
+      "props": {
+        "content": "スキーマ設計のベストプラクティス",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "schema-design-explanation",
+      "type": "text",
+      "props": {
+        "content": "良いスキーマ設計は、GraphQL APIの成功の鍵となります。特に大規模なアプリケーションでは、初期の設計判断が長期的な影響を及ぼします。以下の原則に従うことで、保守性が高く、拡張性のあるスキーマを設計できます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "schema-principles",
+      "type": "code",
+      "props": {
+        "language": "graphql",
+        "fileName": "schema-principles.graphql",
+        "code": "# 1. 明確な命名規則を使用\ntype User {\n  id: ID!\n  firstName: String!  # 単語の境界は明確に\n  lastName: String!\n  emailAddress: String!  # 一貫した命名\n}\n\n# 2. nullabilityを慎重に設計\ntype Post {\n  id: ID!  # 必須\n  title: String!  # 必須\n  content: String!  # 必須\n  tags: [String]  # 任意（空配列も可）\n}\n\n# 3. インターフェースを活用した抽象化\ninterface Node {\n  id: ID!\n  createdAt: DateTime!\n  updatedAt: DateTime!\n}\n\ntype Comment implements Node {\n  id: ID!\n  createdAt: DateTime!\n  updatedAt: DateTime!\n  content: String!\n  author: User!\n}",
+        "highlight": [4, 11, 19, 24]
+      }
+    },
+    {
+      "id": "pagination-heading",
+      "type": "heading",
+      "props": {
+        "content": "効果的なページネーションの実装",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "pagination-explanation",
+      "type": "text",
+      "props": {
+        "content": "ページネーションは、大量のデータを扱うGraphQL APIにおいて重要な要素です。Relay式のカーソルベースページネーションは、多くの場合で最適な選択となります。これにより、一貫性のある効率的なデータ取得が可能になります。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "pagination-example",
+      "type": "code",
+      "props": {
+        "language": "graphql",
+        "fileName": "pagination.graphql",
+        "code": "# Relay式のページネーション仕様に従う\ntype Query {\n  posts(\n    first: Int\n    after: String\n    last: Int\n    before: String\n  ): PostConnection!\n}\n\ntype PostConnection {\n  edges: [PostEdge!]!\n  pageInfo: PageInfo!\n  totalCount: Int!\n}\n\ntype PostEdge {\n  node: Post!\n  cursor: String!\n}\n\ntype PageInfo {\n  hasNextPage: Boolean!\n  hasPreviousPage: Boolean!\n  startCursor: String\n  endCursor: String\n}",
+        "highlight": [3, 11, 16, 21]
+      }
+    },
+    {
+      "id": "resolver-patterns-heading",
+      "type": "heading",
+      "props": {
+        "content": "リゾルバーの実装パターン",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "resolver-patterns-explanation",
+      "type": "text",
+      "props": {
+        "content": "リゾルバーの実装には、いくつかの重要なパターンと注意点があります。特に、コードの再利用性とテスト容易性を考慮した実装が重要です。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "resolver-patterns-code",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "resolver-patterns.ts",
+        "code": "// 1. ビジネスロジックの分離\nclass PostService {\n  async findById(id: string) {\n    // データベースアクセスとビジネスロジック\n    return await db.posts.findUnique({ where: { id } });\n  }\n\n  async create(input: CreatePostInput) {\n    // バリデーションとビジネスルール\n    await this.validateInput(input);\n    return await db.posts.create({ data: input });\n  }\n}\n\n// 2. 依存性の注入\nconst resolvers = {\n  Query: {\n    post: (_, { id }, { services }) => {\n      return services.posts.findById(id);\n    }\n  },\n  Mutation: {\n    createPost: async (_, { input }, { services }) => {\n      return await services.posts.create(input);\n    }\n  }\n};\n\n// 3. コンテキストの活用\nconst context = ({ req }) => {\n  return {\n    services: {\n      posts: new PostService(),\n      users: new UserService()\n    },\n    user: req.user,  // 認証済みユーザー情報\n    db: prisma  // データベース接続\n  };\n};",
+        "highlight": [2, 17, 31]
+      }
+    },
+    {
+      "id": "testing-heading",
+      "type": "heading",
+      "props": {
+        "content": "効果的なテスト戦略",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "testing-explanation",
+      "type": "text",
+      "props": {
+        "content": "GraphQLアプリケーションのテストは、複数のレベルで実施する必要があります：\n\n1. スキーマのテスト\n2. リゾルバーの単体テスト\n3. 統合テスト\n4. エンドツーエンドテスト\n\n特に、スキーマの変更が既存のクライアントに影響を与えないことを確認するテストは重要です。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "testing-example",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "testing.ts",
+        "code": "import { jest } from '@jest/globals';\nimport { createTestClient } from 'apollo-server-testing';\nimport { gql } from 'apollo-server';\n\ndescribe('Post queries', () => {\n  let query;\n  \n  beforeEach(() => {\n    const { query: q } = createTestClient(server);\n    query = q;\n  });\n\n  it('should fetch a post by id', async () => {\n    const GET_POST = gql`\n      query GetPost($id: ID!) {\n        post(id: $id) {\n          id\n          title\n          content\n        }\n      }\n    `;\n\n    const res = await query({\n      query: GET_POST,\n      variables: { id: '123' }\n    });\n\n    expect(res.data.post).toEqual({\n      id: '123',\n      title: 'Test Post',\n      content: 'Test Content'\n    });\n  });\n});\n\ndescribe('Schema compatibility', () => {\n  it('should not have breaking changes', async () => {\n    const changes = await findSchemaChanges({\n      oldSchema: previousSchema,\n      newSchema: currentSchema\n    });\n\n    expect(changes.breaking).toHaveLength(0);\n  });\n});",
+        "highlight": [13, 38]
+      }
+    },
+    {
+      "id": "documentation-heading",
+      "type": "heading",
+      "props": {
+        "content": "効果的なドキュメンテーション",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "documentation-explanation",
+      "type": "text",
+      "props": {
+        "content": "GraphQLの自己文書化機能は強力ですが、それを最大限に活用するには適切な記述が必要です。スキーマ定義に含める説明は、APIの利用者にとって重要な情報源となります。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "documentation-example",
+      "type": "code",
+      "props": {
+        "language": "graphql",
+        "fileName": "documentation.graphql",
+        "code": "\"\"\"\nユーザープロファイルを表現する型。\nアプリケーション内でのユーザーの基本情報を管理します。\n\"\"\"\ntype User {\n  \"ユーザーの一意識別子\"\n  id: ID!\n\n  \"ユーザーの表示名\"\n  displayName: String!\n\n  \"\"\"\n  ユーザーのメールアドレス。\n  プライバシー設定に応じて表示が制限される場合があります。\n  \"\"\"\n  email: String!\n\n  \"\"\"\n  ユーザーの投稿一覧。\n  @deprecated(reason: \"v2.0以降はuserPosts queryを使用してください\")\n  \"\"\"\n  posts: [Post!]\n}\n\n\"\"\"\n記事の投稿状態を表す列挙型。\n\"\"\"\nenum PostStatus {\n  \"下書き状態\"\n  DRAFT\n\n  \"公開レビュー待ち\"\n  PENDING_REVIEW\n\n  \"公開済み\"\n  PUBLISHED\n}",
+        "highlight": [1, 6, 12, 18, 27]
+      }
+    },
+    {
+      "id": "versioning-heading",
+      "type": "heading",
+      "props": {
+        "content": "APIの進化とバージョニング",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "versioning-explanation",
+      "type": "text",
+      "props": {
+        "content": "GraphQLのスキーマは時間とともに進化していく必要がありますが、既存のクライアントとの互換性を維持することも重要です。以下のアプローチを組み合わせることで、安全な進化を実現できます：\n\n1. 非破壊的な変更の優先\n2. デプリケーション機能の活用\n3. 段階的な移行戦略の採用",
+        "align": "left"
+      }
+    },
+    {
+      "id": "deprecation-example",
+      "type": "code",
+      "props": {
+        "language": "graphql",
+        "fileName": "versioning.graphql",
+        "code": "type User {\n  # 既存のフィールド\n  name: String! @deprecated(reason: \"Use 'firstName' and 'lastName' instead\")\n\n  # 新しいフィールド\n  firstName: String!\n  lastName: String!\n\n  # 将来的に変更予定のフィールド\n  age: Int! @deprecated(reason: \"Use 'birthDate' instead, will be removed in v2.0\")\n  birthDate: DateTime\n\n  # 新機能の段階的導入\n  betaFeatures: BetaFeatures @deprecated(reason: \"Beta period ended, use 'features' instead\")\n  features: Features!\n}\n\n# 新しい機能用の型\ntype Features {\n  theme: Theme!\n  notifications: NotificationSettings!\n  privacy: PrivacySettings!\n}",
+        "highlight": [3, 10, 14]
+      }
+    },
+    {
+      "id": "conclusion",
+      "type": "text",
+      "props": {
+        "content": "これらのベストプラクティスは、あくまでもガイドラインとして捉えるべきです。実際のプロジェクトでは、ビジネス要件や技術的制約に応じて適切にアレンジする必要があります。重要なのは、一貫性のある設計原則に基づいて意思決定を行い、それを開発チーム全体で共有することです。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "next-steps",
+      "type": "callout",
+      "props": {
+        "type": "info",
+        "title": "次のステップ",
+        "content": "これらのベストプラクティスを実際のプロジェクトに適用する際は、まず小規模な範囲から始めることをお勧めします。特に既存のプロジェクトでは、段階的な改善アプローチが効果的です。また、定期的にプラクティスの有効性を評価し、必要に応じて調整することも重要です。"
+      }
+    }
+  ]
+}

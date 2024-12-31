@@ -1,0 +1,137 @@
+{
+  "blocks": [
+    {
+      "id": "evolution-intro",
+      "type": "text",
+      "props": {
+        "content": "GraphQLは2015年にFacebookによって公開されて以来、継続的な進化を遂げています。特に2024年においては、エンタープライズでの採用が加速し、新しいパターンやツールが次々と登場しています。ここでは、最新のトレンドと進化について詳しく見ていきましょう。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "distributed-graphql-heading",
+      "type": "heading",
+      "props": {
+        "content": "Distributed GraphQL：分散システムでの新しいアプローチ",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "distributed-graphql-explanation",
+      "type": "text",
+      "props": {
+        "content": "Distributed GraphQLは、大規模なマイクロサービスアーキテクチャにおいて特に重要性を増しているパターンです。このアプローチでは、異なるチームやサービスによって管理される複数のGraphQLスキーマを、単一の統合されたスキーマとして提供します。\n\nこのパターンの主な利点は：\n\n1. チーム間の独立性の確保\n2. スキーマの段階的な進化が可能\n3. サービス間の依存関係の明確化\n\nこれにより、大規模な組織でのGraphQLの採用がより現実的になっています。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "federation-architecture",
+      "type": "mermaid",
+      "props": {
+        "content": "graph TD\n    A[Gateway] --> B[User Service]\n    A --> C[Product Service]\n    A --> D[Order Service]\n    B --> E[(User DB)]\n    C --> F[(Product DB)]\n    D --> G[(Order DB)]\n    H[Client] --> A\n    I[Client] --> A",
+        "caption": "Distributed GraphQLアーキテクチャの例",
+        "theme": "default"
+      }
+    },
+    {
+      "id": "federation-example",
+      "type": "code",
+      "props": {
+        "language": "graphql",
+        "fileName": "user-service.graphql",
+        "code": "extend type Query {\n  me: User\n}\n\ntype User @key(fields: \"id\") {\n  id: ID!\n  name: String!\n  email: String!\n}\n\nextend type Order @key(fields: \"id\") {\n  id: ID! @external\n  user: User! @provides(fields: \"name\")\n}",
+        "highlight": [5, 11, 13]
+      }
+    },
+    {
+      "id": "federation-implementation",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "user-service.ts",
+        "code": "const userService = buildSubgraphSchema({\n  typeDefs,\n  resolvers: {\n    Query: {\n      me: (_, __, { user }) => user\n    },\n    User: {\n      __resolveReference: ({ id }) => {\n        return fetchUserById(id);\n      }\n    },\n    Order: {\n      user: (order) => {\n        return fetchUserById(order.userId);\n      }\n    }\n  }\n});",
+        "highlight": [8, 13]
+      }
+    },
+    {
+      "id": "modern-clients-heading",
+      "type": "heading",
+      "props": {
+        "content": "進化するGraphQLクライアント",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "modern-clients-explanation",
+      "type": "text",
+      "props": {
+        "content": "GraphQLクライアントの領域でも、2024年は大きな進化が見られます。従来のApollo ClientやRelayに加えて、新しいアプローチを採用したクライアントライブラリが登場しています。\n\n特筆すべき進化として、TypeScriptとの統合の深化があります。コード生成やType-safe なクエリビルダーにより、開発時のエラー検出と生産性が大幅に向上しています。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "modern-client-example",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "modern-client.ts",
+        "code": "import { graphql } from './gql';\n\n// クエリの型が自動生成される\nconst UserQuery = graphql`\n  query GetUser($id: ID!) {\n    user(id: $id) {\n      id\n      name\n      email\n      posts {\n        id\n        title\n      }\n    }\n  }\n`;\n\n// 型安全なクエリ実行\nconst { data, loading, error } = useQuery(UserQuery, {\n  variables: { id: \"123\" } // 型チェックが効く\n});",
+        "highlight": [4, 19]
+      }
+    },
+    {
+      "id": "fragments-heading",
+      "type": "heading",
+      "props": {
+        "content": "Fragmentsベースの開発パターン",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "fragments-explanation",
+      "type": "text",
+      "props": {
+        "content": "Fragmentsを活用したコンポーネント指向の開発パターンが、より一般的になってきています。このパターンでは、各UIコンポーネントが必要なデータ要件をFragmentとして定義し、それらを組み合わせて完全なクエリを構築します。\n\nこのアプローチにより：\n\n1. データ要件がコンポーネントと共に局所化される\n2. コンポーネントの再利用性が向上\n3. パフォーマンスの最適化が容易になる",
+        "align": "left"
+      }
+    },
+    {
+      "id": "fragments-example",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "UserProfile.tsx",
+        "code": "const UserProfileFragment = graphql`\n  fragment UserProfile_user on User {\n    name\n    email\n    avatar {\n      url\n    }\n  }\n`;\n\nconst UserPostsFragment = graphql`\n  fragment UserPosts_user on User {\n    posts(first: 3) {\n      title\n      excerpt\n    }\n  }\n`;\n\nconst UserProfileQuery = graphql`\n  query UserProfileQuery($id: ID!) {\n    user(id: $id) {\n      ...UserProfile_user\n      ...UserPosts_user\n    }\n  }\n  ${UserProfileFragment}\n  ${UserPostsFragment}\n`;",
+        "highlight": [1, 11, 20]
+      }
+    },
+    {
+      "id": "future-trends-heading",
+      "type": "heading",
+      "props": {
+        "content": "今後の展望",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "future-trends",
+      "type": "text",
+      "props": {
+        "content": "2024年の後半以降、以下のようなトレンドがさらに加速すると予想されます：\n\n1. スキーマ管理とガバナンス\n   - より洗練されたスキーマレジストリ\n   - 破壊的変更の自動検出と影響分析\n\n2. エッジコンピューティングとの統合\n   - エッジでのGraphQL実行\n   - キャッシュ戦略の最適化\n\n3. AI/MLとの連携\n   - スキーマ設計の自動提案\n   - クエリ最適化の自動化\n\nこれらの進化により、GraphQLはより広範な用途で採用される可能性が高まっています。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "section-summary",
+      "type": "text",
+      "props": {
+        "content": "GraphQLの進化は、単なる技術的な改善を超えて、より広範なソフトウェア開発のプラクティスに影響を与えています。特にDistributed GraphQLとモダンなクライアントツールの組み合わせは、大規模アプリケーション開発における新しい可能性を開いています。次のセクションでは、これらの新しい機能を実装する際の具体的な考慮事項について説明します。",
+        "align": "left"
+      }
+    }
+  ]
+}
