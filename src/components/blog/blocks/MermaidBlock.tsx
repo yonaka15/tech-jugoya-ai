@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useEffect, useId } from 'react';
+import React, { useEffect } from 'react';
 import mermaid from 'mermaid';
 import { MermaidBlockProps } from '@/types/blog';
-import { createHash } from 'crypto';
 
 // Mermaidの初期設定
 mermaid.initialize({
