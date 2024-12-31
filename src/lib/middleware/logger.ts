@@ -1,3 +1,4 @@
+// src/lib/middleware/logger.ts
 import type { NextRequest } from 'next/server'
 
 export interface AccessLog {
@@ -14,12 +15,6 @@ export interface AccessLog {
     acceptLanguage: string | null
     host: string | null
   }
-  geo: {
-    country: string | undefined
-    region: string | undefined
-    city: string | undefined
-  }
-  ip: string | undefined
 }
 
 export function createAccessLog(request: NextRequest): AccessLog {
@@ -37,12 +32,6 @@ export function createAccessLog(request: NextRequest): AccessLog {
       acceptLanguage: request.headers.get('accept-language'),
       host: request.headers.get('host'),
     },
-    geo: {
-      country: request.geo?.country,
-      region: request.geo?.region,
-      city: request.geo?.city,
-    },
-    ip: request.ip,
   }
 }
 
