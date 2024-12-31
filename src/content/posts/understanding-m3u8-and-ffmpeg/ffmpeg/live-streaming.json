@@ -1,0 +1,48 @@
+{
+  "blocks": [
+    {
+      "id": "live-streaming-heading",
+      "type": "heading",
+      "props": {
+        "content": "ライブストリーミング処理",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "live-intro",
+      "type": "text",
+      "props": {
+        "content": "ライブストリーミングでは、リアルタイムな処理と低遅延が重要です。FFmpegを使用して、様々なライブストリーミングのシナリオに対応する方法を見ていきましょう。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "live-flow",
+      "type": "mermaid",
+      "props": {
+        "content": "sequenceDiagram\n    participant S as Source\n    participant F as FFmpeg\n    participant P as Playlist\n    participant C as Client\n    loop Live Processing\n        S->>F: Stream Input\n        F->>F: Process Frame\n        F->>P: Create Segment\n        F->>P: Update Playlist\n        C->>P: Request Latest\n        P->>C: Send Segment\n    end",
+        "caption": "ライブストリーミング処理のフロー",
+        "theme": "default"
+      }
+    },
+    {
+      "id": "live-streaming-examples",
+      "type": "code",
+      "props": {
+        "language": "bash",
+        "code": "# 24時間ライブストリームの録画\nffmpeg -i \"http://example.com/live.m3u8\" \\\n  -c copy \\\n  -f segment \\\n  -segment_time 3600 \\\n  -segment_format mp4 \\\n  -strftime 1 \\\n  \"recording_%Y%m%d_%H%M%S.mp4\"\n\n# ライブストリームの再生成（低遅延モード）\nffmpeg -i \"input.mp4\" \\\n  -c copy \\\n  -f hls \\\n  -hls_time 2 \\\n  -hls_list_size 3 \\\n  -hls_flags delete_segments+append_list \\\n  -hls_segment_filename \"stream%d.ts\" \\\n  playlist.m3u8\n\n# RTMPからHLSへのライブ変換\nffmpeg -i \"rtmp://source.example.com/live/stream\" \\\n  -c:v libx264 -c:a aac \\\n  -b:v 2500k -b:a 128k \\\n  -flags +cgop \\\n  -g 30 -keyint_min 30 \\\n  -hls_time 2 \\\n  -hls_list_size 3 \\\n  -hls_flags delete_segments+append_list \\\n  -f hls output.m3u8",
+        "fileName": "live_streaming.sh"
+      }
+    },
+    {
+      "id": "live-options",
+      "type": "callout",
+      "props": {
+        "type": "info",
+        "title": "ライブストリーミングのオプション解説",
+        "content": "- **録画設定**:\n  - `segment_time`: 各セグメントの長さ（秒）\n  - `strftime`: タイムスタンプによるファイル名生成\n\n- **低遅延設定**:\n  - `hls_time`: 2秒の短いセグメント\n  - `hls_list_size`: 3セグメントのみ保持\n  - `delete_segments+append_list`: 古いセグメントの自動削除\n\n- **RTMP変換設定**:\n  - `flags +cgop`: クローズドGOPで信頼性向上\n  - `g 30`: 30フレームごとにキーフレーム\n  - `keyint_min 30`: 最小キーフレーム間隔"
+      }
+    }
+  ]
+}

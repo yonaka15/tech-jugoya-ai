@@ -1,0 +1,81 @@
+{
+  "blocks": [
+    {
+      "id": "references-heading",
+      "type": "heading",
+      "props": {
+        "content": "参考資料と技術情報",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "references-intro",
+      "type": "text",
+      "props": {
+        "content": "FFmpegとHLSストリーミングに関する詳細な技術情報や仕様についての参考資料をまとめています。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "official-docs-heading",
+      "type": "heading",
+      "props": {
+        "content": "公式ドキュメント",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "official-docs-content",
+      "type": "text",
+      "props": {
+        "content": "### FFmpeg Documentation\n- [FFmpeg Format Documentation](https://ffmpeg.org/ffmpeg-formats.html)\n- [HLS Format Options](https://ffmpeg.org/ffmpeg-formats.html#hls-2)\n- [FFmpeg Streaming Guide](https://trac.ffmpeg.org/wiki/StreamingGuide)\n\n### HLS仕様\n- [HTTP Live Streaming (HLS) RFC 8216](https://datatracker.ietf.org/doc/html/rfc8216)\n- [Apple HLS Authoring Specification](https://developer.apple.com/documentation/http_live_streaming/about_apple_s_http_live_streaming_tools)\n\n### IETF Standards\n- [Common Media Application Format (CMAF)](https://www.ietf.org/rfc/rfc8216.html)\n- [HTTP Live Streaming (HLS)](https://tools.ietf.org/html/rfc8216)",
+        "align": "left"
+      }
+    },
+    {
+      "id": "best-practices-heading",
+      "type": "heading",
+      "props": {
+        "content": "ベストプラクティス",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "streaming-quality",
+      "type": "text",
+      "props": {
+        "content": "### ストリーミング品質設定\n- セグメント長: 2-6秒（低遅延の場合は2秒、VODの場合は6秒推奨）\n- キーフレーム間隔: セグメント長と同じかその倍数\n\n推奨ビットレート:\n- 1080p: 4500-6000 kbps\n- 720p: 2500-4000 kbps\n- 480p: 1000-2000 kbps\n- 360p: 600-1000 kbps\n\n### セキュリティ設定\n- AES-128暗号化の使用\n- セッショントークンの実装\n- SSL/TLSの適用\n\n### パフォーマンス最適化\n- CDNの活用によるグローバルな配信\n- マルチビットレートの適切な設定\n- バッファリング戦略の最適化",
+        "align": "left"
+      }
+    },
+    {
+      "id": "compatibility-heading",
+      "type": "heading",
+      "props": {
+        "content": "互換性とサポート状況",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "compatibility-content",
+      "type": "text",
+      "props": {
+        "content": "### ブラウザサポート\n- Safari: ネイティブHLSサポート\n- Chrome/Firefox/Edge: Media Source Extensionsを使用\n- モバイルブラウザ: iOS SafariとAndroid Chrome/Safariでの違い\n\n### プレイヤーの互換性\n- VLC Media Player\n- QuickTime Player\n- JW Player\n- Video.js\n- HLS.js\n\n### プロトコルとコーデック\n- H.264/AAC: 最も広くサポート\n- HEVC/H.265: 一部デバイスで制限\n- VP9: 限定的なサポート",
+        "align": "left"
+      }
+    },
+    {
+      "id": "important-note",
+      "type": "callout",
+      "props": {
+        "type": "warning",
+        "title": "互換性の確認",
+        "content": "実際の運用時は、ターゲットとする視聴環境でのテストが重要です。特にモバイルデバイスでは、OSやブラウザのバージョンによって対応状況が異なる場合があります。"
+      }
+    }
+  ]
+}

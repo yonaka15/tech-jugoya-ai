@@ -1,0 +1,48 @@
+{
+  "blocks": [
+    {
+      "id": "error-heading",
+      "type": "heading",
+      "props": {
+        "content": "高度なエラー処理と認証",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "error-intro",
+      "type": "text",
+      "props": {
+        "content": "m3u8ストリームを扱う際には、ネットワークエラーや認証の問題に直面することがあります。FFmpegの高度なオプションを使用して、これらの課題に対処する方法を解説します。エラー処理の流れは以下の通りです：\n\n1. 接続試行\n2. 成功時はストリーミング開始\n3. 失敗時はエラー処理\n4. エラー状況に応じて再試行または終了\n5. ストリーミング中のエラーも同様に処理",
+        "align": "left"
+      }
+    },
+    {
+      "id": "error-examples",
+      "type": "code",
+      "props": {
+        "language": "bash",
+        "code": "# カスタムヘッダーとクッキーを使用した認証付きダウンロード\nffmpeg \\\n  -headers \"Authorization: Bearer token123\\r\\nCookie: session=xyz\\r\\n\" \\\n  -i \"https://example.com/secure/stream.m3u8\" \\\n  -c copy output.mp4\n\n# プロキシ経由でのアクセス\nffmpeg \\\n  -http_proxy \"http://proxy.example.com:8080\" \\\n  -i \"http://example.com/video.m3u8\" \\\n  -c copy output.mp4\n\n# 高度なリトライ設定\nffmpeg \\\n  -reconnect 1 \\\n  -reconnect_at_eof 1 \\\n  -reconnect_streamed 1 \\\n  -reconnect_delay_max 30 \\\n  -timeout 30000000 \\\n  -i \"http://example.com/live.m3u8\" \\\n  -c copy \\\n  -f hls \\\n  -hls_flags temp_file \\\n  output.mp4",
+        "fileName": "error_handling.sh"
+      }
+    },
+    {
+      "id": "error-options",
+      "type": "callout",
+      "props": {
+        "type": "info",
+        "title": "エラー処理オプションの詳細",
+        "content": "1. **再接続設定**:\n   - `reconnect`: 接続が切れた場合の再試行\n   - `reconnect_at_eof`: ストリーム終了時の再接続\n   - `reconnect_streamed`: ストリーミング中の再接続\n   - `reconnect_delay_max`: 最大再接続待機時間\n\n2. **タイムアウト設定**:\n   - `timeout`: 接続タイムアウト時間\n   - `rw_timeout`: 読み書きタイムアウト\n\n3. **認証設定**:\n   - `headers`: カスタムHTTPヘッダー\n   - `http_proxy`: プロキシサーバー設定"
+      }
+    },
+    {
+      "id": "troubleshooting",
+      "type": "callout",
+      "props": {
+        "type": "warning",
+        "title": "よくあるエラーと対処法",
+        "content": "1. **403 Forbidden**:\n   - リファラーヘッダーの追加\n   - 適切な認証情報の設定\n   - User-Agentの指定\n\n2. **タイムアウトエラー**:\n   - タイムアウト値の調整\n   - 接続の再試行回数の増加\n   - ネットワーク状態の確認\n\n3. **SSL/TLSエラー**:\n   - 証明書の検証設定\n   - プロトコルの明示的な指定\n   - 暗号化方式の調整"
+      }
+    }
+  ]
+}

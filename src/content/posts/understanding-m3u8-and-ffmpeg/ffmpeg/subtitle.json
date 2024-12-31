@@ -1,0 +1,56 @@
+{
+  "blocks": [
+    {
+      "id": "subtitle-heading",
+      "type": "heading",
+      "props": {
+        "content": "字幕とメタデータの処理",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "subtitle-intro",
+      "type": "text",
+      "props": {
+        "content": "HLSストリーミングでの字幕対応は、アクセシビリティと多言語対応の観点から重要です。FFmpegを使用して字幕を適切に処理し、配信する方法を解説します。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "subtitle-process",
+      "type": "mermaid",
+      "props": {
+        "content": "graph LR\n    A[入力ファイル] --> B{FFmpeg}\n    C[字幕ファイル] --> B\n    B --> D[HLSセグメント]\n    B --> E[字幕セグメント]\n    D --> F[マスタープレイリスト]\n    E --> F\n    style B fill:#bbf,stroke:#333,stroke-width:2px\n    style F fill:#bfb,stroke:#333,stroke-width:2px",
+        "caption": "字幕処理のワークフロー",
+        "theme": "default"
+      }
+    },
+    {
+      "id": "subtitle-examples",
+      "type": "code",
+      "props": {
+        "language": "bash",
+        "code": "# 字幕付きHLSストリームの作成\nffmpeg -i video.mp4 -i subtitles.srt \\\n  -map 0:v -map 0:a -map 1 \\\n  -c:v libx264 -c:a aac \\\n  -c:s webvtt \\\n  -f hls \\\n  -hls_time 10 \\\n  -hls_list_size 0 \\\n  -hls_segment_type fmp4 \\\n  -hls_fmp4_init_filename init.mp4 \\\n  -var_stream_map \"v:0,a:0 s:0\" \\\n  -master_pl_name master.m3u8 \\\n  stream_%v.m3u8\n\n# 複数言語の字幕対応\nffmpeg -i video.mp4 \\\n  -i subtitles_en.srt \\\n  -i subtitles_ja.srt \\\n  -map 0:v -map 0:a \\\n  -map 1 -map 2 \\\n  -c:v libx264 -c:a aac \\\n  -c:s webvtt \\\n  -metadata:s:s:0 language=eng \\\n  -metadata:s:s:1 language=jpn \\\n  -f hls \\\n  -hls_time 10 \\\n  -var_stream_map \"v:0,a:0 s:0,s:1\" \\\n  -master_pl_name master.m3u8 \\\n  stream_%v.m3u8",
+        "fileName": "subtitle_processing.sh"
+      }
+    },
+    {
+      "id": "subtitle-formats",
+      "type": "callout",
+      "props": {
+        "type": "info",
+        "title": "対応する字幕形式",
+        "content": "- **入力形式**:\n  - SRT (SubRip)\n  - ASS/SSA (Advanced SubStation Alpha)\n  - WebVTT\n  - TTML (Timed Text Markup Language)\n\n- **出力形式**:\n  - WebVTT (Web Video Text Tracks)\n    - HLS配信に最適\n    - ブラウザでの広い互換性\n    - スタイリングのサポート\n\n- **特徴**:\n  - タイミングの自動調整\n  - 文字コード変換\n  - スタイル情報の保持"
+      }
+    },
+    {
+      "id": "subtitle-metadata",
+      "type": "text",
+      "props": {
+        "content": "字幕処理では、単なる変換だけでなく、適切なメタデータの設定も重要です。言語コードの設定や文字コードの処理、タイミングの同期などに注意を払う必要があります。",
+        "align": "left"
+      }
+    }
+  ]
+}
