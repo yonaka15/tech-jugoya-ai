@@ -42,3 +42,19 @@ export async function getAllPosts(): Promise<PostWithSlug[]> {
     return [];
   }
 }
+
+export async function getAllTags(): Promise<string[]> {
+  const posts = await getAllPosts();
+  const tags = new Set<string>();
+  
+  posts.forEach(post => {
+    post.meta.tags.forEach(tag => tags.add(tag));
+  });
+  
+  return Array.from(tags).sort();
+}
+
+export async function getPostsByTag(tag: string): Promise<PostWithSlug[]> {
+  const posts = await getAllPosts();
+  return posts.filter(post => post.meta.tags.includes(tag));
+}
