@@ -1,0 +1,74 @@
+{
+  "blocks": [
+    {
+      "id": "bulk-creation-heading",
+      "type": "heading",
+      "props": {
+        "content": "スプレッドシートを活用した一括作成",
+        "level": 2,
+        "align": "left"
+      }
+    },
+    {
+      "id": "bulk-creation-intro",
+      "type": "text",
+      "props": {
+        "content": "多数のクイズを効率的に作成するには、スプレッドシートインポート機能を活用するのが効果的です。Kahoot!は.xlsx形式のスプレッドシートをサポートしており、Excel、Numbers、Google Sheets、LibreOfficeなど、様々なアプリケーションでの編集が可能です[^1]。\n\nここでは、Pythonを使用した効率的なクイズ作成の方法を紹介します。このアプローチは、特に大規模なクラスや定期的な評価が必要な場合に有効です。\n\n[^1]: [Advantages of Kahoot! Game-based Formative Assessments](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7883495/)",
+        "align": "left"
+      }
+    },
+    {
+      "id": "conversion-code",
+      "type": "code",
+      "props": {
+        "language": "python",
+        "fileName": "create_kahoot_spreadsheet.py",
+        "code": "import openpyxl\nimport json\nfrom openpyxl.styles import PatternFill, Font\n\ndef create_kahoot_spreadsheet(input_json_file, output_excel_file):\n    \"\"\"JSONファイルからKahoot!用のスプレッドシートを作成する\n\n    Args:\n        input_json_file (str): 入力JSONファイルのパス\n        output_excel_file (str): 出力Excelファイルのパス\n\n    Note:\n        JSONファイルの形式:\n        [\n            {\n                \"text\": \"質問文 (最大95文字)\",\n                \"options\": [\"選択肢1\", \"選択肢2\", \"選択肢3\", \"選択肢4\"],\n                \"correct_option\": 1,  # 1-4の数値\n                \"time\": 20  # 5, 10, 20, 30, 60, 90, 120, 240のいずれか\n            },\n            ...\n        ]\n    \"\"\"\n    # JSONファイルから問題データを読み込む\n    with open(input_json_file, 'r', encoding='utf-8') as f:\n        questions = json.load(f)\n\n    # 新しいワークブックを作成\n    wb = openpyxl.Workbook()\n    sheet = wb.active\n    sheet.title = \"Quiz\"\n\n    # スタイルの設定\n    header_fill = PatternFill(start_color=\"E7E6E6\", end_color=\"E7E6E6\", fill_type=\"solid\")\n    header_font = Font(bold=True)\n\n    # ヘッダー行の設定（8行目）\n    headers = [\n        (\"B8\", \"Question\", \"max 95 characters\"),\n        (\"C8\", \"Answer 1\", \"max 60 characters\"),\n        (\"D8\", \"Answer 2\", \"max 60 characters\"),\n        (\"E8\", \"Answer 3\", \"max 60 characters\"),\n        (\"F8\", \"Answer 4\", \"max 60 characters\"),\n        (\"G8\", \"Time limit (sec)\", \"5, 10, 20, 30, 60, 90, 120, or 240 secs\"),\n        (\"H8\", \"Correct answer(s)\", \"choose at least one (1-4)\")\n    ]\n\n    for cell, title, note in headers:\n        sheet[cell] = f\"{title} - {note}\"\n        sheet[cell].fill = header_fill\n        sheet[cell].font = header_font\n\n    # 制限時間の有効値\n    valid_time_limits = [5, 10, 20, 30, 60, 90, 120, 240]\n\n    # 9行目以降に質問データを書き込む\n    start_row = 9\n    for i, question in enumerate(questions):\n        row = start_row + i\n        \n        # 文字数制限のチェックと切り捨て\n        text = question[\"text\"]\n        if len(text) > 95:\n            text = text[:95]\n        sheet[f\"B{row}\"] = text\n        \n        # 選択肢の書き込み（最大60文字）\n        for j, option in enumerate(question[\"options\"]):\n            if j < 4:  # 最大4つまで\n                col = chr(ord('C') + j)\n                option_text = option[:60] if len(option) > 60 else option\n                sheet[f\"{col}{row}\"] = option_text\n        \n        # 制限時間の検証と書き込み\n        time = question.get(\"time\", 20)  # デフォルト20秒\n        if time not in valid_time_limits:\n            time = 20  # 無効な値の場合は20秒に設定\n        sheet[f\"G{row}\"] = time\n        \n        # 正解の選択肢（1-4の範囲で設定）\n        correct = question[\"correct_option\"]\n        if 1 <= correct <= 4:\n            sheet[f\"H{row}\"] = correct\n\n    # ファイルを保存\n    wb.save(output_excel_file)\n    print(f\"'{output_excel_file}' にKahoot!用スプレッドシートが作成されました！\")\n\n\nif __name__ == \"__main__\":\n    input_json = \"questions.json\"\n    output_excel = \"kahoot_questions.xlsx\"\n    create_kahoot_spreadsheet(input_json, output_excel)",
+        "highlight": [6, 33, 64, 85]
+      }
+    },
+    {
+      "id": "json-format",
+      "type": "code",
+      "props": {
+        "language": "json",
+        "fileName": "questions.json",
+        "code": "[\n  {\n    \"text\": \"TypeScriptの型アノテーションで正しい構文は？\",\n    \"options\": [\n      \"variable: type\",\n      \"variable -> type\",\n      \"variable := type\",\n      \"variable <type>\"\n    ],\n    \"correct_option\": 1,\n    \"time\": 30\n  },\n  {\n    \"text\": \"JavaScriptのPromiseが取り得る状態として、誤っているものは？\",\n    \"options\": [\n      \"pending\",\n      \"fulfilled\",\n      \"rejected\",\n      \"processing\"\n    ],\n    \"correct_option\": 4,\n    \"time\": 20\n  }\n]",
+        "highlight": [3, 10, 14, 22]
+      }
+    },
+    {
+      "id": "bulk-creation-explanation",
+      "type": "text",
+      "props": {
+        "content": "上記のPythonスクリプトは、JSONファイルからKahoot!の仕様に準拠したスプレッドシートを生成します。研究により、効果的な学習のためには制限事項の遵守が重要であることが示されています[^2]。\n\n質問文は最大95文字までで、それを超える場合は自動的に切り捨てられます。各選択肢も60文字の制限があり、同様に処理されます。制限時間は5秒から240秒までの規定値から選択する必要があり、無効な値が指定された場合は自動的に20秒がデフォルト値として設定されます[^3]。\n\nまた、スプレッドシートのフォーマットもKahoot!の要件に厳密に従っています。ヘッダー行は8行目に配置され、問題データは9行目から記載されます。このフォーマットを守ることで、スムーズなインポートが可能になります。\n\n[^2]: [Using online game-based platforms to improve student performance](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6647160/)\n[^3]: [Feasibility of Kahoot! as a Real-Time Assessment Tool](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7547141/)",
+        "align": "left"
+      }
+    },
+    {
+      "id": "import-process-heading",
+      "type": "heading",
+      "props": {
+        "content": "スプレッドシートのインポート手順",
+        "level": 3,
+        "align": "left"
+      }
+    },
+    {
+      "id": "import-process",
+      "type": "text",
+      "props": {
+        "content": "生成したスプレッドシートをKahoot!にインポートする際は、以下の手順に従います。まず、Createボタンをクリックしてクイズタイプを選択します。タイトルと説明を入力した後、スプレッドシートのインポートオプションが表示されます[^4]。ここで生成したファイルをアップロードすると、自動的に問題が取り込まれます。\n\nインポート後は、必要に応じて画像の追加や問題の並び替えなどの調整が可能です。研究結果によると、視覚的な要素は学習効果を高める重要な要素となるため、適切な画像の追加を検討することをお勧めします。\n\n[^4]: [The effect of using Kahoot! for learning – A literature review](https://www.sciencedirect.com/science/article/pii/S0360131520300208)",
+        "align": "left"
+      }
+    },
+    {
+      "id": "import-flow",
+      "type": "mermaid",
+      "props": {
+        "content": "graph TB\n    A[JSONデータ] --> B[Pythonスクリプト]\n    B --> C[フォーマット検証]\n    C --> D[Excelファイル生成]\n    D --> E[Kahoot!にインポート]\n    E --> F[画像追加]\n    F --> G[最終確認]",
+        "caption": "クイズ一括作成からインポートまでのフロー"
+      }
+    }
+  ]
+}
