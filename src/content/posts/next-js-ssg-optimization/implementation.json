@@ -1,0 +1,94 @@
+{
+  "blocks": [
+    {
+      "id": "implementation-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "Static Site Generationによる最適化の実装"
+      }
+    },
+    {
+      "id": "implementation-intro",
+      "type": "text",
+      "props": {
+        "content": "これらの課題に対し、私たちはNext.js 15のStatic Site Generation（SSG）を活用した解決策を実装しました。[Next.js App Router](https://nextjs.org/docs/app)では、単一のHTMLファイルごとに生成を行うことで、不要なJavaScriptコードのクライアントサイドでのロードを避けることができます。この最適化により、バンドルサイズの削減と読み込み時間の短縮を実現しています。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "optimization-flow",
+      "type": "mermaid",
+      "props": {
+        "content": "flowchart TB\n    subgraph Before[実装前の課題]\n        A[分割JSONファイル] -->|実行時読み込み| B[遅いTTFB]\n        B --> C[SEO影響]\n        B --> D[UX低下]\n    end\n    \n    subgraph After[静的生成による解決]\n        E[分割JSONファイル] -->|ビルド時読み込み| F[静的HTML生成]\n        F --> G[CDNキャッシュ]\n        G --> H[高速TTFB]\n    end\n    \n    Before -->|最適化| After",
+        "caption": "図1: 静的生成による最適化の流れ"
+      }
+    },
+    {
+      "id": "implementation-heading-code",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "コアとなる実装"
+      }
+    },
+    {
+      "id": "data-flow",
+      "type": "mermaid",
+      "props": {
+        "content": "sequenceDiagram\n    participant Build as ビルドプロセス\n    participant SSG as 静的生成\n    participant Files as JSONファイル\n    participant HTML as 静的HTML\n    \n    Build->>Files: すべての記事パスを収集\n    Files-->>Build: 記事データ\n    Build->>SSG: generateStaticParams実行\n    SSG->>Files: 各記事のJSONを読み込み\n    Files-->>SSG: 記事コンテンツ\n    SSG->>HTML: 静的HTMLを生成\n    Note over HTML: メタデータ最適化\n    Note over HTML: OpenGraph対応",
+        "caption": "図2: ビルド時のデータフローと静的生成プロセス"
+      }
+    },
+    {
+      "id": "code-example",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "app/blog/[slug]/page.tsx",
+        "code": "export const dynamicParams = false;\n\nexport async function generateStaticParams() {\n  const posts = await getAllPosts();\n  return posts.map(post => ({\n    slug: post.slug\n  }));\n}\n\nexport async function generateMetadata({ params }: Props) {\n  const post = await getPost(params.slug);\n  return {\n    title: post.meta.title,\n    description: post.meta.description,\n    openGraph: {\n      title: post.meta.title,\n      description: post.meta.description,\n      type: 'article'\n    }\n  };\n}\n\nexport default async function PostPage({ params }: Props) {\n  const post = await getPost(params.slug);\n  return <PostContent post={post} />;\n}",
+        "highlight": [1, 3, 10, 24]
+      }
+    },
+    {
+      "id": "implementation-details-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "実装のポイント"
+      }
+    },
+    {
+      "id": "implementation-details",
+      "type": "text",
+      "props": {
+        "content": "実装の主要なポイントは、[Dynamic Routes](https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes)に基づいて以下のように構成しています：\n\n**1. 静的パラメータの生成**\ngenerateStaticParams 関数は、ビルド時に生成する記事パスを定義します。[generateStaticParams](https://nextjs.org/docs/app/api-reference/functions/generate-static-params)内でのデータ取得（fetch）は自動的にメモ化されるため、同じデータに対する重複したリクエストを効率的に処理できます。\n\n**2. 動的パラメータの制御**\ndynamicParams = false を設定することで、generateStaticParamsで定義されていないパスへのアクセスを制御します。これにより、定義されていないURLに対して確実に404ページを返すことができます。\n\n**3. Server Componentsの活用**\n[Server Components](https://nextjs.org/docs/getting-started/react-essentials#server-components)は、ビルド時に実行され、従来の静的サイト生成と同様に動作します。これにより、初期ページロード用の静的HTMLと、クライアントナビゲーション用の静的ペイロードの両方を生成できます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "optimization-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "最適化の戦略"
+      }
+    },
+    {
+      "id": "cache-flow",
+      "type": "mermaid",
+      "props": {
+        "content": "flowchart LR\n    subgraph CDN[CDNキャッシュ層]\n        Cache[キャッシュ]\n    end\n    \n    subgraph Edge[エッジネットワーク]\n        E1[エッジ1]\n        E2[エッジ2]\n        E3[エッジ3]\n    end\n    \n    subgraph Users[ユーザー]\n        U1[ユーザー1]\n        U2[ユーザー2]\n        U3[ユーザー3]\n    end\n    \n    Cache --> E1\n    Cache --> E2\n    Cache --> E3\n    \n    E1 --> U1\n    E2 --> U2\n    E3 --> U3\n    \n    classDef cdn fill:#f9f,stroke:#333,stroke-width:2px\n    classDef edge fill:#bbf,stroke:#333,stroke-width:1px\n    classDef user fill:#bfb,stroke:#333,stroke-width:1px\n    \n    class Cache cdn\n    class E1,E2,E3 edge\n    class U1,U2,U3 user",
+        "caption": "図3: CDNキャッシュとエッジ配信の最適化"
+      }
+    },
+    {
+      "id": "optimization-details",
+      "type": "text",
+      "props": {
+        "content": "この実装による最適化のポイントは以下の通りです：\n\n**1. ビルド時の最適化**\n- 分割JSONファイルの読み込みをビルド時に行い、実行時のファイルI/Oを完全に排除\n- generateStaticParams内のデータ取得は自動的にメモ化され、ビルド時間を最適化\n- [Automatic Static Optimization](https://nextjs.org/docs/pages/building-your-application/rendering/automatic-static-optimization)により、各ルートに対して個別のHTMLファイルを生成し、不要なJavaScriptの読み込みを防止\n\n**2. 柔軟な静的生成戦略**\n開発時（next dev）とプロダクション時（next build）で異なる動作を実現：\n- 開発時：ルートへのナビゲーション時にgenerateStaticParamsを実行\n- ビルド時：該当するLayoutsやPagesの生成前にgenerateStaticParamsを実行\n\n**3. キャッシュとCDNの最適化**\n静的生成されたページはCDNでキャッシュ可能となり、Cache-Controlヘッダーも'public'に設定されます。これにより、[CDNキャッシングとエッジケーシング](https://nextjs.org/docs/pages/building-your-application/deploying#caching)を活用した効率的なコンテンツ配信が可能になります。",
+        "align": "left"
+      }
+    }
+  ]
+}

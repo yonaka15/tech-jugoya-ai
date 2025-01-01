@@ -1,0 +1,36 @@
+{
+  "blocks": [
+    {
+      "id": "results-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "パフォーマンス改善の成果"
+      }
+    },
+    {
+      "id": "results-intro",
+      "type": "text",
+      "props": {
+        "content": "この実装により、以下のような大幅なパフォーマンス改善を達成しました。特にTTFBとローディングタイムについては、90%以上の改善を実現しています。これらの計測は、[Core Web Vitals report](https://support.google.com/webmasters/answer/9205520?hl=en)の基準に基づいて実施しました。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "improved-metrics",
+      "type": "callout",
+      "props": {
+        "type": "success",
+        "content": "実装後の計測値：\n- TTFB: 174ms（90.4%改善）\n- Loading time: 175ms（90.4%改善）\n- Cache-Control: public, max-age=0, must-revalidate\n- OpenGraph: 完全対応"
+      }
+    },
+    {
+      "id": "benefits",
+      "type": "text",
+      "props": {
+        "content": "この改善により、以下のような効果が得られました。詳細は[Performance & Core Web Vitalsについて](https://nextjs.org/docs/pages/building-your-application/deploying#production-checklist)を参照してください。\n\n**パフォーマンス向上**\n実行時のファイルI/Oが削減され、CDNキャッシュを効率的に活用できるようになりました。これにより、TTFBが大幅に改善し、ユーザー体験が向上しました。\n\n**SEO改善**\n[SEOとメタデータの最適化](https://nextjs.org/docs/app/building-your-application/optimizing/metadata)に基づき、完全な静的HTMLを生成し、メタデータも事前に用意することで、検索エンジンのクローラーがコンテンツを効率的に取得できるようになりました。\n\n**運用の簡素化**\nデプロイとエラー処理が単純化され、インフラ管理の負担も軽減されました。事前生成により、実行時のエラーリスクも大幅に減少しています。",
+        "align": "left"
+      }
+    }
+  ]
+}

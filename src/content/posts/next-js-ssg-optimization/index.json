@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "title": "Next.js 15 App Routerでのブログ最適化: 静的生成による90%以上のパフォーマンス改善",
+    "description": "Next.js 15のStatic Site Generationを活用して、ブログサイトのパフォーマンスを大幅に改善した実装事例を解説。TTFBを90%以上改善し、SEOとユーザー体験を向上させた具体的な手法を紹介します。",
+    "publishedAt": "2025-01-01T12:32:36.000Z",
+    "tags": [
+      "Next.js",
+      "TypeScript",
+      "Performance",
+      "Architecture",
+      "Best Practice",
+      "Web Development"
+    ]
+  },
+  "blocks": [
+    {
+      "id": "introduction",
+      "type": "introduction",
+      "props": {}
+    },
+    {
+      "id": "implementation",
+      "type": "implementation",
+      "props": {}
+    },
+    {
+      "id": "results",
+      "type": "results",
+      "props": {}
+    },
+    {
+      "id": "conclusion",
+      "type": "conclusion",
+      "props": {}
+    }
+  ]
+}
