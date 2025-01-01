@@ -79,6 +79,7 @@ Next.js App Router と TypeScript で実装された、ブロックベースの�
 
 - [ADR-001: ブログ記事読み込みの最適化方針](docs/adr/001-blog-content-loading-optimization.md) - 2025-01-01 (✅ 完了)
 - [ADR-002: OGP画像生成の最適化とキャッシュ戦略](docs/adr/002-ogp-image-generation-optimization.md) - 2025-01-01 (✅ 完了)
+- [ADR-003: Canonical URL実装とSEO最適化](docs/adr/003-canonical-url-implementation.md) - 2025-01-02 (✅ 完了)
 
 ## 📂 プロジェクト構造
 
