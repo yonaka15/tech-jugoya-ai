@@ -1,14 +1,20 @@
 import { getPost } from "@/lib/blog";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
 
 export const runtime = 'nodejs';
 
+type Context = {
+  params: {
+    slug: string;
+  };
+};
+
 export async function GET(
-  request: Request,
-  { params }: { params: { slug: string } }
+  request: NextRequest,
+  context: Context
 ) {
-  const post = await getPost(params.slug);
+  const post = await getPost(context.params.slug);
   
   if (!post) {
     return new NextResponse("Not found", { status: 404 });
