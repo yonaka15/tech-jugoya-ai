@@ -1,0 +1,52 @@
+{
+  "blocks": [
+    {
+      "id": "monitor-maintenance-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "モニタリングと継続的な改善"
+      }
+    },
+    {
+      "id": "monitoring",
+      "type": "text",
+      "props": {
+        "content": "[Next.jsのパフォーマンスモニタリング](https://vercel.com/docs/concepts/speed-insights)に基づき、以下の指標を継続的に監視しています：\n\n- TTFB: 目標200ms以下\n- コンテンツ圧縮率\n- キャッシュヒット率\n- ビルド成功率: 99.9%以上\n- メタデータの整合性\n\nこれらの指標を監視することで、パフォーマンスの低下を早期に検知し、必要な対策を講じることができます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "limitations-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "制限事項と考慮点"
+      }
+    },
+    {
+      "id": "limitations",
+      "type": "text",
+      "props": {
+        "content": "[Static Exportの制限事項](https://nextjs.org/docs/app/building-your-application/deploying/static-exports#unsupported-features)として、以下の機能は使用できません：\n\n**1. 動的機能の制限**\n- dynamicParams: true を使用する動的ルート\n- generateStaticParams() のない動的ルート\n- Requestに依存するRoute Handlers\n- Cookiesの使用\n- ミドルウェアの使用\n\n**2. データ更新の制限**\n- Incremental Static Regeneration (ISR)は使用不可\n- Server Actionsは使用不可\n- 実行時のリライトやリダイレクトは不可\n\nこれらの制限は、開発時（next dev）にエラーとして検出されます。制限された機能を使用しようとすると、rootレイアウトでdynamic = 'error'を設定した場合と同様のエラーが発生します。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "conclusion-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "まとめと今後の展望"
+      }
+    },
+    {
+      "id": "conclusion-text",
+      "type": "text",
+      "props": {
+        "content": "Next.js 15のStatic Site Generationの導入により、JSONブロックによる効率的な記事データ管理と、高いパフォーマンスの両立を実現できました。90%以上のパフォーマンス改善は、当初の想定を超える成果でした。\n\n特筆すべきは、[App Routerの新しい機能](https://nextjs.org/blog/next-15)を活用することで、より直感的なルーティングと効率的なデータ取得が可能になった点です。generateStaticParamsとServer Componentsの組み合わせにより、SEOとパフォーマンスの両面で最適化されたブログシステムを構築できました。\n\nこの実装は、コンテンツの拡充とシステムの進化の両面で、持続可能な発展を可能にする基盤となっています。実装の詳細は[GitHubリポジトリ](https://github.com/yonaka15/tech-jugoya-ai)で公開しており、今後も継続的なモニタリングと最適化を行い、さらなる改善を目指していきます。",
+        "align": "left"
+      }
+    }
+  ]
+}

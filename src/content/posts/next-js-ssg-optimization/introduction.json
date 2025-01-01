@@ -1,0 +1,44 @@
+{
+  "blocks": [
+    {
+      "id": "intro-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "はじめに：パフォーマンスの課題"
+      }
+    },
+    {
+      "id": "intro-text",
+      "type": "text",
+      "props": {
+        "content": "このブログサイトはNext.jsで構築しており、[ソースコードをGitHubで公開](https://github.com/yonaka15/tech-jugoya-ai)しています。記事のコンテンツは、柔軟な更新と保守性を考慮して分割されたJSONファイルで管理しています。しかし、この管理方式には予期せぬ課題がありました。複数のJSONファイルを個別に読み込んでレンダリングする必要があるため、ページの読み込み時間が著しく遅くなってしまったのです。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "problem-details",
+      "type": "text",
+      "props": {
+        "content": "具体的な計測では、Time to First Byte（TTFB）が1,800ms近くかかっており、ユーザー体験とSEOの両面で大きな課題となっていました。また、OpenGraphタグの未対応により、SNSでの記事共有時の表示も最適化されていない状況でした。TTFBの重要性については、[Core Web Vitalsとパフォーマンス指標](https://web.dev/articles/vitals?hl=ja)で詳しく解説されています。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "initial-metrics",
+      "type": "callout",
+      "props": {
+        "type": "info",
+        "content": "実装前の計測値（/blog/downloading-videos-with-ffmpeg-m3u8）：\n\n• TTFB: 1,819ms\n• Loading time: 1,823ms\n• Cache-Control: private, no-cache, no-store\n• OpenGraph: 未対応"
+      }
+    },
+    {
+      "id": "solution-intro",
+      "type": "text",
+      "props": {
+        "content": "この記事では、[Next.js 15のStatic Site Generation（SSG）](https://nextjs.org/docs/pages/building-your-application/rendering/static-site-generation)を活用してこれらの課題を解決し、パフォーマンスを大幅に改善した実装について説明します。分割JSONによる柔軟なコンテンツ管理の利点を活かしつつ、高速なページ表示を実現する方法を紹介していきます。",
+        "align": "left"
+      }
+    }
+  ]
+}
