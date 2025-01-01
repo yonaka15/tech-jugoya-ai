@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { getAllPosts } from '../lib/blog'
+import { formatTagForUrl } from '../lib/tags'
 
 /**
  * サイトマップを生成する
@@ -40,7 +41,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
     // タグページのURL
     ...Array.from(new Set(posts.flatMap((post) => post.meta.tags))).map((tag) => ({
-      url: `${baseUrl}/tags/${encodeURIComponent(tag.toLowerCase())}`,
+      url: `${baseUrl}/tags/${formatTagForUrl(tag)}`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
       priority: 0.4,

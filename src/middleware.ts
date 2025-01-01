@@ -1,10 +1,17 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { createAccessLog, logAccess } from './lib/middleware/logger'
+import { normalizeTagUrl } from './lib/middleware/tags'
 
 export function middleware(request: NextRequest) {
   const log = createAccessLog(request)
   logAccess(log)
+
+  // タグページのURL正規化
+  const tagRedirect = normalizeTagUrl(request)
+  if (tagRedirect) {
+    return tagRedirect
+  }
 
   return NextResponse.next()
 }
