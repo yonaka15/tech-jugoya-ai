@@ -4,17 +4,12 @@ import { headers } from "next/headers";
 
 export const runtime = 'nodejs';
 
-type Context = {
-  params: {
-    slug: string;
-  };
-};
-
 export async function GET(
   request: NextRequest,
-  context: Context
+  { params }: { params: Promise<{ slug: string }> }
 ) {
-  const post = await getPost(context.params.slug);
+  const slug = (await params).slug;
+  const post = await getPost(slug);
   
   if (!post) {
     return new NextResponse("Not found", { status: 404 });
