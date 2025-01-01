@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import Script from "next/script";
+import { defaultMetadata } from "@/types/metadata";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,10 +16,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "tech.jugoya.ai",
-  description: "技術ブログ",
-};
+export const metadata: Metadata = defaultMetadata;
 
 export default function RootLayout({
   children,
@@ -28,7 +26,11 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <head>
-        <link rel="preload" href="https://analytics.ahrefs.com/analytics.js" as="script"/>
+        <link 
+          rel="preload" 
+          href="https://analytics.ahrefs.com/analytics.js" 
+          as="script"
+        />
         <Script 
           src="https://analytics.ahrefs.com/analytics.js" 
           data-key={process.env.NEXT_PUBLIC_AHREFS_ANALYTICS_KEY} 

@@ -1,8 +1,8 @@
-// src/app/blog/[slug]/page.tsx
 import { getPost, getAllPosts } from '@/lib/blog';
 import BlockRenderer from '@/components/blog/blocks/BlockRenderer';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
+import { generateBlogPostMetadata, generateBlogPostJsonLd } from '@/types/metadata';
 
 // ビルド時に生成される記事のみを許可
 export const dynamicParams = false;
@@ -15,7 +15,7 @@ export async function generateStaticParams() {
   }));
 }
 
-// メタデータの生成（型定義をNext.js 15に対応）
+// メタデータの生成
 export async function generateMetadata({ 
   params 
 }: { 
@@ -28,39 +28,25 @@ export async function generateMetadata({
     return {
       title: 'Not Found | tech.jugoya.ai',
       description: 'The requested post could not be found.',
-      robots: 'noindex, nofollow'
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
-  const publishedTime = new Date(post.meta.publishedAt).toISOString();
-  const modifiedTime = post.meta.updatedAt 
-    ? new Date(post.meta.updatedAt).toISOString()
-    : undefined;
-
-  return {
-    title: `${post.meta.title} | tech.jugoya.ai`,
+  return generateBlogPostMetadata({
+    title: post.meta.title,
     description: post.meta.description,
-    openGraph: {
-      title: post.meta.title,
-      description: post.meta.description,
-      type: 'article',
-      publishedTime,
-      modifiedTime,
-      authors: [post.meta.author],
-      tags: post.meta.tags,
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: post.meta.title,
-      description: post.meta.description,
-    },
-    alternates: {
-      canonical: `https://tech.jugoya.ai/blog/${resolvedParams.slug}`,
-    },
-  };
+    publishedAt: post.meta.publishedAt,
+    updatedAt: post.meta.updatedAt,
+    slug: resolvedParams.slug,
+    tags: post.meta.tags,
+    author: post.meta.author || 'jugoya',
+  });
 }
 
-// ページコンポーネント（型定義をNext.js 15に対応）
+// ページコンポーネント
 export default async function BlogPostPage({ 
   params 
 }: { 
@@ -76,9 +62,26 @@ export default async function BlogPostPage({
   const publishedDate = new Date(post.meta.publishedAt);
   const updatedDate = post.meta.updatedAt ? new Date(post.meta.updatedAt) : null;
 
+  // JSON-LDの生成
+  const jsonLd = generateBlogPostJsonLd({
+    title: post.meta.title,
+    description: post.meta.description,
+    publishedAt: post.meta.publishedAt,
+    updatedAt: post.meta.updatedAt,
+    slug: resolvedParams.slug,
+    tags: post.meta.tags,
+    author: post.meta.author || 'jugoya',
+  });
+
   return (
     <div className="container mx-auto px-4 py-8">
       <article>
+        {/* JSON-LDの追加 */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+
         <header className="mb-8">
           <h1 className="text-4xl font-bold mb-4">{post.meta.title}</h1>
           <p className="text-gray-600 mb-4">{post.meta.description}</p>
