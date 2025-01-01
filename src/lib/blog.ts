@@ -1,9 +1,36 @@
+// src/lib/blog.ts
 import { type BlogPost, Block } from '@/types/blog';
 import fs from 'fs/promises';
 import path from 'path';
 import { formatTagForUrl } from './tags';
 
 export type PostWithSlug = BlogPost & { slug: string };
+
+// メモリキャッシュの型定義
+type PostCache = {
+  posts: Map<string, BlogPost>;
+  allPosts: PostWithSlug[] | null;
+  tags: Set<string> | null;
+  taggedPosts: Map<string, PostWithSlug[]>;
+  lastUpdated: number;
+};
+
+// グローバルキャッシュオブジェクト
+const cache: PostCache = {
+  posts: new Map(),
+  allPosts: null,
+  tags: null,
+  taggedPosts: new Map(),
+  lastUpdated: 0,
+};
+
+// キャッシュの有効期限（開発環境では短く、本番では長く）
+const CACHE_TTL = process.env.NODE_ENV === 'development' ? 5000 : 3600000; // 開発: 5秒, 本番: 1時間
+
+// キャッシュが有効かどうかをチェック
+function isCacheValid(): boolean {
+  return Date.now() - cache.lastUpdated < CACHE_TTL;
+}
 
 async function isDirectory(path: string): Promise<boolean> {
   try {
@@ -21,132 +48,208 @@ function generateBlockId(filePath: string, blockId: string): string {
   return `${prefix}_${blockId}`;
 }
 
-export async function getPost(slug: string): Promise<BlogPost | null> {
+// 単一の記事ファイルを読み込む
+async function loadSinglePostFile(jsonPath: string): Promise<BlogPost | null> {
   try {
-    const postsDirectory = path.join(process.cwd(), 'src', 'content', 'posts');
+    const fileContent = await fs.readFile(jsonPath, 'utf-8');
+    const post = JSON.parse(fileContent) as BlogPost;
     
-    // 単一ファイルのパスを先に確認
-    const jsonPath = path.join(postsDirectory, `${slug}.json`);
-    try {
-      const fileContent = await fs.readFile(jsonPath, 'utf-8');
-      const post = JSON.parse(fileContent) as BlogPost;
-      
-      // 単一ファイルの場合もブロックIDを解決
-      const resolvedBlocks = post.blocks.map(block => ({
-        ...block,
-        id: generateBlockId(jsonPath, block.id)
-      }));
+    const resolvedBlocks = post.blocks.map(block => ({
+      ...block,
+      id: generateBlockId(jsonPath, block.id)
+    }));
 
-      return {
-        ...post,
-        blocks: resolvedBlocks
-      };
-    } catch {
-      // ファイルが存在しない場合は、ディレクトリとして試行
-      const slugPath = path.join(postsDirectory, slug);
-      const isDir = await isDirectory(slugPath);
-
-      if (!isDir) {
-        throw new Error(`Post not found: ${slug}`);
-      }
-
-      // ディレクトリ構造の場合の処理
-      const indexPath = path.join(slugPath, 'index.json');
-      const indexContent = await fs.readFile(indexPath, 'utf-8');
-      const indexPost = JSON.parse(indexContent) as BlogPost;
-      
-      const updatedBlocks: Block[] = [];
-      
-      for (const block of indexPost.blocks) {
-        const { type } = block;
-        const blockFilePath = path.join(slugPath, `${type}.json`);
-        
-        try {
-          const blockContent = await fs.readFile(blockFilePath, 'utf-8');
-          const { blocks } = JSON.parse(blockContent) as { blocks: Block[] };
-          
-          // 各ブロックのIDを解決
-          const resolvedBlocks = blocks.map(b => ({
-            ...b,
-            id: generateBlockId(blockFilePath, b.id)
-          }));
-          
-          updatedBlocks.push(...resolvedBlocks);
-        } catch (error) {
-          console.error(`Failed to load block file: ${blockFilePath}`, error);
-          updatedBlocks.push(block);
-        }
-      }
-
-      return {
-        meta: indexPost.meta,
-        blocks: updatedBlocks
-      };
-    }
+    return {
+      ...post,
+      blocks: resolvedBlocks
+    };
   } catch (error) {
-    console.error(`Failed to load post: ${slug}`, error);
+    console.error(`Failed to load post file: ${jsonPath}`, error);
     return null;
   }
 }
 
-export async function getAllPosts(): Promise<PostWithSlug[]> {
+// 分割された記事ファイルを読み込む
+async function loadSplitPostFiles(slugPath: string): Promise<BlogPost | null> {
+  try {
+    const indexPath = path.join(slugPath, 'index.json');
+    const indexContent = await fs.readFile(indexPath, 'utf-8');
+    const indexPost = JSON.parse(indexContent) as BlogPost;
+    
+    const updatedBlocks: Block[] = [];
+    const blockLoadPromises = indexPost.blocks.map(async (block) => {
+      const { type } = block;
+      const blockFilePath = path.join(slugPath, `${type}.json`);
+      
+      try {
+        const blockContent = await fs.readFile(blockFilePath, 'utf-8');
+        const { blocks } = JSON.parse(blockContent) as { blocks: Block[] };
+        
+        return blocks.map(b => ({
+          ...b,
+          id: generateBlockId(blockFilePath, b.id)
+        }));
+      } catch (error) {
+        console.error(`Failed to load block file: ${blockFilePath}`, error);
+        return [block];
+      }
+    });
+
+    const loadedBlockArrays = await Promise.all(blockLoadPromises);
+    loadedBlockArrays.forEach(blocks => updatedBlocks.push(...blocks));
+
+    return {
+      meta: indexPost.meta,
+      blocks: updatedBlocks
+    };
+  } catch (error) {
+    console.error(`Failed to load split post files: ${slugPath}`, error);
+    return null;
+  }
+}
+
+// キャッシュの更新
+async function updateCache(): Promise<void> {
   try {
     const postsDirectory = path.join(process.cwd(), 'src', 'content', 'posts');
     const entries = await fs.readdir(postsDirectory, { withFileTypes: true });
-    
-    const posts = await Promise.all(
+
+    // 全記事の読み込み
+    const loadedPosts = await Promise.all(
       entries.map(async (entry) => {
         const slug = entry.name.replace(/\.json$/, '');
-        
+        const fullPath = path.join(postsDirectory, entry.name);
+
+        let post: BlogPost | null = null;
+
         if (entry.isDirectory()) {
-          // ディレクトリの場合はディレクトリ名をスラッグとして使用
-          const post = await getPost(slug);
-          if (!post) return null;
-          return { ...post, slug };
-        }
-        
-        if (entry.isFile() && entry.name.endsWith('.json')) {
-          // 単一ファイルの場合は拡張子を除いた名前をスラッグとして使用
-          const post = await getPost(slug);
-          if (!post) return null;
-          return { ...post, slug };
+          post = await loadSplitPostFiles(fullPath);
+        } else if (entry.isFile() && entry.name.endsWith('.json')) {
+          post = await loadSinglePostFile(fullPath);
         }
 
-        return null;
+        if (!post) return null;
+
+        // キャッシュを更新
+        cache.posts.set(slug, post);
+        return { ...post, slug } as PostWithSlug;
       })
     );
 
-    return posts
-      .filter((post): post is PostWithSlug => post !== null)
+    // 有効な記事のみをフィルタリングして日付でソート
+    const validPosts = loadedPosts
+      .filter((post): post is PostWithSlug => post !== null && !post.meta.isDraft)
       .sort((a, b) => {
         const dateA = new Date(a.meta.publishedAt);
         const dateB = new Date(b.meta.publishedAt);
         return dateB.getTime() - dateA.getTime();
       });
+
+    // タグの収集
+    const tags = new Set<string>();
+    const taggedPosts = new Map<string, PostWithSlug[]>();
+
+    validPosts.forEach(post => {
+      post.meta.tags.forEach(tag => {
+        const formattedTag = formatTagForUrl(tag);
+        tags.add(tag);
+        
+        const postsWithTag = taggedPosts.get(formattedTag) || [];
+        postsWithTag.push(post);
+        taggedPosts.set(formattedTag, postsWithTag);
+      });
+    });
+
+    // キャッシュの更新
+    cache.allPosts = validPosts;
+    cache.tags = tags;
+    cache.taggedPosts = taggedPosts;
+    cache.lastUpdated = Date.now();
+  } catch (error) {
+    console.error('Failed to update cache:', error);
+    throw error;
+  }
+}
+
+// 単一記事の取得
+export async function getPost(slug: string): Promise<BlogPost | null> {
+  try {
+    // キャッシュが無効な場合は更新
+    if (!isCacheValid()) {
+      await updateCache();
+    }
+
+    // キャッシュから記事を取得
+    const cachedPost = cache.posts.get(slug);
+    if (cachedPost) {
+      return cachedPost;
+    }
+
+    // キャッシュにない場合は個別に読み込み
+    const postsDirectory = path.join(process.cwd(), 'src', 'content', 'posts');
+    const fullPath = path.join(postsDirectory, slug);
+    
+    let post: BlogPost | null = null;
+    
+    if (await isDirectory(fullPath)) {
+      post = await loadSplitPostFiles(fullPath);
+    } else {
+      post = await loadSinglePostFile(`${fullPath}.json`);
+    }
+
+    if (post) {
+      cache.posts.set(slug, post);
+    }
+
+    return post;
+  } catch (error) {
+    console.error(`Failed to get post: ${slug}`, error);
+    return null;
+  }
+}
+
+// 全記事の取得
+export async function getAllPosts(): Promise<PostWithSlug[]> {
+  try {
+    // キャッシュが無効な場合は更新
+    if (!isCacheValid()) {
+      await updateCache();
+    }
+
+    return cache.allPosts || [];
   } catch (error) {
     console.error('Failed to get all posts:', error);
     return [];
   }
 }
 
+// 全タグの取得
 export async function getAllTags(): Promise<string[]> {
-  const posts = await getAllPosts();
-  const tags = new Set<string>();
-  
-  posts.forEach(post => {
-    post.meta.tags.forEach(tag => tags.add(tag));
-  });
-  
-  return Array.from(tags).sort();
+  try {
+    // キャッシュが無効な場合は更新
+    if (!isCacheValid()) {
+      await updateCache();
+    }
+
+    return cache.tags ? Array.from(cache.tags).sort() : [];
+  } catch (error) {
+    console.error('Failed to get all tags:', error);
+    return [];
+  }
 }
 
+// タグで記事を取得
 export async function getPostsByTag(tag: string): Promise<PostWithSlug[]> {
-  const posts = await getAllPosts();
-  const formattedSearchTag = formatTagForUrl(tag);
-  
-  return posts.filter(post => 
-    post.meta.tags.some(postTag => 
-      formatTagForUrl(postTag) === formattedSearchTag
-    )
-  );
+  try {
+    // キャッシュが無効な場合は更新
+    if (!isCacheValid()) {
+      await updateCache();
+    }
+
+    const formattedTag = formatTagForUrl(tag);
+    return cache.taggedPosts.get(formattedTag) || [];
+  } catch (error) {
+    console.error(`Failed to get posts by tag: ${tag}`, error);
+    return [];
+  }
 }
