@@ -1,0 +1,64 @@
+{
+  "blocks": [
+    {
+      "id": "sd-usage-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "Stable Diffusionでの実践的な使用"
+      }
+    },
+    {
+      "id": "sd-usage-text",
+      "type": "text",
+      "props": {
+        "content": "[Stable Diffusion](https://stability.ai/stable-diffusion)でsafetensorsモデルを使用する方法と、主要なツールの特徴を見ていきましょう。特に2023年後半以降、ほとんどのモデルがsafetensorsフォーマットで配布されるようになっています。"
+      }
+    },
+    {
+      "id": "sd-tools-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "主要なStable Diffusionツール"
+      }
+    },
+    {
+      "id": "sd-tools-text",
+      "type": "text",
+      "props": {
+        "content": "1. **[Automatic1111 Web UI](https://github.com/AUTOMATIC1111/stable-diffusion-webui)**\n   - 最も広く使用されている高機能WebUI\n   - [ワークフロー自動化](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/API)のためのAPI提供\n   - [豊富な拡張機能](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Extensions-Index)とカスタマイズ性\n   - デフォルトでsafetensorsを優先使用\n\n2. **[ComfyUI](https://github.com/comfyanonymous/ComfyUI)**\n   - ノードベースの柔軟なワークフロー\n   - [高度なカスタマイズ](https://comfyanonymous.github.io/ComfyUI_examples/)が可能\n   - GPU処理の最適化機能\n   - [コミュニティカスタムノード](https://github.com/comfyanonymous/ComfyUI_examples/blob/master/custom_nodes.md)が充実\n\n3. **[InvokeAI](https://github.com/invoke-ai/InvokeAI)**\n   - モダンで直感的なUI\n   - [Unified Canvas](https://invoke-ai.github.io/InvokeAI/features/UNIFIED_CANVAS/)による高度な編集\n   - 組み込みの[モデル管理](https://invoke-ai.github.io/InvokeAI/installation/050_INSTALLING_MODELS/)機能\n\n4. **[Fooocus](https://github.com/lllyasviel/Fooocus)**\n   - Midjourneyライクな簡単操作\n   - SDXL特化の最適化\n   - [最小限の設定](https://github.com/lllyasviel/Fooocus/blob/main/docs/README.md)で高品質な結果"
+      }
+    },
+    {
+      "id": "workflow-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "基本的なワークフロー"
+      }
+    },
+    {
+      "id": "workflow-text",
+      "type": "text",
+      "props": {
+        "content": "効率的なワークフローのステップは以下の通りです：\n\n1. **準備**\n   - ツールのインストールと初期設定\n   - [Python環境](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Install-and-Run-on-NVidia-GPUs)の確認（Python 3.10推奨）\n   - [必要なGPUドライバ](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Install-and-Run-on-NVidia-GPUs#prerequisites)のインストール\n\n2. **モデルの準備**\n   - 基本モデルのダウンロード（[SDXL](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0)や[SD 2.1](https://huggingface.co/stabilityai/stable-diffusion-2-1)など）\n   - 対応する[VAE](https://huggingface.co/stabilityai/sd-vae-ft-mse)の入手\n   - 必要に応じて[LoRA](https://civitai.com/models?type=LORA)や[Textual Inversion](https://civitai.com/models?type=TextualInversion)を準備\n\n3. **モデルの配置**\n   - 各ツールの指定ディレクトリにファイルを配置\n   - 必要に応じてサブフォルダを作成\n   - ファイル名の特殊文字を確認\n\n4. **動作確認と最適化**\n   - ツールの起動と初期テスト生成\n   - VAEの設定確認\n   - 必要に応じて[xFormers](https://github.com/facebookresearch/xformers)の有効化"
+      }
+    },
+    {
+      "id": "tips-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "実践的なTips"
+      }
+    },
+    {
+      "id": "tips-text",
+      "type": "text",
+      "props": {
+        "content": "より効率的な使用のためのTipsをご紹介します：\n\n1. **メモリ管理**\n   - [VAE VRAM最適化](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Optimizations)を有効化\n   - 不要なモデルはメモリから解放\n   - [--medvram/--lowvram](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Command-Line-Arguments-and-Settings)オプションの活用\n\n2. **パフォーマンス最適化**\n   - [xFormers](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Optimizations#xformers)やSDPAの使用\n   - 適切なバッチサイズの選択\n   - [キャッシュサイズの調整](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Optimizations#-cache--memory-limits)\n\n3. **トラブルシューティング**\n   - `TypeError: __init__() got an unexpected keyword argument 'ensure_ascii'`\n     → safetensorsのバージョンを確認・更新\n   - `RuntimeError: Couldn't load safetensors`\n     → ファイル名の特殊文字を確認\n   - VAE関連のエラー\n     → 対応するVAEファイルの配置を確認\n\n4. **バージョン管理**\n   - モデルのバックアップを保持\n   - [設定のバージョン管理](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Developing-custom-scripts)を検討\n   - 動作確認済みの環境をスナップショット"
+      }
+    }
+  ]
+}

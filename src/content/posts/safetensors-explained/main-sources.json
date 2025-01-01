@@ -1,0 +1,19 @@
+{
+  "blocks": [
+    {
+      "id": "main-sources",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "主な入手先"
+      }
+    },
+    {
+      "id": "main-sources-text",
+      "type": "text",
+      "props": {
+        "content": "1. **[Hugging Face Hub](https://huggingface.co/models)**:\n   - 最も包括的な機械学習モデルのリポジトリ\n   - [SDXL](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0)、[Stable Diffusion 2.1](https://huggingface.co/stabilityai/stable-diffusion-2-1)などの公式モデル\n   - [コミュニティモデル](https://huggingface.co/models?pipeline_tag=text-to-image&sort=downloads)も多数提供\n   - [セキュリティスキャン済み](https://huggingface.co/docs/hub/security)で安全\n\n2. **[Civitai](https://civitai.com/)**:\n   - [画像生成モデル](https://civitai.com/models?type=Checkpoint)に特化\n   - [LoRA](https://civitai.com/models?type=LORA)、[Textual Inversion](https://civitai.com/models?type=TextualInversion)など補助モデルも充実\n   - コミュニティによるレビューやサンプル画像が参考に\n   - [safetensorsフォーマットを優先的に提供](https://civitai.com/models?sortBy=Newest&format=SafeTensor)\n\n3. **[ModelScope](https://www.modelscope.cn/models)**:\n   - アジア圏のモデルが充実\n   - [多言語対応の画像生成モデル](https://www.modelscope.cn/models?task_name=text-to-image-synthesis)を提供\n   - Alibabaの[PAI-Diffusion](https://www.modelscope.cn/models/PAI/pai-diffusion-artist-xs/summary)など独自モデルも"
+      }
+    }
+  ]
+}

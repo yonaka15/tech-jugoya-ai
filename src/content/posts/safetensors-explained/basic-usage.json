@@ -1,0 +1,21 @@
+{
+  "blocks": [
+    {
+      "id": "basic-usage-text",
+      "type": "text",
+      "props": {
+        "content": "PyTorchを使用した基本的な例から見ていきます。テンソルの保存と読み込みは、直感的なAPIを通じて簡単に行えます："
+      }
+    },
+    {
+      "id": "basic-usage-code",
+      "type": "code",
+      "props": {
+        "language": "python",
+        "fileName": "basic_usage.py",
+        "code": "import torch\nfrom safetensors.torch import save_file, load_file\n\n# テンソルの作成と保存\ntensors = {\n    \"weight\": torch.randn(10, 10),\n    \"bias\": torch.zeros(10)\n}\nsave_file(tensors, \"model.safetensors\")\n\n# テンソルのロード\nloaded = load_file(\"model.safetensors\")\nprint(loaded[\"weight\"].shape)  # torch.Size([10, 10])",
+        "highlight": [8, 11]
+      }
+    }
+  ]
+}

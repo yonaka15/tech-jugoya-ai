@@ -1,0 +1,106 @@
+{
+  "blocks": [
+    {
+      "id": "usage-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "safetensorsの使用方法"
+      }
+    },
+    {
+      "id": "usage-intro",
+      "type": "text",
+      "props": {
+        "content": "safetensorsは、シンプルなAPIを通じて簡単に使用することができます。各主要フレームワークでの基本的な使用方法から、より高度な使用例まで見ていきましょう。"
+      }
+    },
+    {
+      "id": "basic-usage-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "基本的な使用例"
+      }
+    },
+    {
+      "id": "basic-usage-text",
+      "props": {
+        "content": "PyTorchを使用した基本的な例から見ていきます。テンソルの保存と読み込みは、直感的なAPIを通じて簡単に行えます："
+      }
+    },
+    {
+      "id": "basic-usage-code",
+      "type": "code",
+      "props": {
+        "language": "python",
+        "fileName": "basic_usage.py",
+        "code": "import torch\nfrom safetensors.torch import save_file, load_file\n\n# テンソルの作成と保存\ntensors = {\n    \"weight\": torch.randn(10, 10),\n    \"bias\": torch.zeros(10)\n}\nsave_file(tensors, \"model.safetensors\")\n\n# テンソルのロード\nloaded = load_file(\"model.safetensors\")\nprint(loaded[\"weight\"].shape)  # torch.Size([10, 10])",
+        "highlight": [8, 11]
+      }
+    },
+    {
+      "id": "transformers-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "Transformersライブラリでの使用"
+      }
+    },
+    {
+      "id": "transformers-text",
+      "props": {
+        "content": "[Hugging Face](https://huggingface.co/)の[Transformers](https://huggingface.co/docs/transformers/index)ライブラリでは、safetensorsが標準のファイルフォーマットとして採用されつつあります。ライブラリをインストールするだけで、自動的にsafetensorsファイルが優先的に使用されます："
+      }
+    },
+    {
+      "id": "transformers-code",
+      "type": "code",
+      "props": {
+        "language": "python",
+        "fileName": "transformers_example.py",
+        "code": "from transformers import AutoModel\n\n# モデルの読み込み - safetensorsファイルが自動的に使用される\nmodel = AutoModel.from_pretrained(\"bert-base-uncased\")\nprint(model.config.model_type)  # 'bert'\n\n# モデルの保存 - safetensorsフォーマットで保存\nmodel.save_pretrained(\"my-model\", safe_serialization=True)",
+        "highlight": [4, 7]
+      }
+    },
+    {
+      "id": "lazy-loading-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "遅延読み込みの活用"
+      }
+    },
+    {
+      "id": "lazy-loading-text",
+      "props": {
+        "content": "大規模モデルを扱う場合、safetensorsの遅延読み込み機能を活用することで、メモリ使用量を最適化できます。必要な部分のみを効率的に読み込むことが可能です："
+      }
+    },
+    {
+      "id": "lazy-loading-code",
+      "type": "code",
+      "props": {
+        "language": "python",
+        "fileName": "lazy_loading.py",
+        "code": "from safetensors import safe_open\n\n# ファイルを開いてテンソル情報を確認\nwith safe_open(\"large_model.safetensors\", framework=\"pt\") as f:\n    # 利用可能なテンソルの確認\n    tensor_names = list(f.keys())\n    print(\"Available tensors:\", tensor_names)\n    \n    # 特定のレイヤーのみを読み込み\n    if \"encoder.layer.0.attention.self.query.weight\" in tensor_names:\n        query_weight = f.get_tensor(\"encoder.layer.0.attention.self.query.weight\")\n        print(\"Query weight shape:\", query_weight.shape)",
+        "highlight": [4, 10, 11]
+      }
+    },
+    {
+      "id": "frameworks-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "その他のフレームワークでの使用"
+      }
+    },
+    {
+      "id": "frameworks-text",
+      "type": "text",
+      "props": {
+        "content": "safetensorsは、主要な機械学習フレームワークをすべてサポートしています。フレームワーク固有のモジュールを使用することで、それぞれのフレームワークに最適化された方法でテンソルを扱えます：\n\n- **[TensorFlow](https://www.tensorflow.org/)**: `safetensors.tensorflow`モジュール\n- **[JAX](https://github.com/google/jax)**: `safetensors.jax`モジュール\n- **[NumPy](https://numpy.org/)**: `safetensors.numpy`モジュール\n- **[PaddlePaddle](https://www.paddlepaddle.org.cn/)**: `safetensors.paddle`モジュール\n\nフレームワーク間での相互運用性も確保されており、あるフレームワークで保存したモデルを別のフレームワークで読み込むことも可能です。詳しい使用方法は[公式ドキュメント](https://huggingface.co/docs/safetensors/index#supported-frameworks)を参照してください。"
+      }
+    }
+  ]
+}

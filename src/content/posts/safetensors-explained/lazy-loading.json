@@ -1,0 +1,21 @@
+{
+  "blocks": [
+    {
+      "id": "lazy-loading-text",
+      "type": "text",
+      "props": {
+        "content": "大規模モデルを扱う場合、safetensorsの遅延読み込み機能を活用することで、メモリ使用量を最適化できます。必要な部分のみを効率的に読み込むことが可能です："
+      }
+    },
+    {
+      "id": "lazy-loading-code",
+      "type": "code",
+      "props": {
+        "language": "python",
+        "fileName": "lazy_loading.py",
+        "code": "from safetensors import safe_open\n\n# ファイルを開いてテンソル情報を確認\nwith safe_open(\"large_model.safetensors\", framework=\"pt\") as f:\n    # 利用可能なテンソルの確認\n    tensor_names = list(f.keys())\n    print(\"Available tensors:\", tensor_names)\n    \n    # 特定のレイヤーのみを読み込み\n    if \"encoder.layer.0.attention.self.query.weight\" in tensor_names:\n        query_weight = f.get_tensor(\"encoder.layer.0.attention.self.query.weight\")\n        print(\"Query weight shape:\", query_weight.shape)",
+        "highlight": [4, 10, 11]
+      }
+    }
+  ]
+}

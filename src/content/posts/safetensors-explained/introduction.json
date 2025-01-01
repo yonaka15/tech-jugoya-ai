@@ -1,0 +1,27 @@
+{
+  "blocks": [
+    {
+      "id": "intro",
+      "type": "text",
+      "props": {
+        "content": "機械学習モデルの大規模化と共に、モデルの保存と読み込みの効率性とセキュリティの重要性が増しています。safetensorsは、これらの課題に対応するために[Hugging Face](https://huggingface.co/)が開発した新しいファイルフォーマットです。2024年初頭に[Trail of Bits](https://www.trailofbits.com/)による[セキュリティ監査](https://huggingface.co/datasets/safetensors/trail_of_bits_audit_repot/resolve/main/SOW-TrailofBits-EleutherAI_HuggingFace-v1.2.pdf)を通過し、[EleutherAI](https://www.eleuther.ai/)や[Stability AI](https://stability.ai/)などの主要なAI企業が標準フォーマットとしての採用を進めています。\n\n本記事では、safetensorsの仕組みと利点、実際の使用方法について解説します。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "what-is",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "safetensorsとは"
+      }
+    },
+    {
+      "id": "what-is-text",
+      "type": "text",
+      "props": {
+        "content": "safetensorsは、深層学習モデルで使用されるテンソル（多次元配列データ）を効率的に保存・読み込むためのファイルフォーマットです。[PyTorch](https://pytorch.org/)が従来使用していた[pickle](https://docs.python.org/3/library/pickle.html)フォーマットの安全性の課題を解決し、さらに読み込み速度を大幅に改善しています。\n\n[Rust言語](https://www.rust-lang.org/)で実装されており、主要な機械学習フレームワーク（PyTorch、TensorFlow、JAX、PaddlePaddle、NumPy）をサポートしています。特に最近では、[Stable Diffusion XL](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0)などの大規模モデルで標準的に使用されるようになっています。"
+      }
+    }
+  ]
+}

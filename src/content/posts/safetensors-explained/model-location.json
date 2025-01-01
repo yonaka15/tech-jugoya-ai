@@ -1,0 +1,19 @@
+{
+  "blocks": [
+    {
+      "id": "location-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "モデルの配置場所"
+      }
+    },
+    {
+      "id": "location-text",
+      "type": "text",
+      "props": {
+        "content": "各ツールでの標準的なモデル配置場所は以下の通りです：\n\n1. **Automatic1111 Web UI**:\n   ```plaintext\n   stable-diffusion-webui/\n   ├── models/\n   │   ├── Stable-diffusion/  # ベースモデル(.safetensors)\n   │   ├── Lora/             # LoRAモデル\n   │   └── VAE/              # VAEモデル\n   └── embeddings/           # Textual Inversion\n   ```\n\n2. **ComfyUI**:\n   ```plaintext\n   ComfyUI/\n   └── models/\n       ├── checkpoints/  # ベースモデル\n       ├── loras/        # LoRAモデル\n       └── vae/          # VAEモデル\n   ```\n\n3. **InvokeAI**:\n   ```plaintext\n   invokeai/\n   └── models/\n       └── sd/          # すべてのモデル\n   ```\n\nいずれのツールでも、設定ファイルでカスタムパスの指定が可能です。また、多くの場合シンボリックリンクの使用もサポートされています。"
+      }
+    }
+  ]
+}

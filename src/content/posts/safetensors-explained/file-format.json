@@ -1,0 +1,34 @@
+{
+  "blocks": [
+    {
+      "id": "file-format",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "safetensorsファイルの構造"
+      }
+    },
+    {
+      "id": "file-format-text",
+      "type": "text",
+      "props": {
+        "content": "safetensorsファイルは、バイナリファイルフォーマットでありながら、シンプルで効率的な構造を持っています。ファイルは大きく分けて「ヘッダー部」と「データ部」の2つの領域で構成されています。ヘッダー部はJSONで記述され、各テンソルのメタデータ（データ型、形状、位置など）を保持します。データ部は実際のテンソル値をバイナリ形式で効率的に格納します。"
+      }
+    },
+    {
+      "id": "file-format-diagram",
+      "type": "mermaid",
+      "props": {
+        "content": "graph TD\n    subgraph HEADER[ヘッダー領域]\n        HS[ヘッダーサイズ<br>8バイト<br>符号なし64bit整数] --> HJ[JSONヘッダー]\n        \n        subgraph HJ[JSONヘッダー]\n            MD[__metadata__<br>文字列キー/値] --> TI[テンソル情報]\n            TI --> T1[テンソル1<br>dtype:データ型<br>shape:形状<br>data_offsets:位置]\n            TI --> T2[テンソル2<br>dtype:データ型<br>shape:形状<br>data_offsets:位置]\n        end\n    end\n    \n    subgraph DATA[データバッファ領域]\n        D1[テンソル1のデータ] --> D2[テンソル2のデータ]\n        D2 --> DN[...<br>連続したバイト列]\n    end\n    \n    HEADER --> DATA",
+        "caption": "safetensorsファイルフォーマットの構造"
+      }
+    },
+    {
+      "id": "file-format-explanation",
+      "type": "text",
+      "props": {
+        "content": "safetensorsファイルの特徴的な設計ポイントは以下の通りです：\n\n1. ヘッダーサイズの明示：ファイルの先頭8バイトにヘッダーの正確なサイズを格納することで、効率的なファイル解析を可能にしています。\n\n2. JSON形式のヘッダー：人間が読める形式でメタデータを保存し、簡単な検証と拡張性を提供します。ヘッダーには各テンソルの名前、データ型、形状、およびデータバッファ内の位置情報が含まれます。\n\n3. メタデータのサポート：`__metadata__`キーを使用して、文字列ベースの任意のメタデータを保存できます。\n\n4. 効率的なデータレイアウト：\n   - リトルエンディアン形式でデータを格納\n   - 行優先（C-order）でテンソルを配置\n   - パディングや余分なデータを含まない連続したバイト配列\n\n5. セキュリティ対策：\n   - 重複キーの禁止\n   - ヘッダーサイズの制限（100MB以下）\n   - データ領域の重複禁止（メモリ攻撃の防止）"
+      }
+    }
+  ]
+}

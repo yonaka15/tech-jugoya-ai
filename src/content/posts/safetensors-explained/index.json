@@ -1,0 +1,83 @@
+{
+  "meta": {
+    "title": "safetensors: AIモデルの新しい標準ファイルフォーマットの仕組みと利点",
+    "description": "機械学習モデルの保存と読み込みを安全かつ高速に行うsafetensorsの仕組みと利点について解説します。セキュリティ監査を通過し、主要なAI企業が採用を進める背景も紹介します。",
+    "publishedAt": "2025-01-01T08:31:29.000Z",
+    "tags": [
+      "Machine Learning",
+      "Python",
+      "Security",
+      "Performance",
+      "Programming",
+      "Best Practice",
+      "Stable Diffusion"
+    ]
+  },
+  "blocks": [
+    {
+      "id": "introduction",
+      "type": "introduction",
+      "props": {}
+    },
+    {
+      "id": "main-content",
+      "type": "main-content",
+      "props": {}
+    },
+    {
+      "id": "file-format",
+      "type": "file-format",
+      "props": {}
+    },
+    {
+      "id": "usage",
+      "type": "usage",
+      "props": {}
+    },
+    {
+      "id": "basic-usage",
+      "type": "basic-usage",
+      "props": {}
+    },
+    {
+      "id": "transformers-usage",
+      "type": "transformers-usage",
+      "props": {}
+    },
+    {
+      "id": "lazy-loading",
+      "type": "lazy-loading",
+      "props": {}
+    },
+    {
+      "id": "obtaining-models",
+      "type": "obtaining-models",
+      "props": {}
+    },
+    {
+      "id": "main-sources",
+      "type": "main-sources",
+      "props": {}
+    },
+    {
+      "id": "model-conversion",
+      "type": "model-conversion",
+      "props": {}
+    },
+    {
+      "id": "model-location",
+      "type": "model-location",
+      "props": {}
+    },
+    {
+      "id": "stable-diffusion-usage",
+      "type": "stable-diffusion-usage",
+      "props": {}
+    },
+    {
+      "id": "conclusion",
+      "type": "conclusion",
+      "props": {}
+    }
+  ]
+}

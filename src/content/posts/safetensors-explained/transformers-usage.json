@@ -1,0 +1,21 @@
+{
+  "blocks": [
+    {
+      "id": "transformers-text",
+      "type": "text",
+      "props": {
+        "content": "[Hugging Face](https://huggingface.co/)の[Transformers](https://huggingface.co/docs/transformers/index)ライブラリでは、safetensorsが標準のファイルフォーマットとして採用されつつあります。ライブラリをインストールするだけで、自動的にsafetensorsファイルが優先的に使用されます："
+      }
+    },
+    {
+      "id": "transformers-code",
+      "type": "code",
+      "props": {
+        "language": "python",
+        "fileName": "transformers_example.py",
+        "code": "from transformers import AutoModel\n\n# モデルの読み込み - safetensorsファイルが自動的に使用される\nmodel = AutoModel.from_pretrained(\"bert-base-uncased\")\nprint(model.config.model_type)  # 'bert'\n\n# モデルの保存 - safetensorsフォーマットで保存\nmodel.save_pretrained(\"my-model\", safe_serialization=True)",
+        "highlight": [4, 7]
+      }
+    }
+  ]
+}

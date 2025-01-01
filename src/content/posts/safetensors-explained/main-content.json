@@ -1,0 +1,34 @@
+{
+  "blocks": [
+    {
+      "id": "benefits-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "safetensorsの主な利点"
+      }
+    },
+    {
+      "id": "benefits-text",
+      "type": "text",
+      "props": {
+        "content": "safetensorsの採用が進んでいる背景には、以下のような重要な利点があります：\n\n1. セキュリティ：[外部セキュリティ監査](https://huggingface.co/datasets/safetensors/trail_of_bits_audit_repot/resolve/main/SOW-TrailofBits-EleutherAI_HuggingFace-v1.2.pdf)により安全性が確認されています。モデルファイルに悪意のあるコードが含まれる可能性を排除し、安全な実行を保証します。\n\n2. 高速な読み込み：CPU上での読み込みが従来の[pickleフォーマット](https://docs.python.org/3/library/pickle.html)と比べて約100倍高速です。これは効率的なシリアライゼーションと圧縮アルゴリズムの採用によるものです。\n\n3. 遅延読み込み（Lazy Loading）：大規模言語モデル（LLM）などで重要な、必要な部分のみを効率的に読み込む機能をサポートしています。\n\n4. フレームワーク非依存：同じファイルをPyTorchやTensorFlowなど、異なるフレームワークで読み込むことができます。"
+      }
+    },
+    {
+      "id": "security-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "セキュリティの重要性"
+      }
+    },
+    {
+      "id": "security-text",
+      "type": "text",
+      "props": {
+        "content": "従来のPyTorchモデルで使用される[pickleフォーマット](https://huggingface.co/docs/hub/security-pickle)には重大なセキュリティ上の課題がありました。pickleを使用すると、モデルファイルに任意のコードを埋め込むことが可能で、ユーザーの知らないうちに[マルウェアを実行される危険性](https://pytorch.org/docs/stable/generated/torch.load.html)がありました。\n\n2024年初頭、[Trail of Bits](https://www.trailofbits.com/)による[外部セキュリティ監査](https://huggingface.co/datasets/safetensors/trail_of_bits_audit_repot/resolve/main/SOW-TrailofBits-EleutherAI_HuggingFace-v1.2.pdf)により、safetensorsには重大なセキュリティ上の欠陥がないことが確認されました。主な監査結果は以下の通りです：\n\n- 任意のコード実行につながる重大な脆弱性は発見されず\n- 仕様の不明確な部分が特定され修正\n- [polyglotファイル](https://en.wikipedia.org/wiki/Polyglot_(computing))の問題が修正\n- テストスイートの大幅な改善\n\nまた、[Rust言語](https://www.rust-lang.org/)の持つメモリ安全性の保証も、追加のセキュリティ層として機能しています。これらの特徴により、safetensorsはオープンソースのAIモデル共有において、重要な役割を果たすことが期待されています。"
+      }
+    }
+  ]
+}
