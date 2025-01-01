@@ -1,7 +1,9 @@
 import { getAllTags, getPostsByTag } from '@/lib/blog';
+import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { formatTagForUrl, isTagMatch } from '@/lib/tags';
+import { siteConfig } from '@/config/site';
 
 type Props = {
   params: Promise<{ tag: string }>;
@@ -14,13 +16,46 @@ async function getOriginalCaseTag(urlFormattedTag: string): Promise<string> {
   return allTags.find(tag => isTagMatch(tag, urlFormattedTag)) || urlFormattedTag;
 }
 
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { tag } = await params;
   const decodedTag = decodeURIComponent(tag);
   const originalCase = await getOriginalCaseTag(decodedTag);
+  const posts = await getPostsByTag(originalCase);
+  
+  const url = `${siteConfig.url}/tags/${formatTagForUrl(originalCase)}`;
+  const description = `tech.jugoya.aiの${originalCase}に関する記事一覧です。${posts.length}件の記事があります。`;
+
   return {
-    title: `${originalCase}の記事一覧 - tech.jugoya.ai`,
-    description: `tech.jugoya.aiの${originalCase}に関する記事一覧です。`,
+    title: `${originalCase}の記事一覧 - ${siteConfig.name}`,
+    description,
+    openGraph: {
+      title: `${originalCase}の記事一覧 | ${siteConfig.name}`,
+      description,
+      url,
+      siteName: siteConfig.name,
+      locale: siteConfig.locale,
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      site: siteConfig.author.twitter,
+      title: `${originalCase}の記事一覧 | ${siteConfig.name}`,
+      description,
+    },
+    alternates: {
+      canonical: url,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      nocache: false,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
   };
 }
 
