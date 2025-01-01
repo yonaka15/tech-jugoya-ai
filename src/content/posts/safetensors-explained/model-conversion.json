@@ -1,0 +1,19 @@
+{
+  "blocks": [
+    {
+      "id": "convert-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "既存モデルの変換"
+      }
+    },
+    {
+      "id": "convert-text",
+      "type": "text",
+      "props": {
+        "content": "他のフォーマット（.ckpt, .bin等）からsafetensorsへの変換には以下の方法があります：\n\n1. **[Hugging Face Convert Space](https://huggingface.co/spaces/diffusers/convert)**:\n   - Webインターフェースで簡単に変換\n   - アップロード済みモデルの安全な変換\n   - セキュリティスキャン付きで安全\n\n2. **[Safe and Stable Ckpt2Safetensors](https://github.com/diStyApps/Safe-and-Stable-Ckpt2Safetensors-Conversion-Tool-GUI)**:\n   - GUIツールでローカル変換\n   - バッチ処理対応\n   - Windows/Linux対応\n\n3. **Python API**:\n   ```python\n   import torch\n   from safetensors.torch import save_file\n\n   # .ckptや.binファイルを読み込み\n   state_dict = torch.load(\"model.ckpt\")[\"state_dict\"]\n\n   # safetensorsとして保存\n   save_file(state_dict, \"model.safetensors\")\n   ```"
+      }
+    }
+  ]
+}

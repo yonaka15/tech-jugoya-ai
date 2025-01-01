@@ -1,0 +1,54 @@
+{
+  "blocks": [
+    {
+      "id": "usage",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "safetensorsの使用方法"
+      }
+    },
+    {
+      "id": "usage-text",
+      "type": "text",
+      "props": {
+        "content": "safetensorsは、シンプルなAPIを通じて簡単に使用することができます。以下は、PyTorchでの基本的な使用例です："
+      }
+    },
+    {
+      "id": "usage-code",
+      "type": "code",
+      "props": {
+        "language": "python",
+        "fileName": "save_load_example.py",
+        "code": "import torch\nfrom safetensors.torch import save_file, load_file\n\n# モデルの重みを作成\nweights = {\n    \"layer1.weight\": torch.randn(100, 100),\n    \"layer1.bias\": torch.randn(100),\n    \"embeddings\": torch.randn(1000, 768)\n}\n\n# safetensorsファイルとして保存\nsave_file(weights, \"model.safetensors\")\n\n# safetensorsファイルの読み込み\nloaded_weights = load_file(\"model.safetensors\")\n\n# 特定のテンソルのみを効率的に読み込む場合\nwith safe_open(\"model.safetensors\", framework=\"pt\") as f:\n    layer1_weight = f.get_tensor(\"layer1.weight\")",
+        "highlight": [11, 14, 17, 18]
+      }
+    },
+    {
+      "id": "transformers",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "Transformersライブラリでの使用"
+      }
+    },
+    {
+      "id": "transformers-text",
+      "type": "text",
+      "props": {
+        "content": "Hugging Faceの Transformers ライブラリでは、safetensorsが標準のファイルフォーマットとして採用されつつあります。ライブラリをインストールするだけで、自動的にsafetensorsファイルが優先的に使用されます："
+      }
+    },
+    {
+      "id": "transformers-code",
+      "type": "code",
+      "props": {
+        "language": "python",
+        "fileName": "transformers_example.py",
+        "code": "from transformers import AutoModel\n\n# モデルの読み込み - safetensorsファイルが自動的に使用される\nmodel = AutoModel.from_pretrained(\"bert-base-uncased\")\n\n# モデルの保存 - safetensorsフォーマットで保存\nmodel.save_pretrained(\"my-model\", safe_serialization=True)",
+        "highlight": [4, 7]
+      }
+    }
+  ]
+}

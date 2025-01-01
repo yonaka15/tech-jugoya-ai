@@ -1,0 +1,11 @@
+{
+  "blocks": [
+    {
+      "id": "obtaining-intro",
+      "type": "text",
+      "props": {
+        "content": "safetensorsフォーマットの機械学習モデルは、主に以下のプラットフォームから入手できます。多くの主要なAIモデルが、[セキュリティ](https://huggingface.co/docs/hub/security-pickle)と効率性の観点からsafetensorsフォーマットでの配布を採用しています。"
+      }
+    }
+  ]
+}
