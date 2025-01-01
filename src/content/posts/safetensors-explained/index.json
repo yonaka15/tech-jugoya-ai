@@ -15,69 +15,82 @@
   },
   "blocks": [
     {
-      "id": "introduction",
-      "type": "introduction",
-      "props": {}
+      "id": "intro",
+      "type": "blocks",
+      "props": {},
+      "source": "introduction.json"
     },
     {
-      "id": "main-content",
-      "type": "main-content",
-      "props": {}
+      "id": "main",
+      "type": "blocks",
+      "props": {},
+      "source": "main-content.json"
     },
     {
-      "id": "file-format",
-      "type": "file-format",
-      "props": {}
+      "id": "format",
+      "type": "blocks",
+      "props": {},
+      "source": "file-format.json"
     },
     {
       "id": "usage",
-      "type": "usage",
-      "props": {}
+      "type": "blocks",
+      "props": {},
+      "source": "usage.json"
     },
     {
-      "id": "basic-usage",
-      "type": "basic-usage",
-      "props": {}
+      "id": "basic",
+      "type": "blocks",
+      "props": {},
+      "source": "basic-usage.json"
     },
     {
-      "id": "transformers-usage",
-      "type": "transformers-usage",
-      "props": {}
+      "id": "transformers",
+      "type": "blocks",
+      "props": {},
+      "source": "transformers-usage.json"
     },
     {
-      "id": "lazy-loading",
-      "type": "lazy-loading",
-      "props": {}
+      "id": "lazy",
+      "type": "blocks",
+      "props": {},
+      "source": "lazy-loading.json"
     },
     {
-      "id": "obtaining-models",
-      "type": "obtaining-models",
-      "props": {}
+      "id": "obtaining",
+      "type": "blocks",
+      "props": {},
+      "source": "obtaining-models.json"
     },
     {
-      "id": "main-sources",
-      "type": "main-sources",
-      "props": {}
+      "id": "sources",
+      "type": "blocks",
+      "props": {},
+      "source": "main-sources.json"
     },
     {
-      "id": "model-conversion",
-      "type": "model-conversion",
-      "props": {}
+      "id": "conversion",
+      "type": "blocks",
+      "props": {},
+      "source": "model-conversion.json"
     },
     {
-      "id": "model-location",
-      "type": "model-location",
-      "props": {}
+      "id": "location",
+      "type": "blocks",
+      "props": {},
+      "source": "model-location.json"
     },
     {
-      "id": "stable-diffusion-usage",
-      "type": "stable-diffusion-usage",
-      "props": {}
+      "id": "stable",
+      "type": "blocks",
+      "props": {},
+      "source": "stable-diffusion-usage.json"
     },
     {
       "id": "conclusion",
-      "type": "conclusion",
-      "props": {}
+      "type": "blocks",
+      "props": {},
+      "source": "conclusion.json"
     }
   ]
 }

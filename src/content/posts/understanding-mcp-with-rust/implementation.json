@@ -1,0 +1,140 @@
+{
+  "blocks": [
+    {
+      "id": "arch",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "アーキテクチャ概要",
+        "align": "left"
+      }
+    },
+    {
+      "id": "arch-intro",
+      "type": "text",
+      "props": {
+        "content": "mcp-schemaによる実装を説明する前に、MCPの基本的なアーキテクチャを見ていきましょう。以下の図は、MCPのクライアント-サーバーモデルと、主要なコンポーネントの関係を示しています。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "arch-diagram",
+      "type": "mermaid",
+      "props": {
+        "content": "flowchart TB\n    subgraph Client[MCP Client]\n        LLM[LLM Application]\n        RC[Request Controller]\n    end\n\n    subgraph Server[MCP Server]\n        Handler[Request Handler]\n        subgraph Primitives[Core Primitives]\n            Prompts[Prompts]\n            Resources[Resources]\n            Tools[Tools]\n        end\n        Data[(External Data Sources)]\n    end\n\n    LLM -->|<div>①</div>Request| RC\n    RC -->|<div>②</div>JSON-RPC Request| Handler\n    Handler -->|<div>③</div>Process| Primitives\n    Primitives -->|<div>④</div>Query| Data\n    Data -->|<div>⑤</div>Return Data| Primitives\n    Primitives -->|<div>⑥</div>Prepare Response| Handler\n    Handler -->|<div>⑦</div>JSON-RPC Response| RC\n    RC -->|<div>⑧</div>Result| LLM\n\n    style Client fill:#e1f3fd,stroke:#333,stroke-width:2px\n    style Server fill:#f3e1fd,stroke:#333,stroke-width:2px\n    style Primitives fill:#fff,stroke:#333,stroke-width:1px",
+        "align": "center"
+      }
+    },
+    {
+      "id": "arch-explanation",
+      "type": "text",
+      "props": {
+        "content": "このアーキテクチャでは、以下の順序で処理が行われます：\n\n① LLMアプリケーションからリクエストが開始され、\n② Request Controllerを通じてJSON-RPCリクエストとして送信されます。\n③ サーバー側のHandlerがリクエストを処理し、\n④ 必要に応じてCore Primitivesが外部データソースにクエリを実行します。\n⑤ 取得したデータは、\n⑥ ⑦ Primitivesで処理され、JSON-RPCレスポンスとして返され、\n⑧ 最終的にLLMアプリケーションに結果が届きます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "primitives",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "コアプリミティブ",
+        "align": "left"
+      }
+    },
+    {
+      "id": "primitives-intro",
+      "type": "text",
+      "props": {
+        "content": "MCPの中核となるのが3つのコアプリミティブです。これらは異なる制御レベルと用途を持ち、LLMアプリケーションに豊かなコンテキストと機能を提供します：",
+        "align": "left"
+      }
+    },
+    {
+      "id": "prompts-description",
+      "type": "text",
+      "props": {
+        "content": "**1. Prompts（ユーザー制御）**\n\nプロンプトは、LLMとのインタラクションを導くための定義済みのテンプレートや指示を提供します。これらは主にユーザーの選択によって制御され、たとえばスラッシュコマンドやメニューオプションとして提供されます。プロンプトを通じて、サーバーは構造化されたメッセージやインストラクションをクライアントに提供できます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "resources-description",
+      "type": "text",
+      "props": {
+        "content": "**2. Resources（アプリケーション制御）**\n\nリソースは、LLMに追加のコンテキストを提供する構造化データやコンテンツを表します。これらはアプリケーションによって制御され、管理されます。たとえば、ファイルの内容、Gitの履歴、データベースの内容などがリソースとして提供されます。リソースは読み取り専用で、データの整合性を保ちながらLLMに必要な情報を提供します。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "tools-description",
+      "type": "text",
+      "props": {
+        "content": "**3. Tools（モデル制御）**\n\nツールは、LLMが外部システムと対話するための実行可能な関数を提供します。これらはモデルによって制御され、APIリクエストの送信やファイルの書き込み、計算の実行などのアクションを実行できます。ツールは動的な操作を表し、外部システムとの相互作用や状態の変更を可能にします。セキュリティとエラーハンドリングが特に重要な要素となります。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "tools-trend",
+      "type": "text",
+      "props": {
+        "content": "現在、[公式のリファレンス実装](https://github.com/modelcontextprotocol/servers)や[コミュニティによる実装](https://github.com/wong2/awesome-mcp-servers)の多くがToolsプリミティブを中心に構築されています。これは以下の理由によると考えられます：\n\n1. **即時の実用性**: ファイルシステム、データベース、APIなど、既存のシステムとの統合が容易に実現できる\n2. **柔軟な制御**: LLMがツールを通じて直接アクションを実行できるため、より動的な対話が可能\n3. **明確なユースケース**: GitHub、Slack、PostgreSQLなど、多くの開発者ツールやサービスとの統合事例が豊富\n\nこの傾向は、MCPがAIアプリケーションのエコシステムを拡張するための実践的なアプローチとして機能していることを示しています。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "types",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "基本的な型定義",
+        "align": "left"
+      }
+    },
+    {
+      "id": "types-intro",
+      "type": "text",
+      "props": {
+        "content": "これらのプリミティブと通信プロトコルを実装するため、[mcp-schema](https://github.com/yonaka15/mcp-schema)では、まずMCPの基本的な定数とIDタイプを定義することから始めました。[プロトコルの仕様](https://spec.modelcontextprotocol.io/specification/)に従い、バージョン管理と識別子の型安全な処理が、信頼性の高い通信の基盤となります。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "basic-types",
+      "type": "code",
+      "props": {
+        "language": "rust",
+        "fileName": "types.rs",
+        "code": "/// JSON-RPCのバージョン文字列\npub const JSONRPC_VERSION: &str = \"2.0\";\n\n/// MCPの最新バージョン\npub const LATEST_PROTOCOL_VERSION: &str = \"2024-11-05\";\n\n/// リクエストIDを表現する列挙型\n#[derive(Debug, Clone, Serialize, Deserialize)]\n#[serde(untagged)]\npub enum RequestId {\n    String(String),\n    Number(i64),\n}\n",
+        "highlight": [2, 5, 10]
+      }
+    },
+    {
+      "id": "messaging",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "メッセージ構造",
+        "align": "left"
+      }
+    },
+    {
+      "id": "messaging-intro",
+      "type": "text",
+      "props": {
+        "content": "MCPの通信は、[JSON-RPCをベース](https://www.infoq.com/news/2024/12/anthropic-model-context-protocol/)にしています。各メッセージは、リクエスト、レスポンス、または通知のいずれかの形式を取ります。これらの基本構造をジェネリクスを使って表現することで、型安全性と拡張性を両立しています。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "message-types",
+      "type": "code",
+      "props": {
+        "language": "rust",
+        "fileName": "types.rs",
+        "code": "/// ジェネリックなJSON-RPCリクエスト\n#[derive(Debug, Clone, Serialize, Deserialize)]\n#[serde(rename_all = \"camelCase\")]\npub struct JSONRPCRequest<T> {\n    #[serde(rename = \"jsonrpc\")]\n    pub json_rpc: String,\n    pub method: String,\n    pub id: RequestId,\n    pub params: T,\n}\n\n/// ジェネリックなJSON-RPC通知\n#[derive(Debug, Clone, Serialize, Deserialize)]\n#[serde(rename_all = \"camelCase\")]\npub struct JSONRPCNotification<T> {\n    #[serde(rename = \"jsonrpc\")]\n    pub json_rpc: String,\n    pub method: String,\n    pub params: T,\n}\n",
+        "highlight": [4, 15]
+      }
+    }
+  ]
+}

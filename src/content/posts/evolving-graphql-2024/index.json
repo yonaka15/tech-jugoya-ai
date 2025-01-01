@@ -11,34 +11,40 @@
   },
   "blocks": [
     {
-      "id": "introduction",
-      "type": "introduction",
-      "props": {}
+      "id": "intro",
+      "type": "blocks",
+      "props": {},
+      "source": "introduction.json"
     },
     {
-      "id": "basic-architecture",
-      "type": "basic-architecture",
-      "props": {}
+      "id": "arch",
+      "type": "blocks",
+      "props": {},
+      "source": "basic-architecture.json"
     },
     {
-      "id": "evolution-and-trends",
-      "type": "evolution-and-trends",
-      "props": {}
+      "id": "trends",
+      "type": "blocks",
+      "props": {},
+      "source": "evolution-and-trends.json"
     },
     {
-      "id": "implementation-considerations",
-      "type": "implementation-considerations",
-      "props": {}
+      "id": "impl",
+      "type": "blocks",
+      "props": {},
+      "source": "implementation-considerations.json"
     },
     {
-      "id": "best-practices",
-      "type": "best-practices",
-      "props": {}
+      "id": "practices",
+      "type": "blocks",
+      "props": {},
+      "source": "best-practices.json"
     },
     {
-      "id": "references",
-      "type": "references",
-      "props": {}
+      "id": "refs",
+      "type": "blocks",
+      "props": {},
+      "source": "references.json"
     }
   ]
 }

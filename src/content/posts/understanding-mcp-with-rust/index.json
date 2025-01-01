@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "title": "RustでModel Context Protocolを理解する - 仕様解析の実践と学び",
+    "description": "Model Context Protocol (MCP)の仕様をRustで解析・実装することで得られた知見を共有します。Rustの型システムを活用したスキーマ定義を通じて、MCPの設計思想と実装の詳細に迫ります。",
+    "publishedAt": "2025-01-01T10:05:39.000Z",
+    "tags": [
+      "Rust",
+      "Model Context Protocol",
+      "Architecture",
+      "API",
+      "Practice"
+    ],
+    "author": {
+      "name": "Yonaka"
+    }
+  },
+  "blocks": [
+    {
+      "id": "intro-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "はじめに",
+        "align": "left"
+      }
+    },
+    {
+      "id": "intro",
+      "type": "blocks",
+      "props": {},
+      "source": "introduction.json"
+    },
+    {
+      "id": "impl-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "Rustによる実装",
+        "align": "left"
+      }
+    },
+    {
+      "id": "impl",
+      "type": "blocks",
+      "props": {},
+      "source": "implementation.json"
+    },
+    {
+      "id": "learnings-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "実装から得られた学び",
+        "align": "left"
+      }
+    },
+    {
+      "id": "learn",
+      "type": "blocks",
+      "props": {},
+      "source": "learnings.json"
+    }
+  ]
+}
+

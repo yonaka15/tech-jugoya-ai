@@ -69,29 +69,44 @@ async function loadSinglePostFile(jsonPath: string): Promise<BlogPost | null> {
   }
 }
 
+// 分割ブロックの型定義
+type SplitBlock = Block & {
+  source?: string;
+};
+
 // 分割された記事ファイルを読み込む
 async function loadSplitPostFiles(slugPath: string): Promise<BlogPost | null> {
   try {
     const indexPath = path.join(slugPath, 'index.json');
     const indexContent = await fs.readFile(indexPath, 'utf-8');
-    const indexPost = JSON.parse(indexContent) as BlogPost;
+    const indexPost = JSON.parse(indexContent) as { meta: BlogPost['meta'], blocks: SplitBlock[] };
     
     const updatedBlocks: Block[] = [];
     const blockLoadPromises = indexPost.blocks.map(async (block) => {
-      const { type } = block;
-      const blockFilePath = path.join(slugPath, `${type}.json`);
-      
-      try {
-        const blockContent = await fs.readFile(blockFilePath, 'utf-8');
-        const { blocks } = JSON.parse(blockContent) as { blocks: Block[] };
-        
-        return blocks.map(b => ({
-          ...b,
-          id: generateBlockId(blockFilePath, b.id)
-        }));
-      } catch (error) {
-        console.error(`Failed to load block file: ${blockFilePath}`, error);
-        return [block];
+      if (block.type === 'blocks' && block.source) {
+        const blockFilePath = path.join(slugPath, block.source);
+        try {
+          const blockContent = await fs.readFile(blockFilePath, 'utf-8');
+          const { blocks } = JSON.parse(blockContent) as { blocks: Block[] };
+          
+          return blocks.map(b => ({
+            ...b,
+            id: generateBlockId(blockFilePath, b.id)
+          }));
+        } catch (error) {
+          console.error(`Failed to load block file: ${blockFilePath}`, error);
+          // ファイルの読み込みに失敗した場合は元のブロックを使用
+          return [{
+            ...block,
+            id: generateBlockId(indexPath, block.id)
+          }];
+        }
+      } else {
+        // 'blocks'タイプでない場合は通常のブロックとして処理
+        return [{
+          ...block,
+          id: generateBlockId(indexPath, block.id)
+        }];
       }
     });
 

@@ -7,29 +7,34 @@
   },
   "blocks": [
     {
-      "id": "introduction",
-      "type": "introduction",
-      "props": {}
+      "id": "intro",
+      "type": "blocks",
+      "props": {},
+      "source": "introduction.json"
     },
     {
-      "id": "research-based-features",
-      "type": "research-based-features",
-      "props": {}
+      "id": "research",
+      "type": "blocks",
+      "props": {},
+      "source": "research-based-features.json"
     },
     {
-      "id": "implementation-guide",
-      "type": "implementation-guide",
-      "props": {}
+      "id": "guide",
+      "type": "blocks",
+      "props": {},
+      "source": "implementation-guide.json"
     },
     {
-      "id": "best-practices",
-      "type": "best-practices",
-      "props": {}
+      "id": "practices",
+      "type": "blocks",
+      "props": {},
+      "source": "best-practices.json"
     },
     {
-      "id": "bulk-creation",
-      "type": "bulk-creation",
-      "props": {}
+      "id": "bulk",
+      "type": "blocks",
+      "props": {},
+      "source": "bulk-creation.json"
     }
   ]
 }
