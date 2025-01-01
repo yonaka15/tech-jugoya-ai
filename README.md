@@ -11,25 +11,20 @@ Next.js App Router と TypeScript で実装された、ブロックベースの�
 
 ### Next.js 15 の主な変更点
 
-- **params の非同期化**: Next.js 15 以降、ページコンポーネントの`params`プロパティが非同期（Promise）になりました。
+- **非同期APIの統一**: Next.js 15 以降、`headers()`や`params`などのAPIが非同期（Promise）になりました。
 
   ```typescript
-  // Before (Next.js 14以前)
-  type Props = {
-    params: { tag: string };
-  };
-
-  // After (Next.js 15以降)
+  // paramsの非同期化
   type Props = {
     params: Promise<{ tag: string }>;
   };
 
-  // 使用例
-  export default async function Page({ params }: Props) {
-    const { tag } = await params;
-    // ...
-  }
+  // headersの非同期化
+  const headersList = await headers();
+  const host = headersList.get('host');
   ```
+
+- **型安全性の向上**: 非同期処理の型チェックが厳密化され、より安全なコードが実現できます。
 
 ## 開発状況
 
@@ -55,18 +50,24 @@ Next.js App Router と TypeScript で実装された、ブロックベースの�
 - ✅ 記事詳細ページ
 - ✅ タグによるフィルタリング
 - ✅ About ページ
+- ✅ OGP 画像の自動生成（[ADR-002](docs/adr/002-ogp-image-generation-optimization.md)）
+  - ✅ Edge Runtimeによる高速な生成
+  - ✅ キャッシュ戦略の実装
+  - ✅ 日本語フォントの最適化
+- ✅ 記事読み込みの最適化（[ADR-001](docs/adr/001-blog-content-loading-optimization.md)）
+  - ✅ 分割ファイル形式の採用
+  - ✅ 効率的なデータロード
+  - ✅ キャッシュ制御の最適化
 - 🚧 記事の検索機能
 - 🚧 ページネーション
 - 🚧 プレビュー機能
-- 🚧 OGP 画像の自動生成
-- 🚧 記事読み込みの最適化（[ADR-001](docs/adr/001-blog-content-loading-optimization.md)）
 
 ## 🌟 特徴
 
 - **型安全なブロックシステム**: TypeScript とジェネリクスを活用した堅牢な記事管理
 - **モジュラー設計**: 新しいブロックタイプを簡単に追加可能
 - **SEO フレンドリー**: App Router による最適化とメタデータ管理
-- **高いパフォーマンス**: 最新の Next.js 機能を活用した効率的なレンダリング
+- **高いパフォーマンス**: Edge Runtime と キャッシュ戦略による効率的な処理
 - **レスポンシブデザイン**: モバイルフレンドリーなレイアウトと UI
 - **リッチなコンテンツ表現**: Mermaid.js を活用した図表やダイアグラムのサポート
 
@@ -76,13 +77,16 @@ Next.js App Router と TypeScript で実装された、ブロックベースの�
 
 現在の ADR:
 
-- [ADR-001: ブログ記事読み込みの最適化方針](docs/adr/001-blog-content-loading-optimization.md) - 2025-01-01
+- [ADR-001: ブログ記事読み込みの最適化方針](docs/adr/001-blog-content-loading-optimization.md) - 2025-01-01 (✅ 完了)
+- [ADR-002: OGP画像生成の最適化とキャッシュ戦略](docs/adr/002-ogp-image-generation-optimization.md) - 2025-01-01 (✅ 完了)
 
 ## 📂 プロジェクト構造
 
 ```
 src/
 ├── app/                   # Next.js App Router
+│   ├── api/              # API Routes
+│   │   └── posts/       # 記事API
 │   ├── blog/             # ブログページ
 │   │   ├── [slug]/      # 記事ページ
 │   │   └── page.tsx     # ブログ一覧
@@ -99,7 +103,9 @@ src/
 │           ├── content/               # 記事内容のJSON
 │           │   ├── introduction.json  # 導入部のブロック
 │           │   └── conclusion.json    # 結論部のブロック
+├── assets/             # フォントなどの静的アセット
 ├── types/              # 型定義 ([詳細](src/types/README.md))
+├── config/            # サイト設定
 └── lib/               # ユーティリティ ([詳細](src/lib/README.md))
 ```
 
@@ -156,4 +162,3 @@ src/content ディレクトリ内のすべてのコンテンツ（記事、画�
 ---
 
 🌐 [tech.jugoya.ai](https://tech.jugoya.ai) | 📧 [Issues](https://github.com/yonaka15/tech-jugoya-ai/issues)
-
