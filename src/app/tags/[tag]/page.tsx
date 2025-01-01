@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props) {
 export async function generateStaticParams() {
   const tags = await getAllTags();
   return tags.map(tag => ({ 
-    tag: encodeURIComponent(formatTagForUrl(tag))
+    tag: formatTagForUrl(tag)
   }));
 }
 
@@ -90,7 +90,7 @@ export default async function TagPage({ params }: Props) {
                   {post.meta.tags.map(t => (
                     <Link
                       key={t}
-                      href={`/tags/${encodeURIComponent(formatTagForUrl(t))}`}
+                      href={`/tags/${formatTagForUrl(t)}`}
                       className={`
                         text-sm px-2 py-1 rounded-full
                         ${t === originalCaseTag
