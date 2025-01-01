@@ -8,44 +8,52 @@
   },
   "blocks": [
     {
-      "id": "introduction",
-      "type": "introduction",
-      "props": {}
+      "id": "intro",
+      "type": "blocks",
+      "props": {},
+      "source": "introduction.json"
     },
     {
-      "id": "file-structure",
-      "type": "file-structure",
-      "props": {}
+      "id": "structure",
+      "type": "blocks",
+      "props": {},
+      "source": "file-structure.json"
     },
     {
-      "id": "ffmpeg-basic",
-      "type": "ffmpeg/basic",
-      "props": {}
+      "id": "basic",
+      "type": "blocks",
+      "props": {},
+      "source": "ffmpeg/basic.json"
     },
     {
-      "id": "ffmpeg-multibitrate",
-      "type": "ffmpeg/multibitrate",
-      "props": {}
+      "id": "multibitrate",
+      "type": "blocks",
+      "props": {},
+      "source": "ffmpeg/multibitrate.json"
     },
     {
-      "id": "ffmpeg-live-streaming",
-      "type": "ffmpeg/live-streaming",
-      "props": {}
+      "id": "streaming",
+      "type": "blocks",
+      "props": {},
+      "source": "ffmpeg/live-streaming.json"
     },
     {
-      "id": "ffmpeg-subtitle",
-      "type": "ffmpeg/subtitle",
-      "props": {}
+      "id": "subtitle",
+      "type": "blocks",
+      "props": {},
+      "source": "ffmpeg/subtitle.json"
     },
     {
-      "id": "ffmpeg-error-handling",
-      "type": "ffmpeg/error-handling",
-      "props": {}
+      "id": "errors",
+      "type": "blocks",
+      "props": {},
+      "source": "ffmpeg/error-handling.json"
     },
     {
-      "id": "ffmpeg-references",
-      "type": "ffmpeg/references",
-      "props": {}
+      "id": "refs",
+      "type": "blocks",
+      "props": {},
+      "source": "ffmpeg/references.json"
     }
   ]
 }

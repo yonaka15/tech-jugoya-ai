@@ -11,49 +11,58 @@
   },
   "blocks": [
     {
-      "id": "introduction",
-      "type": "introduction",
-      "props": {}
+      "id": "intro",
+      "type": "blocks",
+      "props": {},
+      "source": "introduction.json"
     },
     {
-      "id": "basic-usage",
-      "type": "basic-usage",
-      "props": {}
+      "id": "basic",
+      "type": "blocks",
+      "props": {},
+      "source": "basic-usage.json"
     },
     {
-      "id": "common-issues/local-files",
-      "type": "common-issues/local-files",
-      "props": {}
+      "id": "localfiles",
+      "type": "blocks",
+      "props": {},
+      "source": "common-issues/local-files.json"
     },
     {
-      "id": "common-issues/authentication",
-      "type": "common-issues/authentication",
-      "props": {}
+      "id": "auth",
+      "type": "blocks",
+      "props": {},
+      "source": "common-issues/authentication.json"
     },
     {
-      "id": "common-issues/error-handling",
-      "type": "common-issues/error-handling",
-      "props": {}
+      "id": "errors",
+      "type": "blocks",
+      "props": {},
+      "source": "common-issues/error-handling.json"
     },
     {
-      "id": "advanced-usage/headers",
-      "type": "advanced-usage/headers",
-      "props": {}
+      "id": "headers",
+      "type": "blocks",
+      "props": {},
+      "source": "advanced-usage/headers.json"
     },
     {
-      "id": "advanced-usage/protocols",
-      "type": "advanced-usage/protocols",
-      "props": {}
+      "id": "protocols",
+      "type": "blocks",
+      "props": {},
+      "source": "advanced-usage/protocols.json"
     },
     {
-      "id": "advanced-usage/optimization",
-      "type": "advanced-usage/optimization",
-      "props": {}
+      "id": "optimization",
+      "type": "blocks",
+      "props": {},
+      "source": "advanced-usage/optimization.json"
     },
     {
-      "id": "references",
-      "type": "references",
-      "props": {}
+      "id": "refs",
+      "type": "blocks",
+      "props": {},
+      "source": "references.json"
     }
   ]
 }

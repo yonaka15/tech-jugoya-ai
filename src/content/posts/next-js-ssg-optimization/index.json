@@ -14,24 +14,28 @@
   },
   "blocks": [
     {
-      "id": "introduction",
-      "type": "introduction",
-      "props": {}
+      "id": "intro",
+      "type": "blocks",
+      "props": {},
+      "source": "introduction.json"
     },
     {
-      "id": "implementation",
-      "type": "implementation",
-      "props": {}
+      "id": "impl",
+      "type": "blocks",
+      "props": {},
+      "source": "implementation.json"
     },
     {
       "id": "results",
-      "type": "results",
-      "props": {}
+      "type": "blocks",
+      "props": {},
+      "source": "results.json"
     },
     {
       "id": "conclusion",
-      "type": "conclusion",
-      "props": {}
+      "type": "blocks",
+      "props": {},
+      "source": "conclusion.json"
     }
   ]
 }

@@ -8,17 +8,18 @@
 content/
 ├── blog/                   # ブログ関連のその他のデータ
 ├── posts/                  # 記事データ（JSON形式）
-│   ├── single-post.json   # 単一ファイル記事
+│   ├── single-post.json   # 単一ファイル記事 (非推奨)
 │   └── multi-part-post/   # 分割された記事
 │       ├── index.json     # メタ情報とブロックの順序
-│       ├── intro.json     # 導入部のブロック
-│       └── main.json      # 本文のブロック
+│       ├── content/        # 記事内容のJSON
+│       │   ├── intro.json  # 導入部のブロック
+│       │   └── main.json   # 本文のブロック
 └── LICENSE                # CC BY-NC-ND 4.0ライセンス
 ```
 
 ## 記事データの構造
 
-記事は単一の JSON ファイルとして作成するか、複数のファイルに分割して管理できます。
+記事は複数のファイルに分割して管理できます。
 
 ### ファイル命名規則
 
@@ -28,38 +29,9 @@ content/
   - 単一ファイル: `getting-started-with-nextjs.json`
   - 分割ファイル: `getting-started-with-nextjs/index.json`
 
-### 単一ファイル形式
-
-1 つの JSON ファイルに記事全体を含める形式です：
-
-```json
-{
-  "meta": {
-    "title": "記事タイトル",
-    "description": "記事の説明（SEOにも使用）",
-    "publishedAt": "2024-01-01T00:00:00.000Z",
-    "tags": ["Next.js", "TypeScript"],
-    "author": {
-      "name": "著者名",
-      "avatar": "/images/avatars/author.png"
-    }
-  },
-  "blocks": [
-    {
-      "id": "unique-id",
-      "type": "text",
-      "props": {
-        "content": "本文...",
-        "align": "left"
-      }
-    }
-  ]
-}
-```
-
 ### 分割ファイル形式
 
-長い記事は複数のファイルに分割して管理できます。この場合、`index.json`にメタ情報とブロックの順序を定義し、各パートの内容は別ファイルに記述します：
+長い記事は複数のファイルに分割して管理できます。この場合、`index.json`にメタ情報とブロックの順序を定義し、各パートの内容は別ファイルに記述します。レベル 2 の見出し（`##`相当）は`index.json`に記述することを推奨します：
 
 ```json
 // index.json - メタ情報とブロックの順序
@@ -72,19 +44,39 @@ content/
   },
   "blocks": [
     {
-      "id": "introduction",
-      "type": "introduction",
-      "props": {}
+      "id": "intro-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "はじめに",
+        "align": "left"
+      }
     },
     {
-      "id": "main-content",
-      "type": "main-content",
-      "props": {}
+      "id": "intro",
+      "type": "blocks",
+      "props": {},
+      "source": "content/introduction.json"
+    },
+    {
+      "id": "main-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "本編",
+        "align": "left"
+      }
+    },
+    {
+      "id": "main",
+      "type": "blocks",
+      "props": {},
+      "source": "content/main.json"
     }
   ]
 }
 
-// introduction.json - 各パートのブロック
+// content/introduction.json - 各パートのブロック
 {
   "blocks": [
     {
@@ -98,6 +90,14 @@ content/
   ]
 }
 ```
+
+レベル 2 の見出しを`index.json`に記述することで：
+
+- 記事の主要な構造が一目で把握できる
+- 目次の生成が容易になる
+- 記事構造の一貫性が保たれる
+
+より詳細な見出し（レベル 3 以下）は、必要に応じて各パートファイル内に記述することもできます。
 
 ### メタデータフィールド
 
@@ -214,6 +214,7 @@ UI構造の理解や開発がしやすくなっています。さらに、単方
    - コメントで重要なポイントを説明
 
 3. 行の強調（highlight）
+   - 見づらくなるので使用は非推奨
    - 強調する行は、説明している機能や概念に直接関連する場合のみに限定
    - 強調する行数は必要最小限に抑える
    - 強調する理由が本文で明確に説明されていることを確認
@@ -228,19 +229,7 @@ UI構造の理解や開発がしやすくなっています。さらに、単方
     "language": "typescript",
     "fileName": "example.ts",
     "code": "try {\n  // データの取得と処理\n  const data = await fetchData();\n  const result = processData(data);\n  \n  // 結果の保存\n  await saveResult(result);\n} catch (error) {\n  // エラーログの記録\n  logger.error('データ処理中にエラーが発生:', error);\n  // ユーザーへの通知\n  notifyUser('データの処理に失敗しました');\n}",
-    "highlight": [3, 7, 10] // データ処理の主要なステップのみを強調
-  }
-}
-```
-
-望ましくない例（過剰な強調）:
-
-```json
-{
-  "type": "code",
-  "props": {
-    "code": "function hello() {\n  console.log('Hello');\n}",
-    "highlight": [1, 2] // 短い関数の全行を強調する必要はない
+    "highlight": [] // 特に強調する行がない場合は空にする
   }
 }
 ```

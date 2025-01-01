@@ -3,6 +3,7 @@ export type BaseBlock<T extends string, P = unknown> = {
   id: string;
   type: T;
   props: P;
+  source?: string;  // ソースファイルのパス（オプショナル）
 };
 
 // メタデータの型
@@ -61,6 +62,10 @@ export type TableBlockProps = {
   caption?: string;
 };
 
+// ブロックコンテナのProps型定義
+// オプションの追加に備えてRecord型を使用
+export type BlockContainerProps = Record<string, never>;
+
 // Mermaidブロックの Props 型を追加
 export type MermaidBlockProps = {
   content: string; // Mermaid図の定義
@@ -77,6 +82,7 @@ export type QuoteBlock = BaseBlock<"quote", QuoteBlockProps>;
 export type CalloutBlock = BaseBlock<"callout", CalloutBlockProps>;
 export type TableBlock = BaseBlock<"table", TableBlockProps>;
 export type MermaidBlock = BaseBlock<"mermaid", MermaidBlockProps>;
+export type BlockContainer = BaseBlock<"blocks", BlockContainerProps>;
 
 // すべてのブロック型の Union 型
 export type Block =
@@ -87,7 +93,8 @@ export type Block =
   | QuoteBlock
   | CalloutBlock
   | TableBlock
-  | MermaidBlock;
+  | MermaidBlock
+  | BlockContainer;
 
 // 記事全体の型
 export type BlogPost = {
@@ -137,3 +144,5 @@ export const createTableBlock: BlockCreator<TableBlock> = (props, id) =>
 export const createMermaidBlock: BlockCreator<MermaidBlock> = (props, id) =>
   createBlock("mermaid", props, id);
 
+export const createBlockContainer: BlockCreator<BlockContainer> = (props, id) =>
+  createBlock("blocks", props, id);

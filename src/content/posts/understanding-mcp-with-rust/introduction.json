@@ -1,0 +1,36 @@
+{
+  "blocks": [
+    {
+      "id": "intro-text",
+      "type": "text",
+      "props": {
+        "content": "Model Context Protocol（MCP）は、AI技術の発展における重要な課題の一つを解決するために、[Anthropicが2024年に公開](https://www.anthropic.com/news/model-context-protocol)した新しいプロトコルです。このプロトコルは、LLMアプリケーションと外部データソース・ツールを統合するための標準化された方法を提供します。MCPは「MxN問題」（M個のLLMとN個のツールの組み合わせによる統合の複雑さ）に対する解決策として期待されています。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "arch-text",
+      "type": "text",
+      "props": {
+        "content": "MCPはクライアント-サーバーアーキテクチャを採用しています。AIアプリケーション（例：[Claude Desktop](https://claude.ai/download)）がMCPクライアントとして動作し、データソースやツールを提供するMCPサーバーに接続します。このプロトコルは以下の主要な機能（[プリミティブ](https://spec.modelcontextprotocol.io/specification/)）を定義しています：",
+        "align": "left"
+      }
+    },
+    {
+      "id": "primitive-list",
+      "type": "text",
+      "props": {
+        "content": "1. Prompts: 命令やテンプレートの提供\n2. Resources: 構造化データの共有\n3. Tools: 実行可能な関数の提供\n4. Roots: クライアント側ファイルシステムへのアクセス\n5. Sampling: クライアント側LLMの利用",
+        "align": "left"
+      }
+    },
+    {
+      "id": "project-intro",
+      "type": "text",
+      "props": {
+        "content": "このプロトコルの理解を深めるため、[mcp-schema](https://github.com/yonaka15/mcp-schema)というRustプロジェクトを作成し、プロトコルの型定義に取り組みました。",
+        "align": "left"
+      }
+    }
+  ]
+}

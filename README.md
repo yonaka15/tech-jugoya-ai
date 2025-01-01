@@ -5,13 +5,14 @@
 [![Next.js](https://img.shields.io/badge/Next.js-15.1-black)](https://nextjs.org/)
 
 [tech.jugoya.ai](https://tech.jugoya.ai) のソースコードです。
-Next.js App RouterとTypeScriptで実装された、ブロックベースのブログシステムです。
+Next.js App Router と TypeScript で実装された、ブロックベースのブログシステムです。
 
 ## 開発メモ
 
-### Next.js 15の主な変更点
+### Next.js 15 の主な変更点
 
-- **paramsの非同期化**: Next.js 15以降、ページコンポーネントの`params`プロパティが非同期（Promise）になりました。
+- **params の非同期化**: Next.js 15 以降、ページコンポーネントの`params`プロパティが非同期（Promise）になりました。
+
   ```typescript
   // Before (Next.js 14以前)
   type Props = {
@@ -26,7 +27,7 @@ Next.js App RouterとTypeScriptで実装された、ブロックベースのブ�
   // 使用例
   export default async function Page({ params }: Props) {
     const { tag } = await params;
-    // ... 
+    // ...
   }
   ```
 
@@ -36,7 +37,7 @@ Next.js App RouterとTypeScriptで実装された、ブロックベースのブ�
 - ✅ [型定義の実装](src/types/README.md)（型安全なブロックシステムの基盤）
 - ✅ ブロックシステムの基本実装
   - ✅ HeadingBlock（見出しブロック）
-  - ✅ TextBlock（Markdown記法対応）
+  - ✅ TextBlock（Markdown 記法対応）
   - ✅ ImageBlock
   - ✅ CodeBlock（シンタックスハイライト＆コピー機能対応）
   - ✅ QuoteBlock
@@ -53,27 +54,28 @@ Next.js App RouterとTypeScriptで実装された、ブロックベースのブ�
 - ✅ ブログ一覧ページ
 - ✅ 記事詳細ページ
 - ✅ タグによるフィルタリング
-- ✅ Aboutページ
+- ✅ About ページ
 - 🚧 記事の検索機能
 - 🚧 ページネーション
 - 🚧 プレビュー機能
-- 🚧 OGP画像の自動生成
+- 🚧 OGP 画像の自動生成
 - 🚧 記事読み込みの最適化（[ADR-001](docs/adr/001-blog-content-loading-optimization.md)）
 
 ## 🌟 特徴
 
-- **型安全なブロックシステム**: TypeScriptとジェネリクスを活用した堅牢な記事管理
+- **型安全なブロックシステム**: TypeScript とジェネリクスを活用した堅牢な記事管理
 - **モジュラー設計**: 新しいブロックタイプを簡単に追加可能
-- **SEOフレンドリー**: App Routerによる最適化とメタデータ管理
-- **高いパフォーマンス**: 最新のNext.js機能を活用した効率的なレンダリング
-- **レスポンシブデザイン**: モバイルフレンドリーなレイアウトとUI
-- **リッチなコンテンツ表現**: Mermaid.jsを活用した図表やダイアグラムのサポート
+- **SEO フレンドリー**: App Router による最適化とメタデータ管理
+- **高いパフォーマンス**: 最新の Next.js 機能を活用した効率的なレンダリング
+- **レスポンシブデザイン**: モバイルフレンドリーなレイアウトと UI
+- **リッチなコンテンツ表現**: Mermaid.js を活用した図表やダイアグラムのサポート
 
 ## 📜 アーキテクチャの決定記録（ADR）
 
 プロジェクトの重要な技術的決定は、Architecture Decision Records（ADR）として文書化しています。
 
-現在のADR:
+現在の ADR:
+
 - [ADR-001: ブログ記事読み込みの最適化方針](docs/adr/001-blog-content-loading-optimization.md) - 2025-01-01
 
 ## 📂 プロジェクト構造
@@ -91,18 +93,19 @@ src/
 │   └── ...
 ├── content/             # コンテンツ ([詳細](src/content/README.md))
 │   └── posts/          # 記事JSON
-│       ├── single-post.json            # 単一ファイル記事
+│       ├── single-post.json            # 単一ファイル記事 (非推奨)
 │       └── multi-part-post/            # 分割された記事
 │           ├── index.json              # メタ情報とブロックの順序
-│           ├── introduction.json       # パート1のブロック
-│           └── conclusion.json         # パート2のブロック
+│           ├── content/               # 記事内容のJSON
+│           │   ├── introduction.json  # 導入部のブロック
+│           │   └── conclusion.json    # 結論部のブロック
 ├── types/              # 型定義 ([詳細](src/types/README.md))
 └── lib/               # ユーティリティ ([詳細](src/lib/README.md))
 ```
 
 ## 📝 記事の作成
 
-tech.jugoya.aiの記事は、単一のJSONファイルとして作成するか、複数のファイルに分割して管理できます。
+tech.jugoya.ai の記事は、単一の JSON ファイルとして作成するのは非推奨です。複数のファイルに分割して管理できます。
 
 記事の作成方法や規則について、詳しくは[コンテンツ管理のドキュメント](src/content/README.md)を参照してください。
 
@@ -148,8 +151,9 @@ src/content ディレクトリ内のすべてのコンテンツ（記事、画�
 - [Tailwind CSS](https://tailwindcss.com/)
 - [react-syntax-highlighter](https://github.com/react-syntax-highlighter/react-syntax-highlighter)
 - [react-markdown](https://github.com/remarkjs/react-markdown)
-- その他の素晴らしいOSSプロジェクト
+- その他の素晴らしい OSS プロジェクト
 
 ---
 
 🌐 [tech.jugoya.ai](https://tech.jugoya.ai) | 📧 [Issues](https://github.com/yonaka15/tech-jugoya-ai/issues)
+
