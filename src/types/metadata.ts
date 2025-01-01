@@ -123,7 +123,7 @@ export function generateBlogPostJsonLd({
     author: {
       '@type': 'Person',
       name: author,
-      url: siteConfig.author.url,
+      url: `https://github.com/${siteConfig.author.github}`,
     },
     image: `/blog/${slug}/opengraph-image`,
     datePublished: publishedTime,

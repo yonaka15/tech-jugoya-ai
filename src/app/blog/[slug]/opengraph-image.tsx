@@ -13,7 +13,8 @@ export const contentType = 'image/png';
 
 export default async function Image({ params }: { params: { slug: string } }) {
   try {
-    const host = headers().get('host');
+    const headersList = await headers();
+    const host = headersList.get('host');
     const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
     const response = await fetch(
       `${protocol}://${host}/api/posts/${params.slug}`,

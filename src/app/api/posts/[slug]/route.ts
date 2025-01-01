@@ -15,7 +15,7 @@ export async function GET(
   }
 
   // キャッシュヘッダーの設定
-  const headersList = headers();
+  const headersList = await headers();
   const referer = headersList.get("referer");
   
   // OG画像生成からのリクエストの場合はキャッシュを無効化
