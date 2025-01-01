@@ -58,6 +58,7 @@ Next.js App RouterとTypeScriptで実装された、ブロックベースのブ�
 - 🚧 ページネーション
 - 🚧 プレビュー機能
 - 🚧 OGP画像の自動生成
+- 🚧 記事読み込みの最適化（[ADR-001](docs/adr/001-blog-content-loading-optimization.md)）
 
 ## 🌟 特徴
 
@@ -68,48 +69,12 @@ Next.js App RouterとTypeScriptで実装された、ブロックベースのブ�
 - **レスポンシブデザイン**: モバイルフレンドリーなレイアウトとUI
 - **リッチなコンテンツ表現**: Mermaid.jsを活用した図表やダイアグラムのサポート
 
-## 📝 ブロックシステム
+## 📜 アーキテクチャの決定記録（ADR）
 
-記事は複数の型付きブロックで構成されます。
+プロジェクトの重要な技術的決定は、Architecture Decision Records（ADR）として文書化しています。
 
-詳細な実装と使用方法については、[ブロックシステムのドキュメント](src/components/blog/blocks/README.md)を参照してください。
-
-### 利用可能なブロック
-
-- **HeadingBlock**: 見出しブロック（h1-h6、配置調整可能）
-- **TextBlock**: Markdown記法対応のテキストブロック
-- **ImageBlock**: キャプション付き画像ブロック
-- **CodeBlock**: シンタックスハイライト＆コピー機能付きコードブロック
-- **QuoteBlock**: 引用ブロック（引用元情報対応）
-- **CalloutBlock**: 情報・警告・エラーなどの注意書きブロック
-- **TableBlock**: キャプション付きテーブルブロック
-- **MermaidBlock**: フローチャート・シーケンス図などの図表ブロック
-
-## 🔧 技術スタック
-
-- [Next.js](https://nextjs.org/) 15.1 (App Router)
-- [TypeScript](https://www.typescriptlang.org/) 5.x
-- [React](https://react.dev/) 19
-- [Tailwind CSS](https://tailwindcss.com/) 3.4
-- [Mermaid](https://mermaid.js.org/) 10.9 (図表・ダイアグラム)
-- [react-syntax-highlighter](https://github.com/react-syntax-highlighter/react-syntax-highlighter) 15.5
-- [react-markdown](https://github.com/remarkjs/react-markdown) 9.0
-
-## 🚀 開始方法
-
-```bash
-# リポジトリのクローン
-git clone https://github.com/yonaka15/tech-jugoya-ai.git
-cd tech-jugoya-ai
-
-# パッケージのインストール
-npm install
-
-# 開発サーバーの起動 (Turbopack使用)
-npm run dev
-```
-
-[http://localhost:3000](http://localhost:3000) をブラウザで開いてください。
+現在のADR:
+- [ADR-001: ブログ記事読み込みの最適化方針](docs/adr/001-blog-content-loading-optimization.md) - 2025-01-01
 
 ## 📂 プロジェクト構造
 
