@@ -2,7 +2,9 @@ import { getPost, getAllPosts } from '@/lib/blog';
 import BlockRenderer from '@/components/blog/blocks/BlockRenderer';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { generateBlogPostMetadata, generateBlogPostJsonLd } from '@/types/metadata';
+import { formatTagForUrl } from '@/lib/tags';
 
 // ビルド時に生成される記事のみを許可
 export const dynamicParams = false;
@@ -88,12 +90,13 @@ export default async function BlogPostPage({
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="flex flex-wrap gap-2">
               {post.meta.tags.map(tag => (
-                <span 
-                  key={tag} 
-                  className="px-2 py-1 bg-gray-100 text-sm rounded hover:bg-gray-200 transition-colors"
+                <Link
+                  key={tag}
+                  href={`/tags/${formatTagForUrl(tag)}`}
+                  className="text-sm px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
                 >
                   {tag}
-                </span>
+                </Link>
               ))}
             </div>
             <div className="text-sm text-gray-500 space-y-1">
