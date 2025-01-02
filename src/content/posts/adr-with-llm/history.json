@@ -1,0 +1,56 @@
+{
+  "blocks": [
+    {
+      "id": "history-text",
+      "type": "text",
+      "props": {
+        "content": "Architecture Decision Records（ADR）は、2011年に[Michael Nygardによって提案](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)された設計決定の文書化手法です。この手法は、アジャイル開発における重要な課題に対する解決策として生まれました。\n\nNygardは、従来の大規模な設計文書が抱える問題点を指摘しました：\n\n- ドキュメントが大きすぎて更新されない\n- 誰も読まない\n- 決定の背景や理由が失われる\n- 新しいメンバーが過去の決定を理解できない\n\nこれらの課題に対して、ADRは「将来の開発者との対話」として設計されました。各決定を短く、モジュラーな形式で記録することで、ドキュメントの保守性と可読性を高めることに成功しています。ADRのコミュニティは[adr.github.io](https://adr.github.io/)を中心に発展し、多くの[実践的なツールやテンプレート](https://github.com/joelparkerhenderson/architecture-decision-record)が共有されています。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "format-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "ADRの基本形式",
+        "align": "left"
+      }
+    },
+    {
+      "id": "format-example",
+      "type": "code",
+      "props": {
+        "language": "markdown",
+        "fileName": "adr-template.md",
+        "code": "# ADR-001: [タイトル]\n\n## ステータス\n[提案 | 承認 | 廃止 | 差し替え]\n\n## コンテキスト\n- 決定が必要になった背景\n- 現在の状況\n- 考慮すべき制約\n\n## 決定\n採用する解決策の詳細\n\n## 結果\n- この決定による影響\n- メリット/デメリット\n- フォローアップが必要な事項",
+        "highlight": []
+      }
+    },
+    {
+      "id": "principles-text",
+      "type": "text",
+      "props": {
+        "content": "ADRの基本原則は以下の通りです：\n\n1. **一つの決定に一つのドキュメント**：\n   各ADRは単一の「アーキテクチャ上重要な決定」を記録します\n\n2. **不変性**：\n   一度作成したADRは変更せず、新しいADRで上書きします\n\n3. **バージョン管理との統合**：\n   ADRはコードと同じようにバージョン管理システムで管理します\n\n4. **簡潔性**：\n   各ADRは1-2ページに収め、必要な情報のみを含めます",
+        "align": "left"
+      }
+    },
+    {
+      "id": "timeline-diagram",
+      "type": "mermaid",
+      "props": {
+        "content": "gitGraph TB:\n    commit id: \"プロジェクト開始\"\n    commit id: \"ADR-001: マイクロサービス採用\"\n    branch feature/auth\n    commit id: \"ADR-002提案: 認証基盤\"\n    checkout main\n    branch feature/db\n    commit id: \"ADR-003提案: DBアーキテクチャ\"\n    checkout feature/auth\n    commit id: \"ADR-002 更新案\"\n    checkout main\n    merge feature/auth id: \"ADR-002承認\"\n    checkout feature/db\n    commit id: \"ADR-003レビュー対応\"\n    checkout main\n    branch refactor/perf\n    commit id: \"ADR-004提案: キャッシュ戦略\"\n    checkout main\n    merge feature/db id: \"ADR-003承認\"\n    checkout refactor/perf\n    commit id: \"ADR-001廃止の提案\"\n    checkout main\n    merge refactor/perf id: \"ADR-004承認とADR-001廃止\"",
+        "caption": "実際の開発での並行したADR管理の例",
+        "theme": "default"
+      }
+    },
+    {
+      "id": "modern-text",
+      "type": "text",
+      "props": {
+        "content": "ADRの形式は、現代のソフトウェア開発プラクティスと非常に親和性が高いことが証明されています。[GitHub](https://github.blog/2020-08-13-why-write-adrs/)や[AWS](https://docs.aws.amazon.com/prescriptive-guidance/latest/architectural-decision-records/adr-process.html)などの大規模プラットフォームでの採用も進み、特にマイクロサービスアーキテクチャのような複雑なシステムの設計決定の記録に広く活用されています。\n\nこの「将来の開発者との対話」というADRの基本コンセプトは、LLMとの協働という新しい文脈においても、非常に示唆的です。LLMもまた、プロジェクトの文脈を理解し、過去の決定を参照しながら開発を支援する必要があるためです。",
+        "align": "left"
+      }
+    }
+  ]
+}

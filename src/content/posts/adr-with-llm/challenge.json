@@ -1,0 +1,63 @@
+{
+  "blocks": [
+    {
+      "id": "challenge-intro",
+      "type": "text",
+      "props": {
+        "content": "LLMを活用した開発は、チャットセッションを越えた一貫性の維持という大きな課題に直面しています。研究によれば、LLMの長期的な対話能力は通常5回程度のセッションに限定されることが指摘されています。この制約は、大規模な開発プロジェクトにおいて以下のような問題を引き起こします。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "challenge-list",
+      "type": "text",
+      "props": {
+        "content": "- セッションを跨いだ設計の一貫性が失われる\n- 複数の開発者間でコンテキストが共有できない\n- プロジェクト全体の設計意図が分散する\n- 長期的な技術判断の追跡が困難になる",
+        "align": "left"
+      }
+    },
+    {
+      "id": "challenge-diagram",
+      "type": "mermaid",
+      "props": {
+        "content": "graph TD\n    subgraph \"LLMの制約\"\n        L1[コンテキストの制限] --> P1[一貫性の欠如]\n        L2[状態の非保持] --> P2[履歴の喪失]\n        L3[セッション独立性] --> P3[知識の分断]\n    end\n    \n    subgraph \"開発への影響\"\n        P1 --> I1[設計決定の不整合]\n        P2 --> I2[重複した議論]\n        P3 --> I3[非効率な開発]\n    end",
+        "caption": "LLMの制約が開発に与える影響",
+        "theme": "default"
+      }
+    },
+    {
+      "id": "challenge-solution",
+      "type": "text",
+      "props": {
+        "content": "この課題に対する解決策として、ADRによる設計知識の体系化が有効です。ADRは次のような特徴によって、LLMの制約を補完します：",
+        "align": "left"
+      }
+    },
+    {
+      "id": "solution-points",
+      "type": "text",
+      "props": {
+        "content": "1. 設計決定の永続的な記録\n2. 決定の背景と理由の明確な文書化\n3. バージョン管理を通じた変更の追跡\n4. プロジェクト全体での知識の共有",
+        "align": "left"
+      }
+    },
+    {
+      "id": "challenge-example",
+      "type": "code",
+      "props": {
+        "language": "markdown",
+        "fileName": "session-comparison.md",
+        "code": "# 従来のアプローチ\n\nセッション1:\nUser: 認証システムの実装方法を提案してください\nLLM: JWT認証を提案します...\n\nセッション2:\nUser: セッション管理の実装方法は？\nLLM: インメモリセッションを提案します...\n（前回の決定との不整合）\n\n# ADRを活用したアプローチ\n\nUser: 認証システムの実装方法を提案してください\nLLM: ADR-005を参照します:\n- OpenID Connect採用が決定済み\n- セッション管理はRedis使用\n- 監査ログ必須\n\n上記の要件に基づき、実装を提案します....",
+        "highlight": []
+      }
+    },
+    {
+      "id": "challenge-conclusion",
+      "type": "text",
+      "props": {
+        "content": "ADRによって設計知識を体系化することで、LLMは新しいセッションでも一貫した提案が可能になります。さらに、プロジェクト全体での知識共有も促進され、より効果的な開発支援を実現できます。",
+        "align": "left"
+      }
+    }
+  ]
+}

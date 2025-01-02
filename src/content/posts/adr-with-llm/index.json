@@ -1,0 +1,89 @@
+{
+  "meta": {
+    "title": "LLMによるADRの自動更新：設計知識の継続的な記録と活用",
+    "description": "Architecture Decision Records (ADR)とLLMを組み合わせ、プロジェクトの設計知識を継続的に記録・更新する方法を解説します。LLMのコンテキスト制限を克服し、より効果的な開発支援を実現するアプローチを提案します。",
+    "publishedAt": "2025-01-02T16:03:34.000Z",
+    "tags": ["ADR", "LLM", "Architecture", "Development Process", "Documentation", "Best Practice"],
+    "author": {
+      "name": "tech.jugoya.ai",
+      "avatar": "/images/avatars/jugoya.png"
+    }
+  },
+  "blocks": [
+    {
+      "id": "intro-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "はじめに",
+        "align": "left"
+      }
+    },
+    {
+      "id": "intro",
+      "type": "blocks",
+      "props": {},
+      "source": "introduction.json"
+    },
+    {
+      "id": "history-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "ADRの歴史と基本原則",
+        "align": "left"
+      }
+    },
+    {
+      "id": "history",
+      "type": "blocks",
+      "props": {},
+      "source": "history.json"
+    },
+    {
+      "id": "challenge-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "LLMの課題とADRによる解決",
+        "align": "left"
+      }
+    },
+    {
+      "id": "challenge",
+      "type": "blocks",
+      "props": {},
+      "source": "challenge.json"
+    },
+    {
+      "id": "integration-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "LLMとADRの統合アプローチ",
+        "align": "left"
+      }
+    },
+    {
+      "id": "integration",
+      "type": "blocks",
+      "props": {},
+      "source": "integration.json"
+    },
+    {
+      "id": "conclusion-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "まとめと展望",
+        "align": "left"
+      }
+    },
+    {
+      "id": "conclusion",
+      "type": "blocks",
+      "props": {},
+      "source": "conclusion.json"
+    }
+  ]
+}

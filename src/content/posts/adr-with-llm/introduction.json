@@ -1,0 +1,37 @@
+{
+  "blocks": [
+    {
+      "id": "intro-text",
+      "type": "text",
+      "props": {
+        "content": "LLM（Large Language Model）を活用した開発支援は、コード生成やレビュー、デバッグなど、様々な場面で活用されています。しかし、[研究によれば](https://snap-research.github.io/locomo/)、LLMの長期的な対話能力は非常に限定的で、多くの場合5回程度の対話セッションを超えるとコンテキストの維持が困難になることが指摘されています。\n\n[Pineconeの技術文書](https://www.pinecone.io/learn/series/langchain/langchain-conversational-memory/)が指摘するように、これはLLMが本質的にステートレス（状態を持たない）な設計となっているためです。各クエリは独立して処理され、以前の対話の文脈は自動的には維持されません。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "challenge-text",
+      "type": "text",
+      "props": {
+        "content": "[GitHub公式のドキュメント](https://docs.github.com/en/copilot/responsible-use-of-github-copilot-features/responsible-use-of-github-copilot-chat-in-your-ide)でも指摘されているように、この制約は特にアーキテクチャレベルの課題の理解において重要な問題となります。具体的には以下のような開発シーンで大きな課題となります：\n\n- 複数の開発者がLLMを利用する場合の一貫性維持\n- 長期的なプロジェクトでの継続的な開発支援\n- マイクロサービスなど、複雑なアーキテクチャの理解\n- 設計原則や技術的制約の一貫した適用",
+        "align": "left"
+      }
+    },
+    {
+      "id": "context-diagram",
+      "type": "mermaid",
+      "props": {
+        "content": "graph TD\n    subgraph \"Challenge: Context Loss\"\n        C1[Chat Session 1] --> L1[Context Lost]\n        C2[Chat Session 2] --> L2[Context Lost]\n        C3[Chat Session 3] --> L3[Context Lost]\n    end\n    \n    subgraph \"Solution: Documentation\"\n        D[Structured Documentation]\n        ADR[ADR]\n        ARCH[Architecture Doc]\n        README[README]\n        \n        D --> ADR\n        D --> ARCH\n        D --> README\n    end\n    \n    D -->|Provides Context| C1\n    D -->|Provides Context| C2\n    D -->|Provides Context| C3",
+        "caption": "LLMのコンテキスト損失と文書化による解決",
+        "theme": "default"
+      }
+    },
+    {
+      "id": "solution-text",
+      "type": "text",
+      "props": {
+        "content": "この課題に対する解決策として、本記事ではArchitecture Decision Records（ADR）を中心とした体系的なドキュメント管理アプローチを提案します。適切に構造化されたドキュメントを通じてプロジェクトの文脈をLLMと共有することで、スレッドが変わっても一貫した開発支援を実現できます。\n\n[最近の研究](https://arxiv.org/html/2401.02777v1)でも、LLMを活用した開発支援において、適切なメモリアーキテクチャの重要性が指摘されています。本記事で提案するアプローチは、ドキュメントを通じて疑似的な「プロジェクトメモリ」を構築し、LLMの制約を補完するものです。",
+        "align": "left"
+      }
+    }
+  ]
+}
