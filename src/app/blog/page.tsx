@@ -2,10 +2,22 @@ import { type FC } from 'react';
 import Link from 'next/link';
 import { getAllPosts } from '@/lib/blog';
 import type { Metadata } from 'next';
+import { siteConfig } from '@/config/site';
+import { defaultMetadata } from '@/types/metadata';
 
 export const metadata: Metadata = {
+  ...defaultMetadata,
   title: 'Blog Posts | tech.jugoya.ai',
-  description: 'Tech blog about programming, web development, and more.',
+  description: 'tech.jugoya.aiの技術記事一覧です。',
+  alternates: {
+    canonical: `${siteConfig.url}/blog`,
+  },
+  openGraph: {
+    ...defaultMetadata.openGraph,
+    title: 'Blog Posts | tech.jugoya.ai',
+    description: 'tech.jugoya.aiの技術記事一覧です。',
+    url: `${siteConfig.url}/blog`,
+  },
 };
 
 const BlogPage: FC = async () => {

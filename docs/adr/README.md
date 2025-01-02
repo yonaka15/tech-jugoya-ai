@@ -26,7 +26,10 @@ NNN-descriptive-title.md
 
 | 番号 | タイトル | ステータス | 日付 |
 |------|----------|------------|------|
-| [001](001-blog-content-loading-optimization.md) | ブログ記事読み込みの最適化方針 | 提案中 | 2025-01-01 |
+| [001](001-blog-content-loading-optimization.md) | ブログ記事読み込みの最適化方針 | 完了 | 2025-01-01 |
+| [002](002-ogp-image-generation-optimization.md) | OGP画像生成の最適化とキャッシュ戦略 | 完了 | 2025-01-01 |
+| [003](003-canonical-url-implementation.md) | Canonical URL実装とSEO最適化 | 完了 | 2025-01-02 |
+| [004](004-canonical-url-fix.md) | Canonical URL実装の修正 | 実装中 | 2025-01-02 |
 
 ## ADRのステータス
 
