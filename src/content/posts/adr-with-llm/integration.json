@@ -1,0 +1,65 @@
+{
+  "blocks": [
+    {
+      "id": "integration-intro",
+      "type": "text",
+      "props": {
+        "content": "LLMとADRを組み合わせることで、プロジェクトの設計知識を継続的に記録・更新できます。このセクションでは、開発者を中心としたアプローチと、それを支援するLLMの活用方法を説明します。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "roles-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "開発者とLLMの役割",
+        "align": "left"
+      }
+    },
+    {
+      "id": "roles-text",
+      "type": "text",
+      "props": {
+        "content": "開発者は以下の責任を担います：\n\n1. 設計決定の最終判断\n2. ADRの品質管理とレビュー\n3. チーム内での合意形成\n4. 変更履歴の管理\n\nLLMは開発者の支援として以下の役割を果たします：\n\n1. 既存のADRの分析と関連付け\n2. 更新が必要な箇所の指摘\n3. 更新案の草稿作成\n4. 整合性のチェック",
+        "align": "left"
+      }
+    },
+    {
+      "id": "workflow-diagram",
+      "type": "mermaid",
+      "props": {
+        "content": "sequenceDiagram\n    participant Dev as 開発者\n    participant LLM as LLMアシスタント\n    participant Git as バージョン管理\n    participant Team as チームレビュー\n\n    Dev->>LLM: ADR更新の相談\n    LLM->>Dev: 関連ADRの分析\n    LLM->>Dev: 更新案の提案\n    Dev->>Dev: 提案内容の検討\n    Dev->>Team: レビュー依頼\n    Team->>Team: チーム内での議論\n    Team->>Dev: フィードバック\n    Dev->>Git: 承認された変更を記録",
+        "caption": "開発者主導のADR更新フロー",
+        "theme": "default"
+      }
+    },
+    {
+      "id": "example-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "ADR更新の具体例",
+        "align": "left"
+      }
+    },
+    {
+      "id": "example-code",
+      "type": "code",
+      "props": {
+        "language": "markdown",
+        "fileName": "adr-update-process.md",
+        "code": "# 開発者によるADR更新プロセス\n\n## 1. 変更の必要性を検討\n- アーキテクチャの変更が発生\n- 新しい技術要件の追加\n- 既存決定の見直し\n\n## 2. LLMによる支援を活用\n- 既存ADRの分析を依頼\n- 更新案の草稿を生成\n- 関連ADRの指摘を受ける\n\n## 3. 開発者による精査\n- 提案内容の技術的妥当性確認\n- ビジネス要件との整合性チェック\n- セキュリティ面での考慮\n\n## 4. チームでのレビュー\n- 設計方針の合意形成\n- 実装への影響度評価\n- 移行計画の検討\n\n## 5. 承認と記録\n- レビュー結果の反映\n- 変更履歴の文書化\n- バージョン管理への登録",
+        "highlight": []
+      }
+    },
+    {
+      "id": "improvement-text",
+      "type": "text",
+      "props": {
+        "content": "このアプローチにより、以下のような継続的な改善が実現します：\n\n1. 開発者の意思決定プロセスの支援\n2. チーム全体での知識共有の促進\n3. 設計履歴の確実な記録\n4. レビュープロセスの効率化",
+        "align": "left"
+      }
+    }
+  ]
+}
