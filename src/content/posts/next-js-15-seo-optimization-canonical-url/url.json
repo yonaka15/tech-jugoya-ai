@@ -1,0 +1,91 @@
+{
+  "blocks": [
+    {
+      "id": "url-intro",
+      "type": "text",
+      "props": {
+        "content": "URL正規化は、Canonical URLの実装と密接に関連しています。[Next.jsの公式ドキュメント](https://nextjs.org/docs/pages/building-your-application/routing/middleware#matching-paths)によると、同じコンテンツに対する異なるURLバリエーションを、ユーザー体験を損なうことなく適切に処理する必要があります。Next.js 15では、より柔軟で強力なURL正規化とリダイレクト機能が提供されています。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "execution-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "実行順序とリダイレクトの仕組み",
+        "align": "left"
+      }
+    },
+    {
+      "id": "execution-text",
+      "type": "text",
+      "props": {
+        "content": "Next.jsでのリダイレクト処理は、[明確に定義された実行順序](https://nextjs.org/docs/pages/building-your-application/routing/middleware#matching-paths)に従って処理されます。リクエストが届いてから応答を返すまでの間に、以下の順序で処理が実行されます。この実行順序を理解することは、効果的なURL正規化を実装する上で重要です。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "execution-diagram",
+      "type": "mermaid",
+      "props": {
+        "content": "sequenceDiagram\n    participant C as クライアント\n    participant N as next.config.js\n    participant M as middleware.ts\n    participant R as ルーティング\n\n    C->>N: リクエスト\n    Note over N: 1. headers設定\n    Note over N: 2. redirects処理\n    N->>M: 処理継続\n    Note over M: 3. middleware処理<br/>(rewrites, redirects)\n    M->>N: 処理継続\n    Note over N: 4. beforeFiles<br/>rewrites\n    N->>R: 処理継続\n    Note over R: 5. ファイルシステム<br/>ルーティング\n    Note over N: 6. afterFiles<br/>rewrites\n    Note over R: 7. 動的ルート処理\n    Note over N: 8. fallback<br/>rewrites\n    R->>C: レスポンス",
+        "align": "center"
+      }
+    },
+    {
+      "id": "execution-explanation",
+      "type": "text",
+      "props": {
+        "content": "リクエスト処理の流れは以下のようになっています：\n\n1. まず`next.config.js`でのheadersとredirects設定が処理されます\n2. 次に`middleware.ts`での処理が実行されます\n3. その後、様々なrewritesとルーティング処理が順番に適用されます\n\nこの順序を理解することで、どの層でURLの処理を実装するべきかが明確になります。詳細は[Next.jsのミドルウェアドキュメント](https://nextjs.org/docs/pages/building-your-application/routing/middleware)を参照してください。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "config-implementation",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "next.config.jsでの実装",
+        "align": "left"
+      }
+    },
+    {
+      "id": "config-code",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "next.config.ts",
+        "code": "const nextConfig: NextConfig = {\n  async redirects() {\n    return [\n      // トレーリングスラッシュの正規化\n      {\n        source: '/tags/:tag/',\n        destination: '/tags/:tag',\n        permanent: true\n      },\n      // 旧URLパターンの対応\n      {\n        source: '/category/:slug',\n        destination: '/tags/:slug',\n        permanent: true\n      }\n    ];\n  },\n};\n",
+        "highlight": [4, 10]
+      }
+    },
+    {
+      "id": "middleware-implementation",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "middleware.tsでの実装",
+        "align": "left"
+      }
+    },
+    {
+      "id": "middleware-code",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "src/middleware.ts",
+        "code": "import { NextResponse } from 'next/server';\nimport type { NextRequest } from 'next/server';\nimport { formatTagForUrl } from '@/lib/tags';\n\nexport async function middleware(request: NextRequest) {\n  const { pathname } = request.nextUrl;\n\n  // タグページのURL正規化\n  if (pathname.startsWith('/tags/')) {\n    const tag = decodeURIComponent(pathname.replace('/tags/', ''));\n    const normalizedTag = formatTagForUrl(tag);\n\n    // タグが正規化形式と異なる場合のみリダイレクト\n    if (tag !== normalizedTag) {\n      const url = request.nextUrl.clone();\n      url.pathname = `/tags/${normalizedTag}`;\n      \n      // クエリパラメータを保持\n      for (const [key, value] of request.nextUrl.searchParams.entries()) {\n        url.searchParams.set(key, value);\n      }\n      \n      return NextResponse.redirect(url, {\n        status: 308 // Permanent Redirect\n      });\n    }\n  }\n\n  return NextResponse.next();\n}",
+        "highlight": [10, 11, 18, 19, 20]
+      }
+    },
+    {
+      "id": "implementation-notes",
+      "type": "text",
+      "props": {
+        "content": "この実行順序を考慮すると、以下のような実装方針が推奨されます：\n\n1. **next.config.jsでの実装**\n   - サイト全体に関わる基本的なリダイレクトルール\n   - 単純なパターンマッチングによるリダイレクト\n   - プロジェクト初期に決定できる静的なルール\n\n2. **middleware.tsでの実装**\n   - 動的な判断が必要なリダイレクト\n   - リクエスト内容に基づく条件分岐\n   - クエリパラメータの処理が必要なケース\n   - カスタムロジック（formatTagForUrlなど）の適用\n\nこのアプローチは、[Googleの推奨するURL正規化のベストプラクティス](https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls#define-canonical)にも準拠しています。",
+        "align": "left"
+      }
+    }
+  ]
+}

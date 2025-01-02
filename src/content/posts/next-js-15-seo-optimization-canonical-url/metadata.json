@@ -1,0 +1,99 @@
+{
+  "blocks": [
+    {
+      "id": "metadata-intro",
+      "type": "text",
+      "props": {
+        "content": "Canonical URLの実装は、より広範なメタデータ戦略の一部として捉える必要があります。Next.js 15のMetadata APIは、SEO最適化に必要な様々なメタデータを型安全に管理できる強力なツールを提供しています。ここでは、メタデータの包括的な実装方法と、その効果について説明します。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "metadata-types-section",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "型安全なメタデータ定義",
+        "align": "left"
+      }
+    },
+    {
+      "id": "config-types",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "src/types/metadata.ts",
+        "code": "import { Metadata } from 'next';\n\n/**\n * サイト全体のデフォルトメタデータ設定\n */\nexport const defaultMetadata: Metadata = {\n  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://tech.jugoya.ai'),\n  title: {\n    default: 'tech.jugoya.ai',\n    template: '%s | tech.jugoya.ai'\n  },\n  description: 'Web技術とAIに関する実践的な知見を共有するテックブログ',\n  openGraph: {\n    type: 'website',\n    locale: 'ja_JP',\n    siteName: 'tech.jugoya.ai',\n    images: ['/api/og/default.png']\n  },\n  twitter: {\n    card: 'summary_large_image',\n    creator: '@yonaka'\n  },\n  alternates: {\n    canonical: '/',\n    types: {\n      'application/rss+xml': '/feed.xml'\n    }\n  },\n  robots: {\n    index: true,\n    follow: true,\n    nocache: false,\n    googleBot: {\n      index: true,\n      follow: true,\n      'max-video-preview': -1,\n      'max-image-preview': 'large',\n      'max-snippet': -1\n    }\n  }\n};\n\n/**\n * メタデータのマージユーティリティ\n */\nexport function mergeMetadata(base: Metadata, override: Metadata): Metadata {\n  return {\n    ...base,\n    ...override,\n    openGraph: {\n      ...base.openGraph,\n      ...override.openGraph\n    },\n    robots: {\n      ...base.robots,\n      ...override.robots\n    }\n  };\n}",
+        "highlight": [7, 23, 29]
+      }
+    },
+    {
+      "id": "metadata-structure",
+      "type": "text",
+      "props": {
+        "content": "defaultMetadataオブジェクトでは、以下の重要な要素を定義しています：\n\n1. metadataBase：すべての相対URLの基準となるベースURL\n2. alternates：Canonical URLとRSSフィードなどの代替表現\n3. robots：検索エンジンのクローリングとインデックスの制御\n4. OpenGraphとTwitter Card：ソーシャルメディアでの表示最適化",
+        "align": "left"
+      }
+    },
+    {
+      "id": "page-metadata",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "動的なメタデータ生成",
+        "align": "left"
+      }
+    },
+    {
+      "id": "page-metadata-code",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "src/app/blog/[slug]/page.tsx",
+        "code": "import { Metadata, ResolvingMetadata } from 'next';\nimport { getPostBySlug } from '@/lib/posts';\nimport { mergeMetadata, defaultMetadata } from '@/types/metadata';\n\ntype Props = {\n  params: Promise<{ slug: string }>;\n};\n\nexport async function generateMetadata(\n  { params }: Props,\n  parent: ResolvingMetadata\n): Promise<Metadata> {\n  const { slug } = await params;\n  const post = await getPostBySlug(slug);\n  const canonicalPath = `/blog/${post.slug}`;\n\n  const postMetadata: Metadata = {\n    title: post.meta.title,\n    description: post.meta.description,\n    openGraph: {\n      title: post.meta.title,\n      description: post.meta.description,\n      type: 'article',\n      publishedTime: post.meta.publishedAt,\n      authors: [post.meta.author?.name],\n      images: post.meta.ogImage ? [post.meta.ogImage] : undefined\n    },\n    alternates: {\n      canonical: canonicalPath\n    }\n  };\n\n  return mergeMetadata(defaultMetadata, postMetadata);\n}",
+        "highlight": [15, 29, 33]
+      }
+    },
+    {
+      "id": "metadata-verification",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "メタデータの検証と監視",
+        "align": "left"
+      }
+    },
+    {
+      "id": "verification-steps",
+      "type": "text",
+      "props": {
+        "content": "メタデータの実装後は、以下の点を確認することが重要です：\n\n1. 各ページのメタデータが正しく生成されているか\n2. Canonical URLが適切に設定されているか\n3. OGPタグがソーシャルメディアで正しく表示されるか\n4. インデックスとクロール設定が意図通りに機能しているか",
+        "align": "left"
+      }
+    },
+    {
+      "id": "monitoring",
+      "type": "text",
+      "props": {
+        "content": "実装したメタデータの効果を測定するには、以下のツールを活用します：\n\n1. Google Search Console：インデックス状況とページの認識状態の確認\n2. Facebook Sharing Debugger：OGPタグの検証\n3. Twitter Card Validator：Twitter Cardの表示確認\n4. Chrome DevTools：ページごとのメタデータ実装の確認",
+        "align": "left"
+      }
+    },
+    {
+      "id": "success-metrics",
+      "type": "text",
+      "props": {
+        "content": "適切なメタデータ実装の効果は、以下の指標で確認できます：\n\n1. 検索エンジンからのオーガニックトラフィックの増加\n2. ソーシャルメディアからの参照トラフィックの質の向上\n3. クローラビリティの改善（Google Search Consoleのクロール統計で確認可能）\n4. ページの表示速度の維持（不適切なリダイレクトの削減による）",
+        "align": "left"
+      }
+    },
+    {
+      "id": "summary",
+      "type": "text",
+      "props": {
+        "content": "Next.js 15のMetadata APIを活用することで、型安全で保守性の高いメタデータ管理が実現できます。これは、技術的な堅牢性とSEOパフォーマンスの両立を可能にする重要な基盤となります。また、将来的なメタデータ要件の変更にも柔軟に対応できる拡張性を提供します。",
+        "align": "left"
+      }
+    }
+  ]
+}

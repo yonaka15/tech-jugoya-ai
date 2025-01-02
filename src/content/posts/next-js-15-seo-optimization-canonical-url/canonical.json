@@ -1,0 +1,117 @@
+{
+  "blocks": [
+    {
+      "id": "canonical-importance",
+      "type": "text",
+      "props": {
+        "content": "Canonical URLの実装は、単なるSEO対策以上の意味を持ちます。これは、コンテンツの正規表現を明確に定義し、Webサイト全体のURL構造を整理する機会となります。Next.js 15では、アプリケーション全体で一貫したCanonical URL管理を実現するための新しいアプローチが導入されています。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "metadata-api",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "Next.js 15のMetadata APIを活用した実装",
+        "align": "left"
+      }
+    },
+    {
+      "id": "metadata-explanation",
+      "type": "text",
+      "props": {
+        "content": "Next.js 15では、メタデータの管理が大幅に改善され、型安全性が強化されました。Canonical URLの設定には、metadataBaseを使用した一貫性のある実装が推奨されます。以下の実装例を見ていきましょう。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "metadata-types",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "src/types/metadata.ts",
+        "code": "import { Metadata } from 'next';\n\nexport const defaultMetadata: Metadata = {\n  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://tech.jugoya.ai'),\n  title: {\n    default: 'tech.jugoya.ai',\n    template: '%s | tech.jugoya.ai'\n  },\n  robots: {\n    index: true,\n    follow: true\n  }\n};\n",
+        "highlight": [4]
+      }
+    },
+    {
+      "id": "metadata-base",
+      "type": "text",
+      "props": {
+        "content": "metadataBaseの設定は、サイト全体のメタデータ管理の基盤となります。このベースURLを設定することで、相対パスでのCanonical URL指定が可能になり、環境による違いを吸収できます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "tag-page",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "タグページでのCanonical URL実装",
+        "align": "left"
+      }
+    },
+    {
+      "id": "tag-page-implementation",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "src/app/tags/[tag]/page.tsx",
+        "code": "import { Metadata, ResolvingMetadata } from 'next';\nimport { formatTagForUrl, getOriginalCaseTag } from '@/lib/tags';\n\ntype Props = {\n  params: Promise<{ tag: string }>;\n};\n\nexport async function generateMetadata(\n  { params }: Props,\n  parent: ResolvingMetadata\n): Promise<Metadata> {\n  const { tag } = await params;\n  const originalCase = await getOriginalCaseTag(tag);\n  const canonicalPath = `/tags/${formatTagForUrl(originalCase)}`;\n  \n  return {\n    title: `${originalCase}の記事一覧`,\n    description: `tech.jugoya.aiの${originalCase}に関する記事一覧です。`,\n    alternates: {\n      canonical: canonicalPath,\n    },\n    openGraph: {\n      title: `${originalCase}の記事一覧 | tech.jugoya.ai`,\n      description: `tech.jugoya.aiの${originalCase}に関する記事一覧です。`,\n      url: canonicalPath,\n    },\n  };\n}",
+        "highlight": [13, 19]
+      }
+    },
+    {
+      "id": "tag-page-explanation",
+      "type": "text",
+      "props": {
+        "content": "この実装では、以下の重要なポイントに注目してください：\n\n1. 非同期パラメータの処理：Next.js 15では`params`が非同期になり、より柔軟なURL処理が可能になりました。\n2. 正規化されたパス生成：`formatTagForUrl`関数を使用して、一貫性のあるURL形式を維持します。\n3. オリジナルの大文字小文字の保持：ユーザーフレンドリーな表示のため、元のタグ名の大文字小文字は保持しつつ、URLは正規化します。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "format-tag",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "src/lib/tags.ts",
+        "code": "/**\n * タグのURL形式への変換\n * - 小文字に統一\n * - スペースをハイフンに変換\n * - 特殊文字の除去\n */\nexport function formatTagForUrl(tag: string): string {\n  return tag\n    .toLowerCase()\n    .replace(/\\s+/g, '-')\n    .replace(/[^a-z0-9-]/g, '');\n}\n\n/**\n * オリジナルの大文字小文字を保持したタグの取得\n */\nexport async function getOriginalCaseTag(tag: string): Promise<string> {\n  const tags = await getAllTags();\n  return tags.find(t => formatTagForUrl(t) === tag) || tag;\n}",
+        "highlight": [7, 17]
+      }
+    },
+    {
+      "id": "verification",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "実装の検証",
+        "align": "left"
+      }
+    },
+    {
+      "id": "verification-text",
+      "type": "text",
+      "props": {
+        "content": "Canonical URLの実装が正しく機能していることを確認するには、以下の点を検証することが重要です：\n\n1. ページソースでのCanonical要素の確認\n2. 異なるURLパターンからのアクセス時の動作確認\n3. Search Console上でのURL認識状況の確認",
+        "align": "left"
+      }
+    },
+    {
+      "id": "mermaid-diagram",
+      "type": "mermaid",
+      "props": {
+        "content": "graph TB\n    A[アクセスURL] --> B{URL正規化}\n    B -->|大文字小文字変換| C[formatTagForUrl]\n    B -->|特殊文字処理| C\n    C --> D{Canonical URL生成}\n    D -->|metadataBase| E[完全なURL]\n    D -->|相対パス| E\n    E --> F[SEO最適化されたページ]\n    \n    style A fill:#f9f,stroke:#333,stroke-width:2px\n    style F fill:#9ff,stroke:#333,stroke-width:2px",
+        "align": "center"
+      }
+    },
+    {
+      "id": "benefits",
+      "type": "text",
+      "props": {
+        "content": "この実装アプローチには以下のような利点があります：\n\n1. 型安全性：TypeScriptとNext.jsのMetadata APIにより、実装時のエラーを早期に発見できます。\n2. 一貫性：metadataBaseを使用することで、環境に依存しないURL生成が可能です。\n3. 保守性：URL形式の変更が必要な場合、formatTagForUrl関数を修正するだけで対応できます。\n4. SEO最適化：検索エンジンに明確なシグナルを送ることで、コンテンツのインデックスが改善されます。",
+        "align": "left"
+      }
+    }
+  ]
+}

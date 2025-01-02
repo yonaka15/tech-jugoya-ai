@@ -1,0 +1,45 @@
+{
+  "blocks": [
+    {
+      "id": "intro-text",
+      "type": "text",
+      "props": {
+        "content": "Webサイトの成長に伴い、同じコンテンツが異なるURLでアクセス可能になることは珍しくありません。これは技術的には正常な状態ですが、SEOの観点からは課題となりえます。[Googleのガイドライン](https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls)でも、このような重複コンテンツの適切な管理が推奨されています。たとえば、あるブログ記事が以下のような複数のURLで閲覧可能だとしましょう：",
+        "align": "left"
+      }
+    },
+    {
+      "id": "code-urls",
+      "type": "code",
+      "props": {
+        "language": "plaintext",
+        "fileName": "example-urls.txt",
+        "code": "https://example.com/article/web-performance\nhttps://example.com/article/web-performance/\nhttps://example.com/article/web-performance?utm_source=twitter\nhttps://example.com/article/WEB-PERFORMANCE"
+      }
+    },
+    {
+      "id": "seo-challenge",
+      "type": "text",
+      "props": {
+        "content": "これらのURLはすべて同じコンテンツを指していますが、検索エンジンからは異なるページとして認識される可能性があります。この状況は以下のような問題を引き起こす可能性があります：\n\n1. 検索エンジンが同じコンテンツを重複として判断し、どのURLをインデックスすべきか混乱する\n2. リンクの評価が分散し、SEOの効果が薄まる\n3. アナリティクスデータが分散し、正確な分析が困難になる",
+        "align": "left"
+      }
+    },
+    {
+      "id": "canonical-intro",
+      "type": "text",
+      "props": {
+        "content": "この問題に対する解決策が「Canonical URL（正規版URL）」です。[Googleの定義](https://developers.google.com/search/docs/crawling-indexing/canonicalization)によると、Canonicalとは「正規の」「標準の」「規範となる」という意味を持つ形容詞で、Canonical URLは「このコンテンツの正規版はこのURLです」という宣言として機能します。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "next-js-intro",
+      "type": "text",
+      "props": {
+        "content": "Next.js 15では、このCanonical URLの実装が[新しいMetadata API](https://nextjs.org/docs/app/building-your-application/optimizing/metadata)を通じてより強力にサポートされるようになりました。この記事では、私たちのブログシステムでの実際の実装経験を基に、Next.js 15を使用したSEO最適化の実践的なアプローチを共有します。",
+        "align": "left"
+      }
+    }
+  ]
+}
