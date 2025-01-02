@@ -1,9 +1,21 @@
 import { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
+import { siteConfig } from "@/config/site";
+import { defaultMetadata } from "@/types/metadata";
 
 export const metadata: Metadata = {
-  title: "About | jugoya.ai",
+  ...defaultMetadata,
+  title: "About | tech.jugoya.ai",
   description: "tech.jugoya.aiについて",
+  alternates: {
+    canonical: `${siteConfig.url}/about`,
+  },
+  openGraph: {
+    ...defaultMetadata.openGraph,
+    title: "About | tech.jugoya.ai",
+    description: "tech.jugoya.aiについて",
+    url: `${siteConfig.url}/about`,
+  },
 };
 
 export default function AboutPage() {
