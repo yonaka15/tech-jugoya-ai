@@ -1,0 +1,73 @@
+{
+  "meta": {
+    "title": "Next.js 15でのSEO最適化: Canonical URLとメタデータの実装ベストプラクティス",
+    "description": "Next.js 15の新しいMetadata APIを活用したSEO最適化の実践的ガイド。Canonical URLの適切な実装から、URL正規化、充実したメタデータ実装まで、実例を交えて解説します。",
+    "publishedAt": "2025-01-02T06:26:21.000Z",
+    "tags": ["Next.js", "SEO", "TypeScript", "Best Practice"],
+    "author": {
+      "name": "Yonaka"
+    }
+  },
+  "blocks": [
+    {
+      "id": "intro-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "はじめに",
+        "align": "left"
+      }
+    },
+    {
+      "id": "intro",
+      "type": "blocks",
+      "props": {},
+      "source": "introduction.json"
+    },
+    {
+      "id": "canonical-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "Canonical URLの重要性と実装",
+        "align": "left"
+      }
+    },
+    {
+      "id": "canonical",
+      "type": "blocks",
+      "props": {},
+      "source": "canonical.json"
+    },
+    {
+      "id": "url-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "URL正規化とリダイレクト戦略",
+        "align": "left"
+      }
+    },
+    {
+      "id": "url",
+      "type": "blocks",
+      "props": {},
+      "source": "url.json"
+    },
+    {
+      "id": "meta-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "メタデータの包括的な実装",
+        "align": "left"
+      }
+    },
+    {
+      "id": "meta",
+      "type": "blocks",
+      "props": {},
+      "source": "metadata.json"
+    }
+  ]
+}
