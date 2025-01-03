@@ -25,9 +25,12 @@ content/
 
 - ファイル/ディレクトリ名は URL スラッグとして使用されます
 - 小文字の英数字とハイフンのみを使用してください
+- 推奨フォーマット: `YYYY-MM-DD-article-slug`
+  - 日付を含めることで、記事の時系列管理が容易になります
+  - URLでも日付が分かり、コンテンツの鮮度を読者が判断できます
 - 例:
-  - 単一ファイル: `getting-started-with-nextjs.json`
-  - 分割ファイル: `getting-started-with-nextjs/index.json`
+  - 単一ファイル: `2024-01-15-getting-started-with-nextjs.json`
+  - 分割ファイル: `2024-01-15-getting-started-with-nextjs/index.json`
 
 ### 分割ファイル形式
 
@@ -265,4 +268,3 @@ UI構造の理解や開発がしやすくなっています。さらに、単方
 - ❌ 商用利用禁止
 - ❌ 改変禁止
 - ℹ️ 著作権表示が必要
-

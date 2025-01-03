@@ -1,0 +1,52 @@
+{
+  "blocks": [
+    {
+      "id": "models-overview",
+      "type": "text",
+      "props": {
+        "content": "人間とAIの協働において重要なのは、「何をするか」と「どのように行うか」の主導権をどちらが持つかという点です。[Dégallier-Rochat et al. (2022)](https://doi.org/10.3389/frobt.2022.997386)が提示した4つの協働モデルを、実践例と共に見ていきましょう。[IMF (2024)](https://www.imf.org/en/Blogs/Articles/2024/01/14/ai-will-transform-the-global-economy-lets-make-sure-it-benefits-humanity)が指摘するように、AIの影響を受ける仕事のうち、約半分は人間とAIの協働による生産性の向上が期待できます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "assisting-model",
+      "type": "text",
+      "props": {
+        "content": "**1. 支援型（Assisting）モデル**\n\n人間が行動選択と手順開発の両方を主導し、AIはサポートツールとして機能します。[Harvard Business Review](https://hbr.org/2022/09/ai-isnt-ready-to-make-unsupervised-decisions)が指摘するように、このモデルは「倫理的、道徳的、その他の人間的な考慮事項」が重要な場面で特に有効です。\n\n具体例：\n- データ分析による意思決定支援\n- 情報収集と要約\n- 定型的な文書作成支援\n\nこのモデルでは、人間の判断が常に優先され、AIは人間の能力を補完する役割に徹します。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "augmenting-model",
+      "type": "text",
+      "props": {
+        "content": "**2. 拡張型（Augmenting）モデル**\n\n人間が行動の選択を主導し、AIが実行手順を最適化します。[IMF](https://www.imf.org/en/Blogs/Articles/2024/01/14/ai-will-transform-the-global-economy-lets-make-sure-it-benefits-humanity)の分析によれば、このモデルは「生産性の向上」と「人材のスキル向上」を同時に実現できる可能性があります。\n\n重要な特徴：\n- 人間の創造性と判断力の活用\n- AIによる手順の効率化\n- 人間による目標設定とAIによる実行の最適な組み合わせ\n\nこのモデルは、人間の判断とAIの効率性を組み合わせることで、両者の強みを活かすことができます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "arresting-model",
+      "type": "text",
+      "props": {
+        "content": "**3. 制限型（Arresting）モデル**\n\nAIが行動選択を主導し、人間が実行手順を開発します。このモデルには以下のような課題があります：\n\n- 人間の自律性と創造性が制限される\n- モチベーションの低下\n- システムの柔軟性が失われる\n\nただし、高度な安全性や正確性が要求される特定の領域（例：品質管理、コンプライアンス監査）では、このモデルが適している場合もあります。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "automating-model",
+      "type": "text",
+      "props": {
+        "content": "**4. 自動化型（Automating）モデル**\n\nAIが行動選択と手順開発の両方を主導します。このモデルは以下のような特徴を持ちます：\n\n- 高度な自動化による効率性の追求\n- 人間の関与の最小化\n- 一貫した実行の保証\n\n適用可能な領域：\n- 定型的で反復的な業務\n- 明確なルールに基づく処理\n- リスクが低く、標準化された作業\n\nただし、[Harvard Business Review](https://hbr.org/2022/09/ai-isnt-ready-to-make-unsupervised-decisions)が警告するように、「完全な自動化は、人間による監督なしには適切に機能しない」ため、定期的な人間による評価と監視が必要です。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "model-selection",
+      "type": "text",
+      "props": {
+        "content": "これらのモデルの選択において、以下の点を考慮する必要があります：\n\n1. **業務の特性**\n- 求められる創造性と判断力の程度\n- 標準化の可能性\n- リスクの性質と大きさ\n\n2. **組織の目標**\n- 効率化と革新のバランス\n- 人材育成の方針\n- 長期的な競争力の源泉\n\n制限型や自動化型が特定の用途では有効である一方で、持続的な発展のためには支援型と拡張型のモデルに注力すべきだと考えられます。[IMF](https://www.imf.org/en/Blogs/Articles/2024/01/14/ai-will-transform-the-global-economy-lets-make-sure-it-benefits-humanity)が示唆するように、「AIの恩恵を最大限に活用するには、慎重なポリシーのバランスが必要」です。単一のモデルに固執せず、状況に応じて最適なモデルを選択・組み合わせることで、持続可能な発展が可能になります。",
+        "align": "left"
+      }
+    }
+  ]
+}
