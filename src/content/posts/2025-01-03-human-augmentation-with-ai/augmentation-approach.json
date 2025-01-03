@@ -1,0 +1,37 @@
+{
+  "blocks": [
+    {
+      "id": "augmentation-overview",
+      "type": "text",
+      "props": {
+        "content": "人間拡張アプローチは、AIによる完全代替とは異なる方向性を目指すものです。[IT BusinessNet](https://itbusinessnet.com/2024/12/the-future-of-human-ai-collaboration-seamless-augmentation/)の分析では、AIを効率化のツールとして見なしている企業は約80%である一方、人員削減を目的とする企業は30%未満にとどまっています。AIの協働に注力している企業もあることが示唆されます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "strength-comparison",
+      "type": "mermaid",
+      "props": {
+        "content": "graph LR\n    subgraph Human[人間の得意分野]\n        direction TB\n        H1[創造的思考]\n        H2[状況判断]\n        H3[柔軟な対応]\n    end\n    \n    subgraph AI[AIの得意分野]\n        direction TB\n        A1[大量データ処理]\n        A2[パターン認識]\n        A3[高速な計算]\n    end\n    \n    subgraph Collaboration[協働による可能性]\n        C1[より深い洞察]\n        C2[迅速な意思決定]\n        C3[新しい価値創造]\n    end\n    \n    Human --> Collaboration\n    AI --> Collaboration",
+        "caption": "人間とAIの得意分野と協働",
+        "theme": "default"
+      }
+    },
+    {
+      "id": "learning-interaction",
+      "type": "text",
+      "props": {
+        "content": "[Daugherty & Wilson](https://hbr.org/2018/07/collaborative-intelligence-humans-and-ai-are-joining-forces)の研究は、人間とAIの協働について以下のような特徴を指摘しています。\n\n**1. リアルタイムフィードバック**\nAIを活用した即時の支援によって試行錯誤のサイクルを短縮できる可能性があります。これは特に複雑な問題解決や意思決定において有効と考えられます。\n\n**2. 個別最適化された学習**\n各個人の理解度や進捗に応じた支援によって、効率的なスキル向上を図ることができます。この効果は組織全体の能力向上にも寄与する可能性があります。\n\n**3. 継続的な知識の更新と共有**\n人間とAIの相互作用を通じて、知識やベストプラクティスを継続的に蓄積・更新することができます。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "case-study",
+      "type": "text",
+      "props": {
+        "content": "[Certiniaの2024年グローバルサービス指標](https://itbusinessnet.com/2024/12/the-future-of-human-ai-collaboration-seamless-augmentation/)によると、人間とAIの協働を進める企業では次のような変化が報告されています。\n\n- 意思決定プロセスの改善\n- 新しいアイデアの創出機会の増加\n- 従業員満足度の変化\n- 生産性の向上\n\nただし、これらの成果は組織の状況や導入方法によって異なる可能性があることに注意が必要です。",
+        "align": "left"
+      }
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "blocks": [
+    {
+      "id": "replacement-overview",
+      "type": "text",
+      "props": {
+        "content": "[IMF (2024)](https://www.imf.org/en/Blogs/Articles/2024/01/14/ai-will-transform-the-global-economy-lets-make-sure-it-benefits-humanity)は、先進国の約60%の仕事がAIの影響を受け、その半数では人間のタスクがAIによって代替される可能性があると予測しています。\n\nこの予測を踏まえ、私は人間のタスクの代替を目指すアプローチに懸念を感じています。IMF自身も指摘している課題に加えて、代替を進めることで組織の持続可能性が損なわれる可能性があると考えているためです。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "imf-concerns",
+      "type": "text",
+      "props": {
+        "content": "IMFが指摘する課題：\n\n1. **格差の拡大と固定化**：\n- AIを活用できる労働者とできない労働者の二極化\n- 世代間での機会の不平等\n- 高所得者への恩恵の集中\n\n2. **社会的な緊張の高まり**：\n- 雇用機会の減少\n- 賃金の低下\n- 労働市場の分断",
+        "align": "left"
+      }
+    },
+    {
+      "id": "replacement-risks",
+      "type": "text",
+      "props": {
+        "content": "また、完全代替を目指すアプローチには以下のようなリスクが考えられます：\n\n1. **組織の脆弱化の可能性**：\n- 人間の判断力と創造性が活かされにくい環境\n- 予期せぬ状況への対応力の低下\n- 組織の持続可能性への影響\n\n2. **イノベーション創出の課題**：\n- 人間からのフィードバック機会の減少\n- 新しい価値創造の機会の制限\n- 組織の競争力への影響\n\n[Harvard Business Review](https://hbr.org/2022/09/ai-isnt-ready-to-make-unsupervised-decisions)が指摘するように、AIには「実生活の意思決定に関わる無形の人間的要素 - 倫理的、道徳的、そして他の人間的な考慮事項 - を捉え、それに応答することが難しい」という特徴があります。",
+        "align": "left"
+      }
+    }
+  ]
+}

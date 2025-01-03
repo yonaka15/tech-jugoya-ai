@@ -1,0 +1,140 @@
+{
+  "meta": {
+    "title": "AIは人間を代替しない：持続可能な協働への道筋",
+    "description": "AIと人間の効果的な協働を実現するためには、代替ではなく相互学習による成長が不可欠だと考えています。本記事では、研究と実践例を基に、持続可能な人間拡張アプローチについて考察します。",
+    "publishedAt": "2025-01-03T16:09:59.000Z",
+    "tags": [
+      "AI",
+      "Human Augmentation",
+      "Future Technology",
+      "Technology Trends",
+      "Learning Design"
+    ],
+    "author": {
+      "name": "tech.jugoya.ai",
+      "avatar": "/images/avatars/jugoya.png"
+    }
+  },
+  "blocks": [
+    {
+      "id": "intro-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "はじめに",
+        "align": "left"
+      }
+    },
+    {
+      "id": "intro",
+      "type": "blocks",
+      "props": {},
+      "source": "introduction.json"
+    },
+    {
+      "id": "research-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "人間拡張に関する研究",
+        "align": "left"
+      }
+    },
+    {
+      "id": "research",
+      "type": "blocks",
+      "props": {},
+      "source": "research-background.json"
+    },
+    {
+      "id": "replacement-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "代替アプローチの限界",
+        "align": "left"
+      }
+    },
+    {
+      "id": "replacement",
+      "type": "blocks",
+      "props": {},
+      "source": "replacement-issues.json"
+    },
+    {
+      "id": "augmentation-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "AIを使った実践例",
+        "align": "left"
+      }
+    },
+    {
+      "id": "augmentation",
+      "type": "blocks",
+      "props": {},
+      "source": "augmentation-approach.json"
+    },
+    {
+      "id": "models-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "4つの協働モデルとその実践",
+        "align": "left"
+      }
+    },
+    {
+      "id": "models",
+      "type": "blocks",
+      "props": {},
+      "source": "collaboration-models.json"
+    },
+    {
+      "id": "learning-loop-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "相互学習のループによる持続的な成長",
+        "align": "left"
+      }
+    },
+    {
+      "id": "learning-loop",
+      "type": "blocks",
+      "props": {},
+      "source": "learning-loop.json"
+    },
+    {
+      "id": "implementation-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "AIとの協働による学習効果の実証",
+        "align": "left"
+      }
+    },
+    {
+      "id": "implementation",
+      "type": "blocks",
+      "props": {},
+      "source": "implementation.json"
+    },
+    {
+      "id": "conclusion-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "まとめと展望",
+        "align": "left"
+      }
+    },
+    {
+      "id": "conclusion",
+      "type": "blocks",
+      "props": {},
+      "source": "conclusion.json"
+    }
+  ]
+}
