@@ -1,0 +1,80 @@
+{
+  "blocks": [
+    {
+      "id": "test-safety",
+      "type": "text",
+      "props": {
+        "content": "実運用環境のRedmineインスタンスでの開発を考慮し、データの安全性を重視したテスト戦略を採用しました。GETメソッドに限定したテストとすることで、実データを活用しながらも安全性を確保しています。"
+      }
+    },
+    {
+      "id": "test-implementation",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "src/lib/__tests__/client/issues/get.test.ts",
+        "code": "describe(\"GET /issues/:id\", () => {\n  beforeEach(() => {\n    // 実際のAPIレスポンスをキャプチャしてテストに使用\n    const actualResponse = await client.get('/issues/1234');\n\n    // fetchのモックについては以下のドキュメントを参考にしました：\n    // https://jestjs.io/docs/mock-function-api\n    // https://medium.com/swlh/how-to-mock-a-fetch-api-request-with-jest-and-typescript-bb6adf673a00\n    jest.spyOn(global, 'fetch').mockResolvedValue({\n      ok: true,\n      status: 200,\n      json: async () => actualResponse\n    });\n  });\n\n  it('handles custom fields correctly', async () => {\n    const response = await issuesClient.getIssue(1234);\n    \n    // カスタムフィールドの型と構造を検証\n    expect(response.custom_fields).toEqual(\n      expect.arrayContaining([\n        expect.objectContaining({\n          id: expect.any(Number),\n          name: expect.any(String),\n          value: expect.any(String)\n        })\n      ])\n    );\n  });\n});\n\ndescribe(\"POST/PUT/DELETE operations\", () => {\n  it.skip(\"skipped for safety - see ADR-0004\", () => {\n    // データ変更操作はスキップ\n  });\n});"
+      }
+    },
+    {
+      "id": "benefits-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "実際のレスポンスを用いたテストの利点",
+        "align": "left"
+      }
+    },
+    {
+      "id": "benefits-overview",
+      "type": "text",
+      "props": {
+        "content": "開発初期の段階から実運用環境のRedmine APIレスポンスを使用してテストを実装したことで、以下のような具体的な利点が得られています。"
+      }
+    },
+    {
+      "id": "realistic-data-patterns",
+      "type": "text",
+      "props": {
+        "content": "1. 実データのパターン網羅\n\n開発環境のRedmineインスタンスには、実際のプロジェクト運用で発生する多様なデータパターンが存在していました。例えば、長文の説明文が含まれるチケット、複数の添付ファイルを持つチケット、カスタムフィールドが多用されているプロジェクトなど、モックデータでは想定が難しい多様なケースをテストできました。これにより、データ構造の把握が容易になり、型定義の精度も向上しました。"
+      }
+    },
+    {
+      "id": "error-patterns",
+      "type": "text",
+      "props": {
+        "content": "2. エラーパターンの正確な把握\n\nRedmine APIは、認証エラー（401）、アクセス権限エラー（403）、リソース未検出（404）など、様々なエラーを返します。これらのエラーレスポンスも実際のAPIから取得して検証することで、より正確なエラーハンドリングの実装が可能になりました。特に、[Jest公式ドキュメント](https://jestjs.io/docs/getting-started)も参考にしながら、Redmineの特徴的なエラーレスポンス（カスタムフィールドのバリデーションエラーなど）についても、実際のレスポンスを基に適切な処理を実装できています。テスト実装に当たっては、[Redmine REST API仕様](https://www.redmine.org/projects/redmine/wiki/Rest_api)と[Issues API仕様](https://www.redmine.org/projects/redmine/wiki/Rest_Issues)を参考にしました。"
+      }
+    },
+    {
+      "id": "pagination-example",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "src/lib/__tests__/client/issues/list.test.ts",
+        "code": "describe('GET /issues with pagination', () => {\n  it('handles large result sets correctly', async () => {\n    // 実際の大規模プロジェクトのデータを使用\n    const response = await issuesClient.listIssues({\n      project_id: 5678,\n      limit: 100,\n      offset: 200\n    });\n\n    // ページネーションメタデータの検証\n    expect(response.total_count).toBeGreaterThan(0);\n    expect(response.offset).toBe(200);\n    expect(response.limit).toBe(100);\n    expect(response.issues.length).toBeLessThanOrEqual(100);\n  });\n});"
+      }
+    },
+    {
+      "id": "performance-insights",
+      "type": "text",
+      "props": {
+        "content": "3. パフォーマンス特性の把握\n\nAPIレスポンスの実測値を用いることで、以下のような実運用上の重要な知見が得られました：\n\n- 大規模プロジェクトのチケット一覧取得に要する時間\n- 添付ファイルを含むチケットのレスポンスサイズ\n- カスタムフィールドが多数設定された場合のデータ構造の複雑さ\n\nこれらの知見は、MCPプロトコルの実装における課題の特定と改善につながっています。特に、大きなレスポンスデータの処理方法について検討を進めています。"
+      }
+    },
+    {
+      "id": "relationship-testing",
+      "type": "text",
+      "props": {
+        "content": "4. チケット間の関係性の検証\n\nRedmineのチケットには、親子関係や関連チケットなど、複雑な関係性が存在します。実データを使用したテストでは、これらの関係性を含むチケットの取得と処理を正確に検証できました。特に、循環参照のような特殊なケースも発見され、適切なエラーハンドリングの実装につながりました。"
+      }
+    },
+    {
+      "id": "test-maintenance",
+      "type": "text",
+      "props": {
+        "content": "5. テストメンテナンスの効率化\n\n実データを用いたテストは、API仕様の変更があった場合でも、テストケースの更新が容易です。新しいレスポンスをキャプチャして置き換えるだけで、テストを更新できます。これは、モックデータを手動でメンテナンスする場合と比べて、大きな効率化につながっています。MCPプロトコルの実装においても、この方針は効果的に機能しています。"
+      }
+    }
+  ]
+}
