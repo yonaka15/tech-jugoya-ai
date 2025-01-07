@@ -1,0 +1,43 @@
+{
+  "blocks": [
+    {
+      "id": "issue-description",
+      "type": "text",
+      "props": {
+        "content": "開発が進むにつれ、handlers.tsが400行を超えて肥大化してきました。これは主にRedmine APIの豊富なエンドポイント群が原因です。[REST API仕様](https://www.redmine.org/projects/redmine/wiki/Rest_api)のうち、Stableなエンドポイントだけでも以下が提供されています：\n\n- Issues - チケットのCRUD、検索、ウォッチャー管理\n- Projects - プロジェクトのCRUD、メンバー管理\n- Users - ユーザー管理とロール制御\n- Time Entries - 作業時間の記録と集計\n\nそれぞれのエンドポイントが複数のメソッドを持ち、カスタムフィールドやフィルタリング、ページネーションなどの共通機能もサポートする必要があります。この状況に対応するため、コードの分割と再構成を行いました。"
+      }
+    },
+    {
+      "id": "new-structure",
+      "type": "code",
+      "props": {
+        "language": "text",
+        "fileName": "新しいディレクトリ構造",
+        "code": "src/\n├── tools/                # リソースごとのツール定義\n│   ├── issues.ts        # チケット関連\n│   ├── projects.ts      # プロジェクト関連\n│   ├── time_entries.ts  # 作業時間関連\n│   └── index.ts         # エクスポート\n├── formatters/          # レスポンス整形\n│   ├── issues.ts\n│   ├── projects.ts\n│   ├── time_entries.ts\n│   └── index.ts\n├── lib/                 # 共通ライブラリ\n│   ├── client.ts        # Redmine APIクライアント\n│   ├── config.ts        # 設定管理\n│   └── types.ts         # 型定義\n├── handlers.ts          # リクエストハンドラー\n└── index.ts            # エントリーポイント"
+      }
+    },
+    {
+      "id": "module-explanation",
+      "type": "text",
+      "props": {
+        "content": "各モジュールの役割と分割方針は以下の通りです：\n\nツール定義（tools/）:\n- Redmineの各リソースタイプごとにファイルを分割\n- リソースごとのCRUD操作の実装\n- スキーマとバリデーションの定義\n\nフォーマッター（formatters/）:\n- APIレスポンスのフォーマット処理\n- MCPプロトコルに準拠した形式への変換\n- エラーメッセージの標準化\n\nハンドラー（handlers.ts）:\n- ツールの実行制御とエラーハンドリング\n- MCPプロトコルに従ったレスポンス生成\n- ログ出力と監視"
+      }
+    },
+    {
+      "id": "dependency-graph",
+      "type": "code",
+      "props": {
+        "language": "text",
+        "fileName": "依存関係",
+        "code": "handlers → tools → lib\n       ↘        ↗\n     formatters"
+      }
+    },
+    {
+      "id": "implementation-results",
+      "type": "text",
+      "props": {
+        "content": "この構造により、以下の機能を整理されたモジュールとして実装できました：\n\n1. チケット関連機能（[Issues API](https://www.redmine.org/projects/redmine/wiki/Rest_Issues)）\n   - GET /issues - 検索とフィルタリング\n   - GET /issues/:id - 詳細情報の取得\n   - POST /issues - 新規チケットの作成\n   - PUT /issues/:id - チケット情報の更新\n   - DELETE /issues/:id - チケットの削除\n\n2. プロジェクト関連機能（[Projects API](https://www.redmine.org/projects/redmine/wiki/Rest_Projects)）\n   - GET /projects - プロジェクト一覧\n   - GET /projects/:id - プロジェクト詳細\n   - カスタムフィールドのサポート\n\n3. 作業時間関連機能（[Time Entries API](https://www.redmine.org/projects/redmine/wiki/Rest_TimeEntries)）\n   - GET /time_entries - 作業時間の検索\n   - GET /time_entries/:id - 詳細情報の取得\n   - フィルタリングとページネーション"
+      }
+    }
+  ]
+}

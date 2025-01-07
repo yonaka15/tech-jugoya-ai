@@ -1,0 +1,79 @@
+{
+  "blocks": [
+    {
+      "id": "base-structure-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "初期のディレクトリ構造",
+        "align": "left"
+      }
+    },
+    {
+      "id": "initial-structure",
+      "type": "code",
+      "props": {
+        "language": "text",
+        "fileName": "プロジェクト構造",
+        "code": ".\n├── README.ja.md\n├── dist/            # コンパイル済みファイル用\n├── docs/\n│   └── adr/        # アーキテクチャ決定記録\n├── src/\n│   ├── index.ts    # メインエントリーポイント\n│   ├── handlers.ts # MCPリクエストハンドラー\n│   ├── client.ts   # Redmine APIクライアント\n│   ├── types.ts    # 型定義\n│   └── config.ts   # 設定"
+      }
+    },
+    {
+      "id": "tech-stack",
+      "type": "text",
+      "props": {
+        "content": "プロジェクトの基盤構築では、以下の主要な技術と設定を採用しました。Node.js v18以上を要求し、ES Modulesを使用することで、最新の機能と開発体験を確保しています。"
+      }
+    },
+    {
+      "id": "dependencies-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "パッケージの主要な依存関係",
+        "align": "left"
+      }
+    },
+    {
+      "id": "package-settings",
+      "type": "code",
+      "props": {
+        "language": "json",
+        "fileName": "package.json",
+        "code": "{\n  \"type\": \"module\",\n  \"engines\": {\n    \"node\": \">=18\"\n  },\n  \"dependencies\": {\n    \"@modelcontextprotocol/sdk\": \"^1.1.0\",\n    \"zod\": \"^3.22.4\"\n  },\n  \"devDependencies\": {\n    \"typescript\": \"^5.5.4\",\n    \"tsx\": \"^4.7.0\",\n    \"jest\": \"^29.7.0\"\n  }\n}"
+      }
+    },
+    {
+      "id": "typescript-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "TypeScript設定と厳格な型チェック",
+        "align": "left"
+      }
+    },
+    {
+      "id": "typescript-settings",
+      "type": "text",
+      "props": {
+        "content": "TypeScriptの設定では、厳格な型チェックとES Modulesの特性を活かすため、以下のような設定を採用しました。"
+      }
+    },
+    {
+      "id": "tsconfig",
+      "type": "code",
+      "props": {
+        "language": "json",
+        "fileName": "tsconfig.json",
+        "code": "{\n  \"compilerOptions\": {\n    \"target\": \"es2018\",\n    \"module\": \"Node16\",\n    \"moduleResolution\": \"Node16\",\n    \"declaration\": true,\n    \"strict\": true,\n    \"isolatedModules\": true,\n    \"esModuleInterop\": true,\n    \"skipLibCheck\": true\n  }\n}"
+      }
+    },
+    {
+      "id": "base-explanation",
+      "type": "text",
+      "props": {
+        "content": "この基本構造により、以下の利点を確保できました：\n\n1. シンプルで理解しやすい構造\n2. 関心の分離が適切に行われたファイル構成\n3. 他のMCPサーバー実装との一貫性\n4. 機能単位でのファイル分割による保守性の向上\n5. 現代的なTypeScript/Node.jsプロジェクトの慣行に従った設定"
+      }
+    }
+  ]
+}

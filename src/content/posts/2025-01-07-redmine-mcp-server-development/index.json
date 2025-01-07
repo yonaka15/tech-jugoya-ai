@@ -1,0 +1,132 @@
+{
+  "meta": {
+    "title": "MCPサーバーのリファクタリング記録：コード分割とテスト実装",
+    "description": "Model Context Protocol（MCP）に対応したRedmineサーバーの開発過程で実施したリファクタリングを解説します。特にモジュール分割による保守性の向上と、実環境での制約に基づくテスト戦略に焦点を当てて、実践的な開発知見を共有します。",
+    "publishedAt": "2025-01-07T07:11:25.000Z",
+    "tags": ["MCP", "Redmine", "TypeScript", "ADR", "Jest", "Testing"],
+    "author": {
+      "name": "yonaka15",
+      "avatar": "/images/avatars/author.png"
+    }
+  },
+  "blocks": [
+    {
+      "id": "overview-text",
+      "type": "text",
+      "props": {
+        "content": "MCPサーバーの開発では、基盤構築からコードの分割、そしてテスト実装を経て改善を重ねてきました。このプロジェクトの成果は[GitHub](https://github.com/yonaka15/mcp-server-redmine)で公開しています。本記事では、実際の開発プロセスとADRに基づく意思決定の過程を解説します。"
+      }
+    },
+    {
+      "id": "project-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "1. プロジェクトの基盤構築",
+        "align": "left"
+      }
+    },
+    {
+      "id": "project-summary",
+      "type": "text",
+      "props": {
+        "content": "MCPサーバーの初期構築では、Node.js v18とTypeScriptを基盤に選択しました。[ADR-0001](https://github.com/yonaka15/mcp-server-redmine/blob/main/docs/adr/0001-base-project-structure.md)に基づき、以下の基本設定を確立しました。"
+      }
+    },
+    {
+      "id": "project-base",
+      "type": "blocks",
+      "props": {},
+      "source": "project-base.json"
+    },
+    {
+      "id": "modules-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "2. モジュールの分割：ディレクトリ構造の整理",
+        "align": "left"
+      }
+    },
+    {
+      "id": "modules-summary",
+      "type": "text",
+      "props": {
+        "content": "[ADR-0003](https://github.com/yonaka15/mcp-server-redmine/blob/main/docs/adr/0003-separate-modules.md)で定義したモジュール分割の方針に従い、コードベースを整理しました。特にハンドラーの肥大化とテスタビリティの課題に対応するため、以下のような改善を実施しています。"
+      }
+    },
+    {
+      "id": "modules-implementation",
+      "type": "blocks",
+      "props": {},
+      "source": "modules-implementation.json"
+    },
+    {
+      "id": "api-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "3. クライアントと型定義の分割",
+        "align": "left"
+      }
+    },
+    {
+      "id": "api-summary",
+      "type": "text",
+      "props": {
+        "content": "[ADR-0006](https://github.com/yonaka15/mcp-server-redmine/blob/main/docs/adr/0006-separate-client-and-types.md)に基づき、APIクライアントと型定義の分割を実施しました。Node.jsのモジュール解決の制約を考慮しつつ、テストとメンテナンスがしやすい構造を目指しました。"
+      }
+    },
+    {
+      "id": "api-design",
+      "type": "blocks",
+      "props": {},
+      "source": "api-design.json"
+    },
+    {
+      "id": "testing-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "4. テストの実装：実環境での制約と対応",
+        "align": "left"
+      }
+    },
+    {
+      "id": "testing-summary",
+      "type": "text",
+      "props": {
+        "content": "実データの入った環境で開発をしていた都合で、[ADR-0004](https://github.com/yonaka15/mcp-server-redmine/blob/main/docs/adr/0004-unit-testing-strategy.md)ではGETメソッドのみをテスト対象とする戦略を採用しました。実際のAPIレスポンスを使用したテスト実装により、実環境の動作を正確に検証できています。"
+      }
+    },
+    {
+      "id": "testing-details",
+      "type": "blocks",
+      "props": {},
+      "source": "testing-details.json"
+    },
+    {
+      "id": "conclusion-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "まとめ：リファクタリングとテスト実装から得られた知見",
+        "align": "left"
+      }
+    },
+    {
+      "id": "conclusion-summary",
+      "type": "text",
+      "props": {
+        "content": "モジュール分割とTypeScriptによる型安全性の確保、そして実環境の制約を考慮したテスト戦略の採用により、保守性の高いコードベースを実現できました。今後も段階的な改善を継続していく予定です。"
+      }
+    },
+    {
+      "id": "conclusion",
+      "type": "blocks",
+      "props": {},
+      "source": "conclusion.json"
+    }
+  ]
+}
+

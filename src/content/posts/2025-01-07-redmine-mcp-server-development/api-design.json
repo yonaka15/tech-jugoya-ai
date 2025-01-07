@@ -1,0 +1,50 @@
+{
+  "blocks": [
+    {
+      "id": "client-issue",
+      "type": "text",
+      "props": {
+        "content": "APIクライアントの実装が進む中で、以下の課題が明らかになってきました：\n\n1. client.ts（約400行）に全APIクライアントロジックが集中\n2. types.tsが複数の型定義とスキーマで肥大化\n3. テストの作成と保守が困難\n4. コードの変更影響範囲が大きい"
+      }
+    },
+    {
+      "id": "new-client-structure",
+      "type": "code",
+      "props": {
+        "language": "text",
+        "fileName": "新しいクライアント構造",
+        "code": "src/\n├── lib/\n│   ├── client/           # APIクライアント関連\n│   │   ├── base.ts       # 基本クライアント機能 + エラー\n│   │   ├── issues.ts     # Issuesリソース用クライアント\n│   │   ├── projects.ts   # Projectsリソース用クライアント\n│   │   ├── time_entries.ts # TimeEntriesリソース用クライアント\n│   │   └── index.ts      # クライアントのエクスポート\n│   ├── types/            # 型定義関連\n│   │   ├── common.ts     # 共通の型定義・定数\n│   │   ├── issues/       # Issues関連の型定義\n│   │   │   ├── schema.ts # Zodスキーマ\n│   │   │   └── types.ts  # TypeScript型定義\n│   │   ├── projects/     # Projects関連の型定義\n│   │   └── time_entries/ # TimeEntries関連の型定義"
+      }
+    },
+    {
+      "id": "client-implementation",
+      "type": "text",
+      "props": {
+        "content": "分割にあたり、以下の方針を採用しました：\n\nクライアント分割の方針:\n- 既存のRedmineClientクラスの機能をリソースごとに分割\n- base.tsに共通機能（performRequest, encodeQueryParams）とエラー定義を配置\n- 各リソースのAPIメソッドを対応するファイルに移動\n- インターフェースや機能は変更せず、ファイル分割のみ実施"
+      }
+    },
+    {
+      "id": "type-implementation",
+      "type": "text",
+      "props": {
+        "content": "型定義の分割方針:\n- リソースごとに型定義とスキーマを分離\n- 共通の型定義や定数はcommon.tsに集約\n- 既存のバリデーション関数は関連するスキーマと同じファイルに配置\n- 型定義の内容は変更せず、ファイル分割のみ実施"
+      }
+    },
+    {
+      "id": "module-resolution",
+      "type": "text",
+      "props": {
+        "content": "Node.jsのESM/CJS互換性に対応するため、以下の方針を採用しました：\n\n1. 全ての相対インポートで.js拡張子を使用（出力ファイルの拡張子に合わせる）\n2. 型定義のインポートは/index.jsを使用\n3. パッケージインポートは拡張子なしを維持"
+      }
+    },
+    {
+      "id": "test-structure",
+      "type": "code",
+      "props": {
+        "language": "text",
+        "fileName": "テストディレクトリ構造",
+        "code": "src/\n└── lib/\n    └── __tests__/\n        ├── client/           # クライアントのテスト\n        │   ├── base.test.ts  # 基本機能のテスト\n        │   ├── issues.test.ts\n        │   ├── projects.test.ts\n        │   └── time_entries.test.ts\n        └── types/            # 型定義のテスト\n            ├── common.test.ts\n            ├── issues/\n            ├── projects/\n            └── time_entries/"
+      }
+    }
+  ]
+}
