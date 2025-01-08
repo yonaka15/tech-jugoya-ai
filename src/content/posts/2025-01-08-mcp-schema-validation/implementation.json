@@ -1,0 +1,164 @@
+{
+  "blocks": [
+    {
+      "id": "impl-text-1",
+      "type": "text",
+      "props": {
+        "content": "TypeScriptとAjvを使用して、MCPレスポンスのバリデーション機能を実装していきます。実装方法には主に以下の2つのアプローチがあります："
+      }
+    },
+    {
+      "id": "impl-text-2",
+      "type": "text",
+      "props": {
+        "content": "1. **公式TypeScript SDKの活用**: MCPは[公式のTypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk)を提供しており、これを使用することで最も直接的な実装が可能です。\n\n2. **カスタム実装**: 特定の要件や制約がある場合は、公式のJSON Schemaを使用して独自のバリデーション実装を行うことができます。"
+      }
+    },
+    {
+      "id": "impl-callout-1",
+      "type": "callout",
+      "props": {
+        "type": "info",
+        "content": "本記事では、独自実装のアプローチを詳しく解説します。これにより、バリデーションの仕組みをより深く理解し、必要に応じてカスタマイズできるようになります。公式SDKの使用方法については、[公式ドキュメント](https://modelcontextprotocol.io/docs/first-server/typescript)を参照してください。"
+      }
+    },
+    {
+      "id": "impl-text-checklist",
+      "type": "text",
+      "props": {
+        "content": "カスタム実装は以下の4つの部分に分かれます：\n\n1. バリデータクラスの基本構造\n2. メソッドごとのスキーマ定義\n3. バリデーション機能の実装\n4. エラーハンドリング"
+      }
+    },
+    {
+      "id": "impl-text-3",
+      "type": "text",
+      "props": {
+        "content": "まず、必要なパッケージをインストールします："
+      }
+    },
+    {
+      "id": "impl-code-1",
+      "type": "code",
+      "props": {
+        "language": "bash",
+        "fileName": "terminal",
+        "code": "npm install ajv ajv-formats"
+      }
+    },
+    {
+      "id": "impl-heading-1",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "バリデータクラスの基本構造",
+        "align": "left"
+      }
+    },
+    {
+      "id": "impl-text-4",
+      "type": "text",
+      "props": {
+        "content": "バリデーションを行うクラスの基本構造を実装します。このクラスは公式のJSON Schemaを読み込み、メソッドごとのバリデータを初期化します："
+      }
+    },
+    {
+      "id": "impl-code-2",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "mcp-validator.ts",
+        "code": "import { Ajv, ErrorObject } from 'ajv';\nimport addFormats from 'ajv-formats';\nimport schema from './schema.json';\n\nexport type MCPMethod = 'initialize' | 'resources/list' | 'prompts/get' | 'tools/call';\n\nexport class MCPValidator {\n  private ajv: Ajv;\n  private validators: Map<MCPMethod, ReturnType<Ajv['compile']>>;\n\n  constructor() {\n    // Ajvインスタンスの初期化\n    this.ajv = new Ajv({\n      allErrors: true,    // すべてのエラーを収集\n      verbose: true,      // 詳細なエラー情報\n      strict: true        // 厳密モード\n    });\n    addFormats(this.ajv); // URI等のフォーマット検証を追加\n\n    // バリデータの初期化\n    this.validators = new Map();\n    this.initializeValidators();\n  }\n\n  private initializeValidators() {\n    // 各メソッドに対応するバリデータを初期化\n    const methodSchemas = {\n      'initialize': schema.definitions.InitializeResult,\n      'resources/list': schema.definitions.ListResourcesResult,\n      'prompts/get': schema.definitions.GetPromptResult,\n      'tools/call': schema.definitions.CallToolResult\n    };\n\n    for (const [method, methodSchema] of Object.entries(methodSchemas)) {\n      this.validators.set(method as MCPMethod, this.ajv.compile(methodSchema));\n    }\n  }\n}"
+      }
+    },
+    {
+      "id": "impl-heading-2",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "バリデーション機能の実装",
+        "align": "left"
+      }
+    },
+    {
+      "id": "impl-text-5",
+      "type": "text",
+      "props": {
+        "content": "次に、実際のバリデーション機能を実装します。レスポンスの検証とエラーハンドリングを行うメソッドを追加します："
+      }
+    },
+    {
+      "id": "impl-code-3",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "mcp-validator.ts",
+        "code": "export class MCPValidator {\n  // ... 前述のコード ...\n\n  /**\n   * MCPレスポンスをバリデートします\n   * @param response バリデーション対象のレスポンス\n   * @param method MCPメソッド名\n   * @returns バリデーション結果とエラー情報のタプル\n   */\n  validate(response: unknown, method: MCPMethod): ValidationResult {\n    // JSON-RPC 2.0の基本構造を検証\n    if (!this.isValidJSONRPCResponse(response)) {\n      return {\n        isValid: false,\n        errors: [{ message: 'Invalid JSON-RPC 2.0 response structure' }]\n      };\n    }\n\n    // メソッド固有のバリデータを取得\n    const validator = this.validators.get(method);\n    if (!validator) {\n      throw new Error(`Unknown method: ${method}`);\n    }\n\n    // レスポンスの検証\n    const isValid = validator(response.result);\n    return {\n      isValid,\n      errors: validator.errors ?? []\n    };\n  }\n\n  private isValidJSONRPCResponse(response: unknown): response is JSONRPCResponse {\n    return (\n      typeof response === 'object' &&\n      response !== null &&\n      'jsonrpc' in response &&\n      response.jsonrpc === '2.0' &&\n      'id' in response &&\n      (typeof response.id === 'string' || typeof response.id === 'number') &&\n      'result' in response &&\n      typeof response.result === 'object'\n    );\n  }\n}"
+      }
+    },
+    {
+      "id": "impl-heading-3",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "エラーハンドリングとフォーマット",
+        "align": "left"
+      }
+    },
+    {
+      "id": "impl-text-6",
+      "type": "text",
+      "props": {
+        "content": "バリデーションエラーを人間が読みやすい形式に整形する機能を追加します："
+      }
+    },
+    {
+      "id": "impl-code-4",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "mcp-validator.ts",
+        "code": "export class MCPValidator {\n  // ... 前述のコード ...\n\n  /**\n   * バリデーションエラーを人間が読みやすい形式に変換します\n   */\n  formatErrors(errors: ErrorObject[]): string[] {\n    return errors.map(error => {\n      const path = error.instancePath || 'response';\n      const message = error.message || 'Unknown error';\n\n      // 必須フィールドのエラー\n      if (error.keyword === 'required') {\n        const missing = error.params.missingProperty;\n        return `${path}: Missing required property '${missing}'`;\n      }\n\n      // 型のエラー\n      if (error.keyword === 'type') {\n        const expected = error.params.type;\n        return `${path}: Expected type '${expected}'`;\n      }\n\n      // その他のエラー\n      return `${path}: ${message}`;\n    });\n  }\n}"
+      }
+    },
+    {
+      "id": "impl-heading-4",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "使用例",
+        "align": "left"
+      }
+    },
+    {
+      "id": "impl-text-7",
+      "type": "text",
+      "props": {
+        "content": "実際にバリデータを使用する例を見てみましょう："
+      }
+    },
+    {
+      "id": "impl-code-5",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "usage-example.ts",
+        "code": "const validator = new MCPValidator();\n\n// リソース一覧のレスポンスを検証する例\nconst response = {\n  jsonrpc: '2.0',\n  id: 1,\n  result: {\n    resources: [\n      {\n        uri: 'file:///path/to/resource',\n        name: 'Example Resource',\n        description: 'An example resource',\n        mimeType: 'text/plain'\n      }\n    ]\n  }\n};\n\nconst result = validator.validate(response, 'resources/list');\n\nif (!result.isValid) {\n  console.error('Validation errors:');\n  validator.formatErrors(result.errors).forEach(error => {\n    console.error(`- ${error}`);\n  });\n} else {\n  console.log('Response is valid');\n}"
+      }
+    },
+    {
+      "id": "impl-text-8",
+      "type": "text",
+      "props": {
+        "content": "このような実装により、以下のような利点が得られます：\n\n1. **型安全性**: TypeScriptの型システムとAjvのランタイムバリデーションの組み合わせにより、開発時とランタイム時の両方で型安全性を確保できます。\n\n2. **カスタマイズ性**: エラーメッセージの形式やバリデーション条件をプロジェクトの要件に合わせて調整できます。\n\n3. **デバッグ容易性**: 詳細なエラー情報とカスタマイズ可能なエラーメッセージにより、問題の特定と修正が容易になります。"
+      }
+    },
+    {
+      "id": "impl-callout-2",
+      "type": "callout",
+      "props": {
+        "type": "info",
+        "content": "この実装はTypeScriptで記述していますが、同様のアプローチは他の言語でも適用可能です。MCPは[Python SDK](https://github.com/modelcontextprotocol/python-sdk)なども提供しています。"
+      }
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "blocks": [
+    {
+      "id": "schema-text-1",
+      "type": "text",
+      "props": {
+        "content": "MCPの公式JSON Schemaは、プロトコルのすべての要素を網羅的に定義しています。スキーマは大きく以下のような構造に分かれています。"
+      }
+    },
+    {
+      "id": "schema-code-1",
+      "type": "code",
+      "props": {
+        "language": "json",
+        "fileName": "schema.json",
+        "code": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"definitions\": {\n    // 基本メッセージ型\n    \"JSONRPCMessage\": { ... },\n    \"JSONRPCRequest\": { ... },\n    \"JSONRPCResponse\": { ... },\n    \"JSONRPCError\": { ... },\n    \n    // MCP固有の型\n    \"ServerCapabilities\": { ... },\n    \"ClientCapabilities\": { ... },\n    \"Resource\": { ... },\n    \"Tool\": { ... },\n    \n    // メソッド固有の型\n    \"InitializeResult\": { ... },\n    \"ListResourcesResult\": { ... },\n    \"GetPromptResult\": { ... }\n  }\n}"
+      }
+    },
+    {
+      "id": "schema-text-2",
+      "type": "text",
+      "props": {
+        "content": "スキーマの主要な特徴として以下が挙げられます："
+      }
+    },
+    {
+      "id": "schema-text-3",
+      "type": "text",
+      "props": {
+        "content": "JSON Schema Draft 7を使用しており、高度な検証機能を活用できます。例えば、文字列フォーマットの検証（URI、バイト列など）や、数値の範囲チェック、必須フィールドの検証などが可能です。特に重要なのは、MCPの各メソッドに対応するレスポンススキーマが厳密に定義されている点です。"
+      }
+    },
+    {
+      "id": "schema-code-2",
+      "type": "code",
+      "props": {
+        "language": "json",
+        "fileName": "initialize-result-schema.json",
+        "code": "{\n  \"InitializeResult\": {\n    \"description\": \"After receiving an initialize request from the client, the server sends this response.\",\n    \"properties\": {\n      \"protocolVersion\": {\n        \"description\": \"The version of the Model Context Protocol that the server wants to use.\",\n        \"type\": \"string\"\n      },\n      \"capabilities\": {\n        \"$ref\": \"#/definitions/ServerCapabilities\"\n      },\n      \"serverInfo\": {\n        \"$ref\": \"#/definitions/Implementation\"\n      },\n      \"instructions\": {\n        \"description\": \"Instructions describing how to use the server and its features.\",\n        \"type\": \"string\"\n      }\n    },\n    \"required\": [\n      \"capabilities\",\n      \"protocolVersion\",\n      \"serverInfo\"\n    ]\n  }\n}"
+      }
+    },
+    {
+      "id": "schema-text-4",
+      "type": "text",
+      "props": {
+        "content": "スキーマはメソッドごとに必要なフィールドを定義しており、オプショナルなフィールドも明確に区別されています。これにより、レスポンスの構造が仕様に準拠しているかを正確に検証できます。"
+      }
+    }
+  ]
+}

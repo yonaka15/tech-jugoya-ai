@@ -1,0 +1,42 @@
+{
+  "blocks": [
+    {
+      "id": "ref-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "参考資料",
+        "align": "left"
+      }
+    },
+    {
+      "id": "ref-text-1",
+      "type": "text",
+      "props": {
+        "content": "この記事の内容は、以下の資料やツールを参考にしています："
+      }
+    },
+    {
+      "id": "ref-text-2",
+      "type": "text",
+      "props": {
+        "content": "公式リソース：\n\n- [Model Context Protocol TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk) - 公式のTypeScript SDK。MCPの完全な実装を提供しています。\n- [Model Context Protocol 仕様書](https://spec.modelcontextprotocol.io/specification/) - プロトコルの詳細仕様と実装ガイドライン。\n- [MCP Servers](https://github.com/modelcontextprotocol/servers) - TypeScriptとPythonによる参考実装集。"
+      }
+    },
+    {
+      "id": "ref-text-3",
+      "type": "text",
+      "props": {
+        "content": "検証ツール：\n\n- [Ajv JSON Schema Validator](https://ajv.js.org/) - 本記事で使用している高速なJSONバリデータ。\n  - [TypeScriptでの使用ガイド](https://ajv.js.org/guide/typescript.html)\n  - [パフォーマンス最適化ガイド](https://ajv.js.org/guide/getting-started.html#performance)\n- [class-validator](https://github.com/typestack/class-validator) - デコレータベースのバリデーション実装（代替アプローチとして参考）"
+      }
+    },
+    {
+      "id": "ref-callout-1",
+      "type": "callout",
+      "props": {
+        "type": "info",
+        "content": "MCPはアクティブに開発が進められているプロジェクトです。最新の情報については[公式ドキュメント](https://modelcontextprotocol.io/)を参照してください。"
+      }
+    }
+  ]
+}

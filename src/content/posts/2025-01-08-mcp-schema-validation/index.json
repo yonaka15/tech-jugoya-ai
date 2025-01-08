@@ -1,0 +1,107 @@
+{
+  "meta": {
+    "title": "MCPサーバーレスポンスの検証：公式スキーマを活用した堅牢な実装",
+    "description": "Model Context Protocol (MCP)の公式JSON Schemaを活用したサーバーレスポンスの検証実装について解説します。TypeScriptとAjvを使用した具体的な実装方法と、パフォーマンスを考慮した最適化手法を紹介します。",
+    "publishedAt": "2025-01-08T10:00:00.000Z",
+    "tags": [
+      "Model Context Protocol",
+      "TypeScript",
+      "JSON Schema",
+      "Validation"
+    ],
+    "author": {
+      "name": "Yonaka"
+    }
+  },
+  "blocks": [
+    {
+      "id": "overview-text",
+      "type": "text",
+      "props": {
+        "content": "MCPサーバーの開発において、レスポンスの検証は重要な要素です。MCPは公式にJSON Schemaを提供しており、これを活用することで堅牢な実装が可能です。本記事では、公式スキーマを使用したバリデーション実装の詳細と、実践的な最適化手法について解説します。"
+      }
+    },
+    {
+      "id": "intro-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "1. MCPとJSON Schemaの関係",
+        "align": "left"
+      }
+    },
+    {
+      "id": "intro",
+      "type": "blocks",
+      "props": {},
+      "source": "intro.json"
+    },
+    {
+      "id": "schema-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "2. 公式スキーマの構造と特徴",
+        "align": "left"
+      }
+    },
+    {
+      "id": "schema",
+      "type": "blocks",
+      "props": {},
+      "source": "schema.json"
+    },
+    {
+      "id": "impl-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "3. TypeScriptによる実装",
+        "align": "left"
+      }
+    },
+    {
+      "id": "impl",
+      "type": "blocks",
+      "props": {},
+      "source": "implementation.json"
+    },
+    {
+      "id": "optimization-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "4. パフォーマンス最適化",
+        "align": "left"
+      }
+    },
+    {
+      "id": "optimization",
+      "type": "blocks",
+      "props": {},
+      "source": "optimization.json"
+    },
+    {
+      "id": "conclusion-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "まとめ：公式スキーマ活用のメリット",
+        "align": "left"
+      }
+    },
+    {
+      "id": "conclusion",
+      "type": "blocks",
+      "props": {},
+      "source": "conclusion.json"
+    },
+    {
+      "id": "references",
+      "type": "blocks",
+      "props": {},
+      "source": "references.json"
+    }
+  ]
+}
+

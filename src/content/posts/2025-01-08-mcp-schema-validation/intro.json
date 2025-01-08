@@ -1,0 +1,35 @@
+{
+  "blocks": [
+    {
+      "id": "intro-text-1",
+      "type": "text",
+      "props": {
+        "content": "Model Context Protocol (MCP)は、LLMアプリケーションと外部データソース・ツールを統合するための標準プロトコルです。このプロトコルの仕様は、TypeScriptの型定義を基に作られており、それらの型定義からJSON Schemaが生成されています。この公式スキーマは、プロトコルの正確な実装と検証を可能にする重要なリソースです。"
+      }
+    },
+    {
+      "id": "intro-code-1",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "mcp-types.ts",
+        "code": "// MCPの基本的なメッセージ型\ntype JSONRPCMessage =\n  | JSONRPCRequest     // リクエスト\n  | JSONRPCNotification // 通知\n  | JSONRPCResponse     // 成功レスポンス\n  | JSONRPCError;       // エラーレスポンス\n\n// JSON-RPC 2.0のレスポンス型\ninterface JSONRPCResponse {\n  jsonrpc: '2.0';\n  id: string | number;\n  result: {\n    _meta?: { [key: string]: unknown };\n    [key: string]: unknown;\n  };\n}"
+      }
+    },
+    {
+      "id": "intro-text-2",
+      "type": "text",
+      "props": {
+        "content": "MCPはJSON-RPC 2.0に基づいており、すべてのメッセージはこの形式に従います。サーバーのレスポンスを検証する際は、基本的なJSON-RPCの構造に加えて、MCPで定義された各メソッド固有のレスポンス形式も考慮する必要があります。"
+      }
+    },
+    {
+      "id": "intro-callout-1",
+      "type": "callout",
+      "props": {
+        "type": "info",
+        "content": "公式のJSON Schemaは、TypeScript定義から生成されているため、型定義とスキーマの整合性が常に保たれています。これにより、開発者は型システムとランタイムバリデーションの両方で一貫した検証を実装できます。"
+      }
+    }
+  ]
+}
