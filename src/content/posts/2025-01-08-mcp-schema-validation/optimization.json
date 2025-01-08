@@ -1,0 +1,110 @@
+{
+  "blocks": [
+    {
+      "id": "opt-text-1",
+      "type": "text",
+      "props": {
+        "content": "MCPの公式スキーマは非常に大きく（約87KB）、多くのメソッドと型定義を含んでいます。実運用環境でパフォーマンスを最適化するためには、いくつかの重要な考慮点があります。"
+      }
+    },
+    {
+      "id": "opt-heading-1",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "スキーマの分割とキャッシュ",
+        "align": "left"
+      }
+    },
+    {
+      "id": "opt-text-2",
+      "type": "text",
+      "props": {
+        "content": "最初の最適化アプローチは、必要なメソッドのスキーマだけを抽出して使用することです。buildスクリプトを使用して、メソッドごとにスキーマを分割します："
+      }
+    },
+    {
+      "id": "opt-code-1",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "build-schemas.ts",
+        "code": "import schema from './schema.json';\nimport { writeFileSync, mkdirSync } from 'fs';\nimport { join } from 'path';\n\n// メソッドごとのスキーマを抽出\nconst methodSchemas = {\n  'initialize': schema.definitions.InitializeResult,\n  'resources/list': schema.definitions.ListResourcesResult,\n  'prompts/get': schema.definitions.GetPromptResult,\n  'tools/call': schema.definitions.CallToolResult\n};\n\n// スキーマを個別のファイルとして保存\nconst outputDir = join(__dirname, 'schemas');\nmkdirSync(outputDir, { recursive: true });\n\nfor (const [method, methodSchema] of Object.entries(methodSchemas)) {\n  const fileName = method.replace('/', '-') + '.schema.json';\n  const filePath = join(outputDir, fileName);\n  \n  writeFileSync(filePath, JSON.stringify(methodSchema, null, 2));\n  console.log(`Generated schema for ${method} at ${filePath}`);\n}"
+      }
+    },
+    {
+      "id": "opt-heading-2",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "動的インポートによる遅延ローディング",
+        "align": "left"
+      }
+    },
+    {
+      "id": "opt-text-3",
+      "type": "text",
+      "props": {
+        "content": "分割したスキーマを効率的に利用するために、動的インポートを活用します。これにより、必要なスキーマだけを必要なタイミングでロードできます："
+      }
+    },
+    {
+      "id": "opt-code-2",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "optimized-validator.ts",
+        "code": "export class OptimizedMCPValidator {\n  private ajv: Ajv;\n  private cachedValidators: Map<MCPMethod, ReturnType<Ajv['compile']>>;\n  private loadingValidators: Map<MCPMethod, Promise<void>>;\n\n  constructor() {\n    this.ajv = new Ajv({ allErrors: true, strict: true });\n    addFormats(this.ajv);\n    \n    this.cachedValidators = new Map();\n    this.loadingValidators = new Map();\n  }\n\n  /**\n   * メソッド用のバリデータを非同期でロード\n   */\n  private async loadValidator(method: MCPMethod): Promise<void> {\n    // すでにロード済みの場合はスキップ\n    if (this.cachedValidators.has(method)) {\n      return;\n    }\n\n    // ロード中の場合は待機\n    const loading = this.loadingValidators.get(method);\n    if (loading) {\n      return loading;\n    }\n\n    // 新しくロードを開始\n    const loadPromise = (async () => {\n      const schemaFileName = method.replace('/', '-') + '.schema.json';\n      const schema = await import(`./schemas/${schemaFileName}`);\n      this.cachedValidators.set(method, this.ajv.compile(schema));\n    })();\n\n    this.loadingValidators.set(method, loadPromise);\n    await loadPromise;\n    this.loadingValidators.delete(method);\n  }\n\n  /**\n   * 非同期バリデーション\n   */\n  async validate(response: unknown, method: MCPMethod): Promise<ValidationResult> {\n    await this.loadValidator(method);\n    const validator = this.cachedValidators.get(method);\n    \n    if (!validator) {\n      throw new Error(`Failed to load validator for method: ${method}`);\n    }\n\n    const isValid = validator(response.result);\n    return {\n      isValid,\n      errors: validator.errors ?? []\n    };\n  }\n}"
+      }
+    },
+    {
+      "id": "opt-heading-3",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "バリデーション処理の最適化",
+        "align": "left"
+      }
+    },
+    {
+      "id": "opt-text-4",
+      "type": "text",
+      "props": {
+        "content": "バリデーション自体のパフォーマンスを向上させるため、以下の最適化を適用します："
+      }
+    },
+    {
+      "id": "opt-code-3",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "optimized-validator.ts",
+        "code": "export class OptimizedMCPValidator {\n  constructor() {\n    this.ajv = new Ajv({\n      allErrors: false,      // 最初のエラーで停止\n      strict: true,          // 厳密モード\n      validateFormats: false // パフォーマンスのためフォーマット検証を無効化\n    });\n\n    // 必須の形式のみ追加\n    addFormats(this.ajv, [\n      'uri',        // リソースURIに必要\n      'uri-template' // テンプレートに必要\n    ]);\n  }\n\n  /**\n   * パフォーマンス重視のバリデーション\n   */\n  async validateFast(response: unknown, method: MCPMethod): Promise<boolean> {\n    // 基本構造の高速チェック\n    if (\n      typeof response !== 'object' ||\n      response === null ||\n      response.jsonrpc !== '2.0' ||\n      !('result' in response)\n    ) {\n      return false;\n    }\n\n    // キャッシュされたバリデータを使用\n    const validator = this.cachedValidators.get(method);\n    if (!validator) {\n      await this.loadValidator(method);\n      return this.validateFast(response, method);\n    }\n\n    return validator(response.result);\n  }\n}"
+      }
+    },
+    {
+      "id": "opt-heading-4",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "最適化の選択",
+        "align": "left"
+      }
+    },
+    {
+      "id": "opt-text-5",
+      "type": "text",
+      "props": {
+        "content": "実装する最適化は、以下のような要件とトレードオフを考慮して選択します：\n\n1. **開発環境 vs 本番環境**：開発時は詳細なエラー情報が必要ですが、本番環境ではパフォーマンスが優先されます。\n\n2. **メモリ使用量 vs 応答速度**：全スキーマを事前にロードするか、必要に応じて動的にロードするかを検討します。\n\n3. **バリデーション精度 vs パフォーマンス**：完全な検証と高速な検証のバランスを取ります。"
+      }
+    },
+    {
+      "id": "opt-callout-1",
+      "type": "callout",
+      "props": {
+        "type": "warning",
+        "content": "パフォーマンス最適化を適用する際は、validateFormatsやallErrorsの無効化によって失われる機能と、得られるパフォーマンスの向上を慎重に比較検討する必要があります。特に開発環境では完全な検証を維持し、本番環境でのみ最適化を適用することを推奨します。"
+      }
+    }
+  ]
+}
