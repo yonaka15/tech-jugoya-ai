@@ -3,7 +3,7 @@ import { type CalloutBlockProps } from '@/types/blog';
 import ReactMarkdown from 'react-markdown';
 import { cn } from '@/lib/utils';
 
-const CalloutBlock: FC<CalloutBlockProps> = ({ content, type, title }) => {
+const CalloutBlock: FC<CalloutBlockProps> = ({ content, type = 'info', title }) => {
   const styles = {
     info: {
       bg: 'bg-blue-50',
@@ -29,7 +29,7 @@ const CalloutBlock: FC<CalloutBlockProps> = ({ content, type, title }) => {
       title: 'text-green-800',
       text: 'text-green-700',
     },
-  }[type];
+  }[type] ?? styles.info;  // デフォルトとしてinfoのスタイルを使用
 
   return (
     <div className={`${styles.bg} ${styles.border} border rounded-lg p-4 mb-6`}>

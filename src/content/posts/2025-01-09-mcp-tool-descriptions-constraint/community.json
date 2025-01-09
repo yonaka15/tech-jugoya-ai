@@ -1,0 +1,41 @@
+{
+  "blocks": [
+    {
+      "id": "community-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "MCPコミュニティの広がり",
+        "align": "left"
+      }
+    },
+    {
+      "id": "community-text-1",
+      "type": "text",
+      "props": {
+        "content": "Model Context Protocol（MCP）は2024年11月にAnthropicによって公開されて以来、急速にコミュニティの注目を集めています。特に、以下の分野での発展が見られます："
+      }
+    },
+    {
+      "id": "community-list-1",
+      "type": "text",
+      "props": {
+        "content": "- 各言語のSDKが整備され（Python, TypeScript, Kotlin）、開発のエントリーポイントが増えています\n- エンタープライズツールとの統合事例も増加し、実用的なユースケースが蓄積されています\n- HTTPトランスポートのサポートなど、プロトコルの拡張に向けた議論も活発です"
+      }
+    },
+    {
+      "id": "community-text-2",
+      "type": "text",
+      "props": {
+        "content": "また、MCPサーバーのマーケットプレイス的な発展も期待されています。Claude Desktopのような汎用LLMクライアントに、ユーザーが必要なサーバーを自由に組み合わせて利用できる未来像も描かれています。今回のような実装上の発見を共有し、議論することで、プロトコルとコミュニティがより良い形で発展していくことを願っています。"
+      }
+    },
+    {
+      "id": "community-text-3",
+      "type": "text",
+      "props": {
+        "content": "開発者の方々は、公式のドキュメントやSDKを参照しつつ、このような実装の知見も活用していただければと思います。MCPのエコシステムは、私たち開発者一人一人の貢献によって育っていくのではないでしょうか。"
+      }
+    }
+  ]
+}
