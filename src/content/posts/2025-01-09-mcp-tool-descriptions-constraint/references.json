@@ -1,0 +1,77 @@
+{
+  "blocks": [
+    {
+      "id": "references-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "参考リンク",
+        "align": "left"
+      }
+    },
+    {
+      "id": "references-mcp",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "MCP公式リソース",
+        "align": "left"
+      }
+    },
+    {
+      "id": "references-mcp-list",
+      "type": "text",
+      "props": {
+        "content": "- [MCP Protocol Specification](https://spec.modelcontextprotocol.io/)\n- [MCP TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk)\n- [MCP公式ドキュメント](https://modelcontextprotocol.io/)"
+      }
+    },
+    {
+      "id": "references-impl",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "実装例とツール",
+        "align": "left"
+      }
+    },
+    {
+      "id": "references-impl-list",
+      "type": "text",
+      "props": {
+        "content": "- [Redmine MCP Server](https://github.com/yonaka15/mcp-server-redmine)\n  - [Tool Description Fix ADR](https://github.com/yonaka15/mcp-server-redmine/blob/main/docs/adr/0015-fix-tool-description-for-claude-desktop.md)\n  - [Issues Tool Implementation](https://github.com/yonaka15/mcp-server-redmine/blob/main/src/tools/issues.ts)\n- [Official MCP Servers](https://github.com/modelcontextprotocol/servers)\n  - [Brave Search Server](https://github.com/modelcontextprotocol/servers/tree/main/src/brave-search)"
+      }
+    },
+    {
+      "id": "references-dev",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "開発支援",
+        "align": "left"
+      }
+    },
+    {
+      "id": "references-dev-list",
+      "type": "text",
+      "props": {
+        "content": "- [MCP Inspector](https://modelcontextprotocol.io/docs/tools/inspector)\n- [Create TypeScript Server](https://github.com/modelcontextprotocol/create-typescript-server)\n- [Create Python Server](https://github.com/modelcontextprotocol/create-python-server)"
+      }
+    },
+    {
+      "id": "references-sdk",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "SDK実装",
+        "align": "left"
+      }
+    },
+    {
+      "id": "references-sdk-list",
+      "type": "text",
+      "props": {
+        "content": "- [TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk)\n- [Python SDK](https://github.com/modelcontextprotocol/python-sdk)\n- [Kotlin SDK](https://github.com/modelcontextprotocol/kotlin-sdk)"
+      }
+    }
+  ]
+}

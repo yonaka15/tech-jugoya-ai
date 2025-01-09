@@ -1,0 +1,20 @@
+{
+  "blocks": [
+    {
+      "id": "goals-list",
+      "type": "text",
+      "props": {
+        "content": "1. MCP (Model Context Protocol)のツール説明文に関するClaude Desktop固有の制約を説明します。\n\n2. RedmineMCPサーバーでの実装経験から、クラッシュを回避するための具体的なパターンを紹介します。\n\n3. 他のMCPサーバー開発者が同様の問題を回避するための実践的なノウハウを共有します。"
+      }
+    },
+    {
+      "id": "goals-callout",
+      "type": "callout",
+      "props": {
+        "type": "info",
+        "title": "MCP仕様外の制約について",
+        "content": "本記事で紹介する制約は、MCPの公式仕様やドキュメントには記載されていないものです。開発中の発見を共有することで、コミュニティの知見として活用していただければと思います。"
+      }
+    }
+  ]
+}

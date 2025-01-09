@@ -1,0 +1,36 @@
+{
+  "blocks": [
+    {
+      "id": "problem-text-1",
+      "type": "text",
+      "props": {
+        "content": "MCPの公式仕様では、ツールの説明文（description）に関して特別な制約は設けられていません。しかし、Redmine MCP Serverの開発中に、Claude Desktopクライアントで以下の制約によりクラッシュが発生することが判明しました。"
+      }
+    },
+    {
+      "id": "problem-code",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "src/tools/projects.ts",
+        "code": "// 問題のある実装例\nexport const PROJECT_SHOW_TOOL: Tool = {\n  name: \"show_project\",\n  description:\n    \"Get project details by ID (numeric) or identifier (string). \" +\n    \"Includes time_entries and custom_fields in response. \" +\n    \"Admin permissions required for some operations.\",\n  inputSchema: {\n    type: \"object\",\n    properties: {\n      id: {\n        type: [\"number\", \"string\"],  // ユニオン型の使用\n        description: \"Project ID (numeric) or identifier (string)\"\n      }\n    }\n  }\n};"
+      }
+    },
+    {
+      "id": "problem-list",
+      "type": "text",
+      "props": {
+        "content": "このコードには以下の問題が含まれています：\n\n1. 文字の制限\n   - 括弧「(」「)」の使用\n   - アンダースコア「_」の使用（time_entries）\n\n2. 長さの制限\n   - 説明文が4行を超過する可能性\n\n3. タイプ定義の制限\n   - ユニオン型（type: [\"number\", \"string\"]）の使用"
+      }
+    },
+    {
+      "id": "problem-callout-1",
+      "type": "callout",
+      "props": {
+        "type": "warning",
+        "title": "実装上の注意",
+        "content": "これらの制約は、MCPの公式仕様やドキュメントには記載されていないClaude Desktop固有のものです。制約に違反する実装を行うと、クライアントがクラッシュする可能性があります。"
+      }
+    }
+  ]
+}

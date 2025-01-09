@@ -1,0 +1,72 @@
+{
+  "blocks": [
+    {
+      "id": "tips-text-1",
+      "type": "text",
+      "props": {
+        "content": "実装時の具体的なヒントとコツをパターン別に紹介します。以下の実装パターンを組み合わせることで、制約に対応しつつ必要な情報を伝えることができます。"
+      }
+    },
+    {
+      "id": "tips-heading-1",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "説明文のフォーマット",
+        "align": "left"
+      }
+    },
+    {
+      "id": "tips-code-1",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "description-template.ts",
+        "code": "description:\n  \"Get detailed project information. \" +           // 主要機能\n  \"Specify using project ID or key. \" +          // 入力形式\n  \"Supports retrieving additional data. \" +      // オプション\n  \"Available since Redmine 1.0\"                 // バージョン"
+      }
+    },
+    {
+      "id": "tips-heading-2",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "括弧を避ける工夫",
+        "align": "left"
+      }
+    },
+    {
+      "id": "tips-code-2",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "brackets-alternatives.ts",
+        "code": "// 括弧を使用（避けるべき）\ndescription: \"Project ID (numeric) or identifier (string)\"\n\n// 代替表現（推奨）\ndescription: \"Project ID as number or project key as text\"\n\n// コロン表現（代替案）\ndescription: \"Input: numeric ID or text identifier\""
+      }
+    },
+    {
+      "id": "tips-heading-3",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "技術用語の言い換え",
+        "align": "left"
+      }
+    },
+    {
+      "id": "tips-code-3",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "terms-mapping.ts",
+        "code": "// 技術用語のマッピング定義\nconst termMappings = {\n  // API関連\n  time_entries: \"time tracking records\",\n  custom_fields: \"custom fields\",\n  issue_tracking: \"issue management\",\n\n  // 一般用語\n  source_code: \"source files\",\n  pull_request: \"pull request\",\n  web_hook: \"webhook\"\n} as const;"
+      }
+    },
+    {
+      "id": "tips-text-2",
+      "type": "text",
+      "props": {
+        "content": "特に注意が必要なのは、一般的な技術用語でもアンダースコアを含むものは書き換える必要がある点です。普及した用語であってもクライアントの制約を優先します。"
+      }
+    }
+  ]
+}

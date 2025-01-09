@@ -1,0 +1,108 @@
+{
+  "meta": {
+    "title": "MCPツールのdescription制約：Claudeクライアントのクラッシュを防ぐ実装戦略",
+    "description": "Model Context Protocol (MCP)のツール説明文に関するClaude Desktop固有の制約と、その対応方法について解説します。RedmineMCPサーバーでの実装経験から、クラッシュを防ぐための具体的な実装パターンと改善方法を紹介します。",
+    "publishedAt": "2025-01-09T12:00:00.000Z",
+    "tags": ["Model Context Protocol", "TypeScript", "Claude"],
+    "author": {
+      "name": "yonaka"
+    }
+  },
+  "blocks": [
+    {
+      "id": "overview-text",
+      "type": "text",
+      "props": {
+        "content": "MCPサーバーの開発において、予期せぬクライアント固有の制約に遭遇することがあります。最近のRedmine MCPサーバーの開発で、Claude Desktopクライアントがツール説明文の特定のパターンでクラッシュする問題を発見しました。本記事では、この制約の詳細と具体的な対応方法について、実装例とともに解説します。"
+      }
+    },
+    {
+      "id": "goals-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "この記事で伝えたいこと",
+        "align": "left"
+      }
+    },
+    {
+      "id": "goals",
+      "type": "blocks",
+      "props": {},
+      "source": "goals.json"
+    },
+    {
+      "id": "problem-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "課題：仕様外の制約への対応",
+        "align": "left"
+      }
+    },
+    {
+      "id": "problem",
+      "type": "blocks",
+      "props": {},
+      "source": "problem.json"
+    },
+    {
+      "id": "solution-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "解決策：安全な実装パターン",
+        "align": "left"
+      }
+    },
+    {
+      "id": "solution",
+      "type": "blocks",
+      "props": {},
+      "source": "solution.json"
+    },
+    {
+      "id": "tips-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "実装のヒントとコツ",
+        "align": "left"
+      }
+    },
+    {
+      "id": "tips",
+      "type": "blocks",
+      "props": {},
+      "source": "tips.json"
+    },
+    {
+      "id": "conclusion-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "おわりに",
+        "align": "left"
+      }
+    },
+    {
+      "id": "conclusion",
+      "type": "blocks",
+      "props": {},
+      "source": "conclusion.json"
+    },
+    {
+      "id": "community",
+      "type": "blocks",
+      "props": {},
+      "source": "community.json"
+    },
+    {
+      "id": "references",
+      "type": "blocks",
+      "props": {},
+      "source": "references.json"
+    }
+  ]
+}
+

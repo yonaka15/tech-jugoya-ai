@@ -1,0 +1,86 @@
+{
+  "blocks": [
+    {
+      "id": "solution-text",
+      "type": "text",
+      "props": {
+        "content": "上記の問題に対して、以下のような改善パターンを適用することで、クラッシュを回避しながら必要な情報を伝えることができます。"
+      }
+    },
+    {
+      "id": "solution-code-1",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "改善後のコード",
+        "code": "// 安全な実装パターン\nexport const PROJECT_SHOW_TOOL: Tool = {\n  name: \"show_project\",\n  description:\n    \"Get detailed project information. \" +\n    \"Specify using project ID or key. \" +\n    \"Supports retrieving additional data. \" +\n    \"Available since Redmine 1.0\",\n  inputSchema: {\n    type: \"object\",\n    properties: {\n      id: {\n        type: \"string\",  // 文字列型として受け取る\n        description: \"Project ID as number or project key as text\"\n      }\n    }\n  }\n};"
+      }
+    },
+    {
+      "id": "solution-heading-1",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "1. 説明文の改善",
+        "align": "left"
+      }
+    },
+    {
+      "id": "solution-text-1",
+      "type": "text",
+      "props": {
+        "content": "説明文は4行以内に収め、括弧を使用せずに情報を伝えます：\n\n- 1行目：主要な機能の説明\n- 2行目：入力形式や制約\n- 3行目：オプション機能\n- 4行目：バージョン情報など"
+      }
+    },
+    {
+      "id": "solution-heading-2",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "2. テクニカルタームの書き換え",
+        "align": "left"
+      }
+    },
+    {
+      "id": "solution-text-2",
+      "type": "text",
+      "props": {
+        "content": "アンダースコアを含む技術用語は、自然な表現に置き換えます：\n\n- time_entries → time tracking records\n- custom_fields → custom fields\n- issue_tracking → issue management"
+      }
+    },
+    {
+      "id": "solution-heading-3",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "3. 型の処理をハンドラーで対応",
+        "align": "left"
+      }
+    },
+    {
+      "id": "solution-code-2",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "handlers/projects.ts",
+        "code": "// ハンドラーでの型変換処理\nconst handleProjectId = (id: string): number | string => {\n  const numId = parseInt(id, 10);\n  return isNaN(numId) ? id : numId;\n};"
+      }
+    },
+    {
+      "id": "solution-text-5",
+      "type": "text",
+      "props": {
+        "content": "ユニオン型は使用せず、文字列として受け取ってハンドラーで適切に変換します。これにより：\n\n- スキーマ定義をシンプルに保てる\n- 型の柔軟性を維持できる\n- バリデーションをより詳細に制御できる"
+      }
+    },
+    {
+      "id": "solution-callout-1",
+      "type": "callout",
+      "props": {
+        "type": "success",
+        "title": "ハンドラーでの処理のメリット",
+        "content": "ハンドラーでの変換処理は、エラーハンドリングやログ出力など、より詳細な制御が可能です。入力値の検証やサニタイズもこのレイヤーで実装することをお勧めします。"
+      }
+    }
+  ]
+}
