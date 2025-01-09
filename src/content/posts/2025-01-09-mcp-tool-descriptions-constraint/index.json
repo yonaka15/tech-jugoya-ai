@@ -3,14 +3,9 @@
     "title": "MCPツールのdescription制約：Claudeクライアントのクラッシュを防ぐ実装戦略",
     "description": "Model Context Protocol (MCP)のツール説明文に関するClaude Desktop固有の制約と、その対応方法について解説します。RedmineMCPサーバーでの実装経験から、クラッシュを防ぐための具体的な実装パターンと改善方法を紹介します。",
     "publishedAt": "2025-01-09T12:00:00.000Z",
-    "tags": [
-      "Model Context Protocol",
-      "TypeScript",
-      "Claude",
-      "Best Practice"
-    ],
+    "tags": ["Model Context Protocol", "TypeScript", "Claude"],
     "author": {
-      "name": "Yonaka"
+      "name": "yonaka"
     }
   },
   "blocks": [
@@ -110,3 +105,4 @@
     }
   ]
 }
+
