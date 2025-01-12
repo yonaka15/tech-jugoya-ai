@@ -1,0 +1,80 @@
+{
+  "blocks": [
+    {
+      "id": "pipeline-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "パイプラインの設計と実装",
+        "align": "left"
+      }
+    },
+    {
+      "id": "pipeline-text",
+      "type": "text",
+      "props": {
+        "content": "SDXLパイプラインの中心となる実装では、デバイス管理、モデルのロード、そして最適化設定を適切に行います。MacOS環境で効率的に実行するため、MPSデバイスの活用とメモリ管理の最適化に特に注意を払っています。"
+      }
+    },
+    {
+      "id": "core-code",
+      "type": "code",
+      "props": {
+        "language": "python",
+        "fileName": "core/pipeline.py",
+        "code": "from pathlib import Path\nfrom typing import Optional, Union\nfrom PIL import Image\nimport logging\nfrom diffusers import StableDiffusionXLPipeline, EulerAncestralDiscreteScheduler\nimport torch\n\n\nclass SDXLPipeline:\n    def __init__(self, model_path: Union[str, Path]):\n        \"\"\"Initialize SDXL pipeline.\n        \n        Args:\n            model_path: Path to the local SDXL model file (.safetensors)\n        \"\"\"\n        self.pipeline = None\n        self.device = None\n        self.dtype = None\n        \n        self.model_path = Path(model_path)\n        if not self.model_path.exists():\n            raise FileNotFoundError(f\"Model file not found: {self.model_path}\")\n        \n        self._setup_device()\n\n    def _setup_device(self) -> None:\n        \"\"\"Configure device settings for optimal performance.\n        \n        Automatically selects MPS if available, otherwise falls back to CPU.\n        \"\"\"\n        # Metal Performance Shaders devices auto-detection\n        self.device = \"mps\" if torch.backends.mps.is_available() else \"cpu\"\n        self.dtype = torch.float32  # Optimal for MacOS\n        logger.info(f\"Using device: {self.device}\")\n\n    def load(self) -> bool:\n        \"\"\"Load the SDXL model with optimal settings.\"\"\"\n        try:\n            # Use safetensors for efficient loading\n            self.pipeline = StableDiffusionXLPipeline.from_single_file(\n                str(self.model_path),\n                torch_dtype=self.dtype,\n                use_safetensors=True\n            )\n            self.pipeline.to(self.device)\n            self.pipeline.enable_attention_slicing()  # Memory optimization\n            \n            # SDXL Turbo specific settings\n            self.pipeline.scheduler = EulerAncestralDiscreteScheduler.from_config(\n                self.pipeline.scheduler.config,\n                timestep_spacing=\"trailing\"  # Optimal for Turbo models\n            )\n            return True\n        except Exception as e:\n            logger.error(f\"Error loading pipeline: {str(e)}\")\n            return False"
+      }
+    },
+    {
+      "id": "device-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "デバイスとメモリの最適化",
+        "align": "left"
+      }
+    },
+    {
+      "id": "device-text",
+      "type": "text",
+      "props": {
+        "content": "MacOS環境での最適なパフォーマンスを実現するため、以下の最適化を実装しています：\n\n1. **MPSデバイスの活用**:\n   - Metal Performance Shadersの自動検出\n   - float32データ型の使用\n   - デバイス非依存のフォールバック処理\n\n2. **メモリ管理の最適化**:\n   - attention_slicingの有効化\n   - safetensorsフォーマットの使用\n   - 適切なリソースクリーンアップ"
+      }
+    },
+    {
+      "id": "turbo-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "SDXL Turbo固有の最適化",
+        "align": "left"
+      }
+    },
+    {
+      "id": "turbo-text",
+      "type": "text",
+      "props": {
+        "content": "SDXL Turboモデルの特性を最大限活用するため、以下の設定を実装しています：\n\n1. **スケジューラの最適化**:\n   - EulerAncestralDiscreteSchedulerの使用\n   - trailingタイムステップスペーシング\n\n2. **推論設定の最適化**:\n   - シングルステップ推論\n   - guidance_scale = 0.0\n   - 512x512の最適解像度"
+      }
+    },
+    {
+      "id": "example-usage",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "実装の使用例",
+        "align": "left"
+      }
+    },
+    {
+      "id": "example-code",
+      "type": "code",
+      "props": {
+        "language": "python",
+        "fileName": "examples/generate.py",
+        "code": "from sdxl_mac_diffusers_guide import SDXLPipeline\nfrom pathlib import Path\n\ndef main():\n    # Initialize pipeline with model path\n    model_path = \"models/sdxl_turbo.safetensors\"\n    pipeline = SDXLPipeline(model_path)\n    \n    if not pipeline.load():\n        print(\"Failed to load pipeline\")\n        return\n    \n    # Generate image with optimal settings for SDXL Turbo\n    prompt = \"A photorealistic image of a white cat in a garden\"\n    image = pipeline.generate(\n        prompt,\n        num_inference_steps=1,    # Single step for Turbo\n        guidance_scale=0.0,      # Optimal for Turbo\n        width=512,               # Optimal resolution\n        height=512\n    )\n    \n    # Save the generated image\n    if image:\n        output_dir = Path(\"output\")\n        output_dir.mkdir(exist_ok=True)\n        image.save(output_dir / \"generated_cat.png\")"
+      }
+    }
+  ]
+}
+

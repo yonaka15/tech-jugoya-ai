@@ -1,0 +1,12 @@
+{
+  "blocks": [
+    {
+      "id": "performance-explanation",
+      "type": "text",
+      "props": {
+        "content": "パフォーマンスの内訳を見ると、全体の処理時間約207msの中で、UNet推論に67ms、残りをプロンプト処理とデコード処理で使用しています。"
+      }
+    }
+  ]
+}
+

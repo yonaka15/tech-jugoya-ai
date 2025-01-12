@@ -1,0 +1,28 @@
+{
+  "blocks": [
+    {
+      "id": "test-flow-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "テストの基本フロー",
+        "align": "left"
+      }
+    },
+    {
+      "id": "test-flow-text",
+      "type": "text",
+      "props": {
+        "content": "BDDテストの基本的な流れを以下の図で示します。テストは「Given」「When」「Then」の3つのステップで構成され、それぞれが明確な役割を持っています。"
+      }
+    },
+    {
+      "id": "test-flow-diagram",
+      "type": "mermaid",
+      "props": {
+        "content": "sequenceDiagram\n    participant F as Feature File\n    participant T as Test Runner\n    participant P as Pipeline\n    participant D as Device\n\n    Note over F,D: Pytest BDD Test Flow\n    F->>T: Load Scenario\n    activate T\n\n    rect rgb(230, 240, 255)\n        Note right of T: Given Phase\n        T->>D: Setup Device\n        D-->>T: Device Ready\n        T->>P: Initialize Pipeline\n        P-->>T: Pipeline Ready\n    end\n\n    rect rgb(255, 240, 230)\n        Note right of T: When Phase\n        T->>P: Execute Operation\n        P->>D: Process Request\n        D-->>P: Process Complete\n        P-->>T: Operation Result\n    end\n\n    rect rgb(230, 255, 230)\n        Note right of T: Then Phase\n        T->>T: Verify Result\n        T->>P: Cleanup Resources\n        P->>D: Release Memory\n        D-->>P: Cleanup Complete\n        P-->>T: All Clear\n    end\n\n    deactivate T\n    T-->>F: Test Complete"
+      }
+    }
+  ]
+}
+
