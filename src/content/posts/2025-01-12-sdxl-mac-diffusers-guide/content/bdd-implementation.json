@@ -1,0 +1,64 @@
+{
+  "blocks": [
+    {
+      "id": "test-patterns-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "テストパターンと実装例",
+        "align": "left"
+      }
+    },
+    {
+      "id": "test-patterns-text",
+      "type": "text",
+      "props": {
+        "content": "テストの実装にあたり、以下のパターンを活用しています。特に各featureファイルをどの粒度で分割するべきかはまだ検討の余地があると考えています：\n\n1. **段階的なテスト**:\n   - 基本機能から複雑な機能へ\n   - 依存関係を考慮したテストの順序\n   - エッジケースの体系的な検証\n\n2. **再利用可能なステップ**:\n   - 共通の前提条件をBackgroundとして定義\n   - フィクスチャーの効果的な活用\n   - ステップ間でのコンテキスト共有\n\n3. **エラー処理のテスト**:\n   - 例外の適切な処理\n   - エラーメッセージの検証\n   - リソースのクリーンアップ確認"
+      }
+    },
+    {
+      "id": "advanced-examples-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "高度なテスト例",
+        "align": "left"
+      }
+    },
+    {
+      "id": "advanced-feature",
+      "type": "code",
+      "props": {
+        "language": "gherkin",
+        "fileName": "tests/features/generation/batch_processing.feature",
+        "code": "Feature: Batch Image Generation\n  As a service provider\n  I want to generate multiple images efficiently\n  So that I can handle concurrent requests\n\n  Background:\n    Given the pipeline is initialized with optimal settings\n\n  @performance\n  Scenario Outline: Generate images in batch\n    When I generate <count> images in parallel\n    Then all images should be generated successfully\n    And memory usage should stay below <memory_limit> GB\n    And total processing time should be less than <time_limit> seconds\n\n    Examples:\n      | count | memory_limit | time_limit |\n      | 2     | 12          | 5          |\n      | 4     | 16          | 10         |\n\n  @error-handling\n  Scenario: Handle resource exhaustion\n    Given system memory is limited to 4GB\n    When I attempt to generate multiple images\n    Then it should fail gracefully\n    And release all allocated resources\n    And provide appropriate error information"
+      }
+    },
+    {
+      "id": "advanced-implementation",
+      "type": "code",
+      "props": {
+        "language": "python",
+        "fileName": "tests/step_definitions/test_batch_generation.py",
+        "code": "import pytest\nfrom pytest_bdd import scenario, given, when, then, parsers\nfrom concurrent.futures import ThreadPoolExecutor\nimport psutil\nimport time\n\n@scenario('generation/batch_processing.feature', 'Generate images in batch')\ndef test_batch_generation():\n    pass\n\n@given('the pipeline is initialized with optimal settings')\ndef optimized_pipeline(model_path):\n    pipeline = SDXLPipeline(model_path)\n    pipeline.enable_attention_slicing()\n    pipeline.enable_sequential_cpu_offload()\n    return pipeline\n\n@when(parsers.parse('I generate {count:d} images in parallel'))\ndef generate_batch(pipeline, count):\n    prompts = [f'Test prompt {i}' for i in range(count)]\n    start_time = time.time()\n    \n    with ThreadPoolExecutor(max_workers=count) as executor:\n        futures = [\n            executor.submit(pipeline.generate, prompt)\n            for prompt in prompts\n        ]\n        results = [f.result() for f in futures]\n    \n    return {\n        'results': results,\n        'time_taken': time.time() - start_time\n    }\n\n@then('all images should be generated successfully')\ndef verify_generation(results):\n    assert all(img is not None for img in results['results'])\n    for img in results['results']:\n        assert img.size == (512, 512)\n\n@then(parsers.parse('memory usage should stay below {memory_limit:d} GB'))\ndef verify_memory_usage(memory_limit):\n    memory_gb = psutil.Process().memory_info().rss / (1024 * 1024 * 1024)\n    assert memory_gb < memory_limit\n\n@then(parsers.parse('total processing time should be less than {time_limit:d} seconds'))\ndef verify_processing_time(results, time_limit):\n    assert results['time_taken'] < time_limit"
+      }
+    },
+    {
+      "id": "test-status-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "テストの実装状況",
+        "align": "left"
+      }
+    },
+    {
+      "id": "test-status-text",
+      "type": "text",
+      "props": {
+        "content": "現在のテスト実装の状況は以下の通りです：\n\n1. **基本機能** (✅)\n   - パイプラインの初期化\n   - デバイス設定の管理\n   - リソース管理の検証\n\n2. **最適化機能** (✅)\n   - メモリ使用量の最適化\n   - 処理速度の改善\n   - デバイス固有の最適化\n\n3. **画像生成** (🚧)\n   - 基本的な生成機能\n   - バッチ処理\n   - エラー処理\n\n4. **パフォーマンス** (🚧)\n   - 負荷テスト\n   - スケーラビリティ\n   - リソース制限"
+      }
+    }
+  ]
+}
+

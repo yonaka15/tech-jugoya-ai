@@ -1,0 +1,19 @@
+{
+  "blocks": [
+    {
+      "id": "process-flow-diagram",
+      "type": "mermaid",
+      "props": {
+        "content": "sequenceDiagram\n    participant User as ユーザー\n    participant Pipeline as パイプライン\n    participant Encoder as プロンプトエンコーダ\n    participant UNet as 最適化UNet\n    participant Decoder as デコーダー\n    \n    User->>Pipeline: プロンプト入力\n    Pipeline->>Encoder: テキスト処理\n    Encoder->>UNet: エンコード済みプロンプト\n    Note over UNet: ADDによる<br/>単一ステップ処理\n    UNet->>Decoder: 生成データ\n    Decoder->>Pipeline: 画像データ\n    Pipeline->>User: 生成画像\n    \n    Note over Pipeline,Decoder: 全体処理時間: 約207ms<br/>(A100 GPU使用時)"
+      }
+    },
+    {
+      "id": "process-flow-explanation",
+      "type": "text",
+      "props": {
+        "content": "このシーケンス図は、SDXL Turboの画像生成プロセスを示しています。特筆すべき点は、UNetでの単一ステップ処理による高速化です。A100 GPUを使用した場合、全体の処理時間は約207msと非常に高速に生成できるそうです。"
+      }
+    }
+  ]
+}
+

@@ -1,0 +1,100 @@
+{
+  "blocks": [
+    {
+      "id": "testing-flow-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "BDDテストの流れ",
+        "align": "left"
+      }
+    },
+    {
+      "id": "testing-flow-text",
+      "type": "text",
+      "props": {
+        "content": "BDDテストの実装は以下のプロセスで進めています。各フェーズでの成果物と役割を明確にし、品質を確保しています。"
+      }
+    },
+    {
+      "id": "testing-flow-diagram",
+      "type": "code",
+      "props": {
+        "language": "mermaid",
+        "code": "flowchart TB\n    subgraph Discovery[\"Discovery Phase\"]\n        R[要件の収集] --> U[ユースケースの特定]\n        U --> B[ビジネスルールの定義]\n    end\n\n    subgraph Formulation[\"Formulation Phase\"]\n        F[Feature作成] --> S[シナリオ定義]\n        S --> E[Examples定義]\n    end\n\n    subgraph Implementation[\"Implementation Phase\"]\n        I[ステップ実装] --> V[検証ロジック実装]\n        V --> T[テスト実行と修正]\n    end\n\n    Discovery --> Formulation\n    Formulation --> Implementation\n\n    style Discovery fill:#f9f,stroke:#333,stroke-width:2px\n    style Formulation fill:#bbf,stroke:#333,stroke-width:2px\n    style Implementation fill:#bfb,stroke:#333,stroke-width:2px"
+      }
+    },
+    {
+      "id": "test-architecture-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "テストアーキテクチャ",
+        "align": "left"
+      }
+    },
+    {
+      "id": "test-architecture-text",
+      "type": "text",
+      "props": {
+        "content": "テストコードは以下の構造で組織化されています。各コンポーネントの役割と関係性を明確にし、メンテナンス性を向上させています。"
+      }
+    },
+    {
+      "id": "test-architecture-diagram",
+      "type": "code",
+      "props": {
+        "language": "mermaid",
+        "code": "graph TB\n    subgraph Features[\"Feature Files\"]\n        F1[pipeline.feature]\n        F2[optimization.feature]\n        F3[generation.feature]\n    end\n\n    subgraph Steps[\"Step Definitions\"]\n        S1[test_pipeline.py]\n        S2[test_optimization.py]\n        S3[test_generation.py]\n    end\n\n    subgraph Fixtures[\"Fixtures & Support\"]\n        X1[conftest.py]\n        X2[model_fixtures.py]\n        X3[device_fixtures.py]\n    end\n\n    F1 --> S1\n    F2 --> S2\n    F3 --> S3\n\n    S1 --> X1\n    S1 --> X2\n    S2 --> X1\n    S2 --> X3\n    S3 --> X1\n    S3 --> X2\n    S3 --> X3\n\n    classDef feature fill:#f9f,stroke:#333,stroke-width:2px\n    classDef step fill:#bbf,stroke:#333,stroke-width:2px\n    classDef fixture fill:#bfb,stroke:#333,stroke-width:2px\n\n    class F1,F2,F3 feature\n    class S1,S2,S3 step\n    class X1,X2,X3 fixture"
+      }
+    },
+    {
+      "id": "test-execution-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "テスト実行のフロー",
+        "align": "left"
+      }
+    },
+    {
+      "id": "test-execution-text",
+      "type": "text",
+      "props": {
+        "content": "テストの実行は以下の順序で行われます。各ステップでの前提条件と期待される結果を明確にしています。"
+      }
+    },
+    {
+      "id": "test-execution-diagram",
+      "type": "code",
+      "props": {
+        "language": "mermaid",
+        "code": "sequenceDiagram\n    participant F as Feature\n    participant S as Step Definition\n    participant P as Pipeline\n    participant D as Device\n\n    Note over F,D: Pipeline Initialization Test\n    F->>S: Begin Scenario\n    S->>P: Create Pipeline\n    P->>D: Check Device\n    D-->>P: Return Device Info\n    P-->>S: Pipeline Instance\n    S->>P: Configure\n    P->>D: Setup Device\n    D-->>P: Configuration Result\n    P-->>S: Setup Complete\n    S->>S: Verify State\n    S-->>F: Scenario Complete\n\n    Note over F,D: Each test follows this pattern"
+      }
+    },
+    {
+      "id": "test-parallel-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "パラレルテストの実行",
+        "align": "left"
+      }
+    },
+    {
+      "id": "test-parallel-text",
+      "type": "text",
+      "props": {
+        "content": "システムの並行処理能力を検証するため、以下のようなパラレルテストを実装しています。"
+      }
+    },
+    {
+      "id": "test-parallel-diagram",
+      "type": "code",
+      "props": {
+        "language": "mermaid",
+        "code": "stateDiagram-v2\n    [*] --> Ready\n\n    state Ready {\n        [*] --> Initialized\n        Initialized --> Configured\n        Configured --> Ready\n    }\n\n    state Processing {\n        [*] --> LoadModel\n        LoadModel --> GenerateImage\n        GenerateImage --> Cleanup\n        Cleanup --> [*]\n    }\n\n    state Verification {\n        [*] --> CheckResult\n        CheckResult --> ValidateImage\n        ValidateImage --> [*]\n    }\n\n    Ready --> Processing: Start Generation\n    Processing --> Verification: Image Generated\n    Verification --> Ready: Test Complete\n    \n    note right of Processing\n        Multiple instances\n        can run in parallel\n    end note"
+      }
+    }
+  ]
+}

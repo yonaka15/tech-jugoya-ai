@@ -1,0 +1,65 @@
+{
+  "blocks": [
+    {
+      "id": "test-architecture-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "テストアーキテクチャ",
+        "align": "left"
+      }
+    },
+    {
+      "id": "test-architecture-text",
+      "type": "text",
+      "props": {
+        "content": "テストコードは以下の構造に従って整理しています：\n\n1. **機能テスト**\n   - パイプラインの基本機能\n   - デバイス管理とメモリ最適化\n   - モデルのロードと初期化\n   - 画像生成プロセス\n\n2. **エラーハンドリング**\n   - 無効な入力のテスト\n   - リソース不足の検出\n   - 例外の適切な処理\n\n3. **パフォーマンステスト**\n   - メモリ使用量の測定\n   - 実行時間の計測\n   - 最適化の効果検証"
+      }
+    },
+    {
+      "id": "test-pipeline-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "パイプラインのテスト実装",
+        "align": "left"
+      }
+    },
+    {
+      "id": "test-pipeline-feature",
+      "type": "code",
+      "props": {
+        "language": "gherkin",
+        "fileName": "tests/features/pipeline.feature",
+        "code": "Feature: SDXL Pipeline Management\n  As an AI application developer\n  I want to manage SDXL pipeline efficiently\n  So that I can provide stable image generation service\n\n  Background:\n    Given the SDXL Turbo model is available\n\n  Scenario: Initialize pipeline with optimal settings\n    When I create a pipeline with default settings\n    Then the pipeline should be configured for MacOS\n    And MPS acceleration should be enabled if available\n\n  Scenario: Handle memory efficiently\n    Given I have an initialized pipeline\n    When I load the model with attention slicing\n    Then the memory usage should be optimized\n    And the model should be loaded successfully\n\n  Scenario: Generate images with optimal settings\n    Given I have a loaded pipeline\n    When I generate an image with the following settings:\n      | Parameter         | Value |\n      | num_inference_steps | 1     |\n      | guidance_scale    | 0.0   |\n    Then the generation should complete successfully\n    And the output image should be 512x512 pixels"
+      }
+    },
+    {
+      "id": "test-pipeline-implementation",
+      "type": "code",
+      "props": {
+        "language": "python",
+        "fileName": "tests/step_definitions/test_pipeline.py",
+        "code": "from pathlib import Path\nimport pytest\nfrom pytest_bdd import scenario, given, when, then, parsers\n\n@scenario('pipeline.feature', 'Initialize pipeline with optimal settings')\ndef test_pipeline_initialization():\n    pass\n\n@given('the SDXL Turbo model is available', target_fixture='model_path')\ndef model_available(tmp_path):\n    model_path = tmp_path / 'sdxl_turbo.safetensors'\n    model_path.touch()\n    return model_path\n\n@when('I create a pipeline with default settings')\ndef create_pipeline(model_path):\n    pipeline = SDXLPipeline(model_path)\n    return pipeline\n\n@then('the pipeline should be configured for MacOS')\ndef verify_macos_config(pipeline):\n    assert pipeline.device in ['mps', 'cpu']\n    assert pipeline.dtype == torch.float32\n\n@then('MPS acceleration should be enabled if available')\ndef verify_mps_acceleration(pipeline):\n    if torch.backends.mps.is_available():\n        assert pipeline.device == 'mps'\n    else:\n        assert pipeline.device == 'cpu'"
+      }
+    },
+    {
+      "id": "optimization-tests-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "最適化のテスト",
+        "align": "left"
+      }
+    },
+    {
+      "id": "optimization-feature",
+      "type": "code",
+      "props": {
+        "language": "gherkin",
+        "fileName": "tests/features/optimization.feature",
+        "code": "Feature: Pipeline Optimization\n  As a system developer\n  I want to optimize the pipeline performance\n  So that it runs efficiently on MacOS\n\n  Background:\n    Given I have an initialized pipeline\n\n  @memory\n  Scenario Outline: Memory optimization settings\n    When I enable <optimization> optimization\n    Then the memory usage should be less than <limit> GB\n    And the model should still function correctly\n\n    Examples:\n      | optimization      | limit |\n      | attention_slicing | 8     |\n      | fp16             | 6     |"
+      }
+    }
+  ]
+}

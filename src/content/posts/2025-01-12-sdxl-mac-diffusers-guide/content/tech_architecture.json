@@ -1,0 +1,12 @@
+{
+  "blocks": [
+    {
+      "id": "tech-architecture-explanation",
+      "type": "text",
+      "props": {
+        "content": "従来のStable DiffusionモデルとSDXL Turboの違いは、Adversarial Diffusion Distillation (ADD)技術にあります。50ステップの処理をなんと1ステップに削減しながら、高品質な画像生成を実現しています。この最適化により、処理時間を大幅に短縮しつつ、画質を維持することが可能になりました。"
+      }
+    }
+  ]
+}
+

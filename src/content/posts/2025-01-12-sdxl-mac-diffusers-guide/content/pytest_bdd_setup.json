@@ -1,0 +1,79 @@
+{
+  "blocks": [
+    {
+      "id": "test-environment-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "テスト環境のセットアップ",
+        "align": "left"
+      }
+    },
+    {
+      "id": "test-environment-text",
+      "type": "text",
+      "props": {
+        "content": "pytest-bddを使用したテスト環境の構築手順を説明します。このフレームワークを選択した理由は：\n\n1. **Pytestとの統合**\n   - 既存のPytest機能やプラグインを活用可能\n   - フィクスチャーの再利用が容易\n   - デバッグとレポート機能が充実\n\n2. **BDDの完全サポート**\n   - Gherkin記法による要件定義\n   - シナリオのパラメータ化\n   - タグによる柔軟なテスト管理\n\n3. **開発効率の向上**\n   - コード生成機能でボイラープレートを削減\n   - シナリオの自動検出と実行\n   - 豊富なテストユーティリティ"
+      }
+    },
+    {
+      "id": "project-structure-heading",
+      "type": "heading",
+      "props": {
+        "level": 4,
+        "content": "プロジェクト構造",
+        "align": "left"
+      }
+    },
+    {
+      "id": "project-structure-text",
+      "type": "text",
+      "props": {
+        "content": "テストコードは以下の構造で組織化しています：\n\n```\ntests/\n├── features/          # Gherkinシナリオ\n│   ├── pipeline/      # パイプライン関連のfeature\n│   │   ├── initialization.feature\n│   │   ├── optimization.feature\n│   │   └── generation.feature\n│   └── device/        # デバイス管理のfeature\n│       ├── mps.feature\n│       └── memory.feature\n├── step_definitions/ # ステップの実装\n│   ├── test_pipeline.py\n│   └── test_device.py\n├── fixtures/         # 共通フィクスチャー\n│   ├── model.py\n│   └── device.py\n└── conftest.py      # テスト全体の設定\n```\n\nこの構造により：\n- 機能ごとのテストを整理\n- コードの再利用を促進\n- メンテナンス性を向上"
+      }
+    },
+    {
+      "id": "configuration-heading",
+      "type": "heading",
+      "props": {
+        "level": 4,
+        "content": "pytest-bddの設定",
+        "align": "left"
+      }
+    },
+    {
+      "id": "configuration-text",
+      "type": "text",
+      "props": {
+        "content": "1. **基本設定**\n```ini\n# pytest.ini\n[pytest]\ntestpaths = tests\npython_files = test_*.py\nmarkers =\n    sdxl: SDXL関連のテスト\n    device: デバイス管理のテスト\n    memory: メモリ管理のテスト\n    generation: 画像生成のテスト\nbdd_features_base_dir = tests/features\n```\n\n2. **フィクスチャーの設定**\n```python\n# conftest.py\nimport pytest\nfrom pathlib import Path\n\n@pytest.fixture\ndef model_path(tmp_path) -> Path:\n    \"\"\"テスト用のモデルファイルパス\"\"\"\n    return tmp_path / 'test_model.safetensors'\n\n@pytest.fixture\ndef device_config() -> dict:\n    \"\"\"デバイス設定\"\"\"\n    return {\n        'device': 'mps',\n        'dtype': 'float32',\n        'attention_slicing': True\n    }\n```"
+      }
+    },
+    {
+      "id": "usage-example-heading",
+      "type": "heading",
+      "props": {
+        "level": 4,
+        "content": "基本的な使用例",
+        "align": "left"
+      }
+    },
+    {
+      "id": "feature-example",
+      "type": "code",
+      "props": {
+        "language": "gherkin",
+        "fileName": "tests/features/pipeline/initialization.feature",
+        "code": "Feature: Pipeline Initialization\n  As an AI developer\n  I want to initialize the SDXL pipeline correctly\n  So that I can ensure stable model execution\n\n  Background:\n    Given the test model file exists\n\n  @initialization\n  Scenario: Basic pipeline initialization\n    When I create a new pipeline instance\n    Then the pipeline should be configured correctly\n    And the device settings should match the system\n\n  @error @initialization\n  Scenario: Handle missing model file\n    Given the model file does not exist\n    When I try to create a pipeline instance\n    Then it should raise a FileNotFoundError\n    And provide a clear error message"
+      }
+    },
+    {
+      "id": "step-example",
+      "type": "code",
+      "props": {
+        "language": "python",
+        "fileName": "tests/step_definitions/test_pipeline.py",
+        "code": "from pathlib import Path\nimport pytest\nfrom pytest_bdd import scenarios, given, when, then, parsers\nfrom diffusers import StableDiffusionXLPipeline\n\n# シナリオの読み込み\nscenarios('pipeline/initialization.feature')\n\n# Background steps\n@given('the test model file exists', target_fixture='model_path')\ndef model_file_exists(tmp_path):\n    path = tmp_path / 'test_model.safetensors'\n    path.touch()\n    return path\n\n# Scenario: Basic pipeline initialization\n@when('I create a new pipeline instance')\ndef create_pipeline(model_path):\n    return SDXLPipeline(model_path)\n\n@then('the pipeline should be configured correctly')\ndef verify_pipeline_configuration(pipeline):\n    assert isinstance(pipeline, SDXLPipeline)\n    assert pipeline.model_path is not None\n\n@then('the device settings should match the system')\ndef verify_device_settings(pipeline):\n    import torch\n    expected_device = 'mps' if torch.backends.mps.is_available() else 'cpu'\n    assert pipeline.device == expected_device\n\n# Scenario: Handle missing model file\n@given('the model file does not exist')\ndef no_model_file(tmp_path):\n    return tmp_path / 'nonexistent.safetensors'\n\n@when('I try to create a pipeline instance')\ndef try_create_pipeline(model_path):\n    with pytest.raises(FileNotFoundError) as exc_info:\n        SDXLPipeline(model_path)\n    return exc_info\n\n@then('it should raise a FileNotFoundError')\ndef verify_error_type(exc_info):\n    assert exc_info.type == FileNotFoundError\n\n@then('provide a clear error message')\ndef verify_error_message(exc_info):\n    assert 'Model file not found' in str(exc_info.value)"
+      }
+    }
+  ]
+}
