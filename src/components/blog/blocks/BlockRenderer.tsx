@@ -1,13 +1,13 @@
-import { type FC } from 'react';
-import { type Block } from '@/types/blog';
-import TextBlock from './TextBlock';
-import ImageBlock from './ImageBlock';
-import CodeBlock from './CodeBlock';
-import QuoteBlock from './QuoteBlock';
-import CalloutBlock from './CalloutBlock';
-import TableBlock from './TableBlock';
-import HeadingBlock from './HeadingBlock';
-import MermaidBlock from './MermaidBlock';
+import { type FC } from "react";
+import { type Block } from "@/types/blog";
+import TextBlock from "./TextBlock";
+import ImageBlock from "./ImageBlock";
+import CodeBlock from "./CodeBlock";
+import QuoteBlock from "./QuoteBlock";
+import CalloutBlock from "./CalloutBlock";
+import TableBlock from "./TableBlock";
+import HeadingBlock from "./HeadingBlock";
+import MermaidBlock from "./MermaidBlock";
 
 interface BlockRendererProps {
   block: Block;
@@ -15,21 +15,21 @@ interface BlockRendererProps {
 
 const BlockRenderer: FC<BlockRendererProps> = ({ block }) => {
   switch (block.type) {
-    case 'heading':
+    case "heading":
       return <HeadingBlock {...block.props} />;
-    case 'text':
+    case "text":
       return <TextBlock {...block.props} />;
-    case 'image':
+    case "image":
       return <ImageBlock {...block.props} />;
-    case 'code':
+    case "code":
       return <CodeBlock {...block.props} />;
-    case 'quote':
+    case "quote":
       return <QuoteBlock {...block.props} />;
-    case 'callout':
+    case "callout":
       return <CalloutBlock {...block.props} />;
-    case 'table':
+    case "table":
       return <TableBlock {...block.props} />;
-    case 'mermaid':
+    case "mermaid":
       return <MermaidBlock {...block.props} />;
     default:
       console.warn(`Unknown block type: ${(block as Block).type}`);
@@ -38,3 +38,4 @@ const BlockRenderer: FC<BlockRendererProps> = ({ block }) => {
 };
 
 export default BlockRenderer;
+
