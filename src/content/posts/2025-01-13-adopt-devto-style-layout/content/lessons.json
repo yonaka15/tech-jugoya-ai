@@ -1,0 +1,88 @@
+{
+  "blocks": [
+    {
+      "id": "development-effort-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "1. 開発工数の増加",
+        "align": "left"
+      }
+    },
+    {
+      "id": "development-effort-text",
+      "type": "text",
+      "props": {
+        "content": "3カラムレイアウトへの移行には、既存コンテンツの配置替えやCSSリファクタリングが必要でした。ただ長期的に見れば、この段階でレイアウトを再設計したことで、追加機能の実装がスムーズになるというメリットが大きいです。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "hydration-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "2. ハイドレーションエラーへの対策",
+        "align": "left"
+      }
+    },
+    {
+      "id": "hydration-text",
+      "type": "text",
+      "props": {
+        "content": "Next.jsのSSR環境でnavigator.shareやwindowオブジェクトを直接使うと、サーバー側とクライアント側で描画結果が異なりハイドレーションエラーになりがちです。解決策として、'use client'を付与したコンポーネントでuseEffectを使って動的に機能を切り替える方法を取りました。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "accessibility-heading",
+      "type": "heading",
+      "props": {
+        "level": "3",
+        "content": "3. アクセシビリティの考慮",
+        "align": "left"
+      }
+    },
+    {
+      "id": "accessibility-text",
+      "type": "text",
+      "props": {
+        "content": "サイドバーの開閉ボタンにはaria-label、aria-expanded、aria-controlsを適切に設定しました。スクリーンリーダー利用者がわかりやすいように、表示テキストや階層構造を明確にしました。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "lessons-learned-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "実装から得られた教訓",
+        "align": "left"
+      }
+    },
+    {
+      "id": "grid-layout-text",
+      "type": "text",
+      "props": {
+        "content": "グリッドレイアウトは、ブレークポイントごとにカラム数を増やすことで、意図した配置を崩さずに実現できました。モバイル時は1カラム → タブレットでは2カラム → デスクトップでは3カラムへの移行もスムーズに実装できています。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "dom-optimization-text",
+      "type": "text",
+      "props": {
+        "content": "サイドバーを「モバイル用DOM」「デスクトップ用DOM」に分割すると、重複表示や制御の煩雑化が起こりがちです。単一要素をCSSクラスで変形させる方法がベストプラクティスであることを学びました。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "client-components-text",
+      "type": "text",
+      "props": {
+        "content": "Web Share APIやモーダル操作など、ブラウザ固有の機能だけを'use client'で囲むことで、パフォーマンスを最適化できました。ベースレイアウトはサーバーコンポーネントでも作れるため、パフォーマンスと拡張性を両立しやすい構成となりました。",
+        "align": "left"
+      }
+    }
+  ]
+}
