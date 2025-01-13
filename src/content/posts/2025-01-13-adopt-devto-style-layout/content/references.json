@@ -1,0 +1,28 @@
+{
+  "blocks": [
+    {
+      "id": "references-text",
+      "type": "text",
+      "props": {
+        "content": "この記事の実装にあたり、以下の資料を参考にしました。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "references-list",
+      "type": "text",
+      "props": {
+        "content": "• [Bootstrap 5 Sidebar Examples](https://dev.to/codeply/bootstrap-5-sidebar-examples-38pb) - レスポンシブなサイドバーの実装パターン集\n• [10 blog layout best practices for 2024](https://www.linnworks.com/blog/blog-layout-best-practices/) - 最新のブログレイアウトトレンド\n• [Weblog Usability: The Top Ten Design Mistakes](https://www.nngroup.com/articles/weblog-usability-top-ten-mistakes/) - ブログデザインの典型的な問題と解決策",
+        "align": "left"
+      }
+    },
+    {
+      "id": "conclusion-text",
+      "type": "text",
+      "props": {
+        "content": "これらの情報やベストプラクティスを踏まえ、私たちのブログでも「スキャンしやすさ」や「モバイルファースト」を意識したデザインにアップデートできました。すでに読者からは「記事をスムーズに行き来できる」「モバイルで見やすくなった」と好評の声をいただいています。今後さらに改良を重ねながら、新機能や目次機能（Phase 4）を実装して、より使いやすい技術ブログを目指していきたいと思います。",
+        "align": "left"
+      }
+    }
+  ]
+}

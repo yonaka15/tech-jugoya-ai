@@ -1,0 +1,100 @@
+{
+  "meta": {
+    "title": "Dev.toスタイルのブログ記事レイアウトを導入してみた",
+    "description": "エンジニアリングブログのUI/UXを改善するため、Dev.toスタイルの3カラムレイアウトを導入しました。その背景、実装アプローチ、得られた知見を紹介します。",
+    "publishedAt": "2025-01-13T00:00:00.000Z",
+    "tags": ["Next.js", "TypeScript", "Tailwind CSS", "Frontend", "User Experience"]
+  },
+  "blocks": [
+    {
+      "id": "intro-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "はじめに",
+        "align": "left"
+      }
+    },
+    {
+      "id": "intro",
+      "type": "blocks",
+      "props": {},
+      "source": "content/intro.json"
+    },
+    {
+      "id": "background-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "背景と課題",
+        "align": "left"
+      }
+    },
+    {
+      "id": "background",
+      "type": "blocks",
+      "props": {},
+      "source": "content/background.json"
+    },
+    {
+      "id": "implementation-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "実装アプローチ",
+        "align": "left"
+      }
+    },
+    {
+      "id": "implementation",
+      "type": "blocks",
+      "props": {},
+      "source": "content/implementation.json"
+    },
+    {
+      "id": "lessons-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "課題と学び",
+        "align": "left"
+      }
+    },
+    {
+      "id": "lessons",
+      "type": "blocks",
+      "props": {},
+      "source": "content/lessons.json"
+    },
+    {
+      "id": "summary-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "まとめ",
+        "align": "left"
+      }
+    },
+    {
+      "id": "summary",
+      "type": "blocks",
+      "props": {},
+      "source": "content/summary.json"
+    },
+    {
+      "id": "references-heading",
+      "type": "heading",
+      "props": {
+        "level": 2,
+        "content": "参考",
+        "align": "left"
+      }
+    },
+    {
+      "id": "references",
+      "type": "blocks",
+      "props": {},
+      "source": "content/references.json"
+    }
+  ]
+}

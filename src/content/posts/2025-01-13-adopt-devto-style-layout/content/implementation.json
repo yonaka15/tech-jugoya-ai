@@ -1,0 +1,90 @@
+{
+  "blocks": [
+    {
+      "id": "layout-structure-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "1. レイアウト構造",
+        "align": "left"
+      }
+    },
+    {
+      "id": "layout-structure-text",
+      "type": "text",
+      "props": {
+        "content": "Tailwind CSSのユーティリティクラスを活用することで、簡潔なコードでレスポンシブ対応を実装しました。3カラムレイアウトの基本構造は以下のコードで実現しています。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "layout-code",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "BlogLayout.tsx",
+        "code": "export default function BlogLayout({ children }: { children: React.ReactNode }) {\n  return (\n    <div className=\"container mx-auto\">\n      <div className=\"grid\n        lg:grid-cols-[minmax(0,1fr)_240px]\n        xl:grid-cols-[240px_minmax(0,1fr)_240px]\n        gap-4\">\n        <LeftSidebar />\n        <main className=\"min-w-0\">{children}</main>\n        <RightSidebar />\n      </div>\n    </div>\n  );\n}"
+      }
+    },
+    {
+      "id": "components-text",
+      "type": "text",
+      "props": {
+        "content": "主要なコンポーネントは以下のように分割し、それぞれの役割を明確にしました。BlogLayout.tsxは3カラムレイアウトのベースとなり、LeftSidebar.tsxではシリーズナビやタグ、関連記事などの補助情報を、RightSidebar.tsxでは目次やシェアボタンを配置します。ShareButton.tsxではブラウザのWeb Share APIやTwitter/Xシェアなどを集約しています。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "mobile-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "2. モバイル対応",
+        "align": "left"
+      }
+    },
+    {
+      "id": "mobile-text",
+      "type": "text",
+      "props": {
+        "content": "モバイル対応では、単一のDOM要素をブレークポイントで出し分ける方式を採用しました。小画面ではサイドバーをfixed + transformにして「ドロワー」化し、画面幅が大きくなるとstickyで常時表示に切り替えます。モバイルでサイドバーを開いた際は、背面を薄暗くしてユーザーの操作をそちらに集中させる設計としています。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "mobile-code",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "Sidebar.tsx",
+        "code": "export function Sidebar({ isOpen, onClose }: SidebarProps) {\n  return (\n    <>\n      {/* オーバーレイ */}\n      <div\n        className={`fixed inset-0 bg-black/50 transition-opacity lg:hidden\n          ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}\n        onClick={onClose}\n      />\n      {/* サイドバー */}\n      <aside\n        className={`fixed top-0 bottom-0 w-[240px] bg-white overflow-y-auto\n          transform transition-transform lg:sticky lg:transform-none\n          ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}\n      >\n        {/* サイドバーコンテンツ */}\n      </aside>\n    </>\n  );\n}"
+      }
+    },
+    {
+      "id": "share-button-heading",
+      "type": "heading",
+      "props": {
+        "level": 3,
+        "content": "3. シェアボタンの実装",
+        "align": "left"
+      }
+    },
+    {
+      "id": "share-button-text",
+      "type": "text",
+      "props": {
+        "content": "モバイル端末（iOS Safari, Android Chromeなど）ではWeb Share APIを利用してOSネイティブの共有機能を提供します。非対応ブラウザではURLコピーやX（旧Twitter）のIntent Linkを使用することで、「シェアしたい！」のに何も起こらないという状況を防ぐ多段的な仕組みを用意しました。",
+        "align": "left"
+      }
+    },
+    {
+      "id": "share-code",
+      "type": "code",
+      "props": {
+        "language": "typescript",
+        "fileName": "ShareButton.tsx",
+        "code": "'use client';\n\nexport function ShareButton({ url, title }: ShareProps) {\n  const handleShare = async () => {\n    if (navigator.share) {\n      try {\n        await navigator.share({\n          title,\n          url\n        });\n      } catch (error) {\n        if (error instanceof Error && error.name !== 'AbortError') {\n          console.error('Error sharing:', error);\n        }\n      }\n    } else {\n      // フォールバック: クリップボードにURLをコピー\n      await navigator.clipboard.writeText(url);\n    }\n  };\n\n  return (\n    <button\n      onClick={handleShare}\n      className=\"flex items-center gap-2 px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600\"\n    >\n      <ShareIcon className=\"w-5 h-5\" />\n      Share\n    </button>\n  );\n}"
+      }
+    }
+  ]
+}
