@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import type { BlogMeta } from '@/types/blog';
-import { formatTagForUrl } from '@/lib/tags';
+import React from "react";
+import Link from "next/link";
+import type { BlogMeta } from "@/types/blog";
+import { formatTagForUrl } from "@/lib/tags";
 
 interface LeftSidebarProps {
   meta: BlogMeta;
@@ -17,7 +17,7 @@ export default function LeftSidebar({ meta }: LeftSidebarProps) {
         <div>
           <h2 className="font-semibold mb-4">タグ</h2>
           <div className="flex flex-wrap gap-2">
-            {meta.tags.map(tag => (
+            {meta.tags.map((tag) => (
               <Link
                 key={tag}
                 href={`/tags/${formatTagForUrl(tag)}`}
@@ -33,10 +33,9 @@ export default function LeftSidebar({ meta }: LeftSidebarProps) {
       {/* Author */}
       <div>
         <h2 className="font-semibold mb-4">著者</h2>
-        <div className="text-sm text-muted-foreground">
-          {meta.author}
-        </div>
+        <div className="text-sm text-muted-foreground">{meta.author?.name}</div>
       </div>
     </aside>
   );
 }
+

@@ -3,7 +3,12 @@ export type BaseBlock<T extends string, P = unknown> = {
   id: string;
   type: T;
   props: P;
-  source?: string;  // ソースファイルのパス（オプショナル）
+  source?: string; // ソースファイルのパス（オプショナル）
+};
+
+export type Author = {
+  name: string;
+  avatar?: string;
 };
 
 // メタデータの型
@@ -14,7 +19,7 @@ export type BlogMeta = {
   updatedAt?: string;
   tags: string[];
   isDraft?: boolean;
-  author: string;
+  author?: Author;
 };
 
 // 各ブロックの Props 型
@@ -146,3 +151,4 @@ export const createMermaidBlock: BlockCreator<MermaidBlock> = (props, id) =>
 
 export const createBlockContainer: BlockCreator<BlockContainer> = (props, id) =>
   createBlock("blocks", props, id);
+

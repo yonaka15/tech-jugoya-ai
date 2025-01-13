@@ -1,5 +1,6 @@
-import { Metadata } from 'next';
-import { siteConfig } from '@/config/site';
+import { Metadata } from "next";
+import { siteConfig } from "@/config/site";
+import { Author } from "@/types/blog";
 
 /**
  * サイト全体のデフォルトメタデータ設定
@@ -9,12 +10,12 @@ export const defaultMetadata: Metadata = {
   title: siteConfig.metadata.title,
   description: siteConfig.description,
   openGraph: {
-    type: 'website',
+    type: "website",
     locale: siteConfig.locale,
     siteName: siteConfig.name,
     images: [
       {
-        url: '/images/og-default.png',
+        url: "/images/og-default.png",
         width: siteConfig.ogImage.width,
         height: siteConfig.ogImage.height,
         alt: siteConfig.ogImage.defaultAlt,
@@ -22,7 +23,7 @@ export const defaultMetadata: Metadata = {
     ],
   },
   twitter: {
-    card: 'summary_large_image',
+    card: "summary_large_image",
     site: siteConfig.author.twitter,
   },
   alternates: {
@@ -49,10 +50,12 @@ export function generateBlogPostMetadata({
   updatedAt?: string;
   slug: string;
   tags: string[];
-  author: string;
+  author?: Author;
 }): Metadata {
   const publishedTime = new Date(publishedAt).toISOString();
-  const modifiedTime = updatedAt ? new Date(updatedAt).toISOString() : undefined;
+  const modifiedTime = updatedAt
+    ? new Date(updatedAt).toISOString()
+    : undefined;
   const url = `${siteConfig.url}/blog/${slug}`;
 
   return {
@@ -61,13 +64,13 @@ export function generateBlogPostMetadata({
     openGraph: {
       title,
       description,
-      type: 'article',
+      type: "article",
       publishedTime,
       modifiedTime,
       url,
       siteName: siteConfig.name,
       locale: siteConfig.locale,
-      authors: [author],
+      authors: [author?.name || siteConfig.author.name],
       images: [
         {
           url: `/blog/${slug}/opengraph-image`,
@@ -79,7 +82,7 @@ export function generateBlogPostMetadata({
       tags,
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       site: siteConfig.author.twitter,
       title,
       description,
@@ -109,20 +112,22 @@ export function generateBlogPostJsonLd({
   updatedAt?: string;
   slug: string;
   tags: string[];
-  author: string;
+  author?: Author;
 }) {
   const publishedTime = new Date(publishedAt).toISOString();
-  const modifiedTime = updatedAt ? new Date(updatedAt).toISOString() : undefined;
+  const modifiedTime = updatedAt
+    ? new Date(updatedAt).toISOString()
+    : undefined;
   const url = `${siteConfig.url}/blog/${slug}`;
 
   return {
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
     headline: title,
     description: description,
     author: {
-      '@type': 'Person',
-      name: author,
+      "@type": "Person",
+      name: author?.name || siteConfig.author.name,
       url: `https://github.com/${siteConfig.author.github}`,
     },
     image: `/blog/${slug}/opengraph-image`,
@@ -130,13 +135,14 @@ export function generateBlogPostJsonLd({
     dateModified: modifiedTime || publishedTime,
     url: url,
     publisher: {
-      '@type': 'Organization',
+      "@type": "Organization",
       name: siteConfig.name,
       logo: {
-        '@type': 'ImageObject',
+        "@type": "ImageObject",
         url: `${siteConfig.url}/images/logo.png`,
       },
     },
-    keywords: tags.join(', '),
+    keywords: tags.join(", "),
   };
 }
+
